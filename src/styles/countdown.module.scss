@@ -1,0 +1,26 @@
+@import "colors";
+
+.countdown {
+  border-radius: 20px;
+  padding: 5px 15px 5px 5px;
+  color: var(--color_text_light);
+  display: inline-block;
+  margin-bottom: 10px;
+
+  &.live {
+    background-color: var(--color_secondary_contrast);
+  }
+
+  &.starting {
+    background-color: var(--color_primary);
+  }
+
+  .label {
+    font-weight: bold;
+  }
+
+  i {
+    margin: 0 10px 0 5px;
+    font-size: 16px;
+  }
+}

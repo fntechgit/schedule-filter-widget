@@ -1,0 +1,118 @@
+@import "colors";
+
+.wrapper {
+  padding: 15px;
+  border-top: 2px solid #dadada;
+  background-color: var(--color_primary_contrast);
+  min-height: 100%;
+
+  .speakersWrapper {
+    display: flex;
+    justify-content: left;
+    overflow: auto;
+    padding-bottom: 10px;
+
+    &::-webkit-scrollbar-track
+    {
+      -webkit-box-shadow: inset 0 0 3px rgba(0,0,0,0.3);
+      background-color: #F5F5F5;
+    }
+
+    &::-webkit-scrollbar
+    {
+      width: 3px;
+      height: 3px;
+      background-color: #F5F5F5;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+      background-color: gray;
+    }
+
+    .arrow {
+      position: absolute;
+      right: 0;
+      background-color: rgba(0,0,0,0.5);
+      height: 100%;
+      color: white;
+    }
+
+    .speaker {
+      height: 58px;
+      margin-right: 15px;
+      border: 1px solid lightgrey;
+      border-radius: 4px;
+      display: flex;
+
+      .picWrapper {
+        height: 100%;
+        width: 60px;
+        float: left;
+
+        .pic {
+          height: 100%;
+          width: 100%;
+          background-size: cover;
+          border-radius: 4px 0 0 4px;
+        }
+      }
+      .nameWrapper {
+        background-color: white;
+        width: 145px;
+        height: 100%;
+        padding: 5px;
+        float: left;
+        border-radius: 0 4px 4px 0;
+        overflow: hidden;
+
+        .name {
+          font-size: 12px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .company {
+          font-style: italic;
+          font-size: 11px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          //display: inline-block;
+          //padding-left: 0;
+          //
+          //&:hover {
+          //  animation: floatText 5s infinite linear;
+          //}
+          //
+          //@keyframes floatText {
+          //  to {
+          //    transform: translateX(-100%);
+          //  }
+          //}
+        }
+      }
+    }
+  }
+  .descWrapper {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+
+  hr {
+    margin-left: 25%;
+    margin-right: 25%;
+    border-color: #dadada;
+  }
+
+  .learnWrapper {
+    font-size: 14px;
+
+    h4 {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}
