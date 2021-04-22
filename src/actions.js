@@ -11,8 +11,8 @@
  * limitations under the License.
  **/
 
-import {    
-    createAction    
+import {
+    createAction
 } from "openstack-uicore-foundation/lib/methods";
 
 export const START_WIDGET_LOADING           = 'START_WIDGET_LOADING';
@@ -22,7 +22,7 @@ export const REQUEST_SUMMIT                 = 'REQUEST_SUMMIT';
 export const RECEIVE_SUMMIT                 = 'RECEIVE_SUMMIT';
 export const REQUEST_EVENTS                 = 'REQUEST_EVENTS';
 export const RECEIVE_EVENTS                 = 'RECEIVE_EVENTS';
-export const TOGGLE_FILTERS                 = 'TOGGLE_FILTERS';
+export const CHANGE_FILTER                  = 'CHANGE_FILTER';
 export const RESET_FILTERS                  = 'RESET_FILTERS';
 export const SET_FILTERS                    = 'SET_FILTERS';
 export const RECEIVE_MARKETING_SETTINGS     = 'RECEIVE_MARKETING_SETTINGS';
@@ -39,18 +39,6 @@ const stopWidgetLoading = () => (dispatch) => {
 export const loadSession = (settings) => (dispatch) => {
     dispatch(createAction(LOAD_INITIAL_VARS)(settings));
     return Promise.resolve();
-};
-
-export const getSummitById = () => (dispatch, getState) => {
-    dispatch(startWidgetLoading());
-
-    let { settings } = getState();
-    const { summitData } = settings;
-
-    dispatch(createAction(REQUEST_SUMMIT));
-    dispatch(createAction(RECEIVE_SUMMIT)(summitData));
-    dispatch(getEvents(summitData));
-    dispatch(stopWidgetLoading());
 };
 
 export const setMarketingSettings = () => (dispatch, getState) => {
@@ -78,13 +66,13 @@ export const setMarketingSettings = () => (dispatch, getState) => {
 /*                               FILTERS                                         */
 /*********************************************************************************/
 
-export const setFilters = (filters) => (dispatch) => {
-    dispatch(createAction(SET_FILTERS)({ filters }));
-};
-
 export const clearFilters = () => (dispatch, getState) => {
     dispatch(createAction(RESET_FILTERS)({}));
 };
+
+export const changeFilters = (filter) => (dispatch, getState) => {
+    dispatch(createAction(CHANGE_FILTER)({ filter }))
+}
 
 export const toggleFilters = () => {
     return { type: TOGGLE_FILTERS }
@@ -94,50 +82,8 @@ export const toggleFilters = () => {
 /*********************************************************************************/
 /*                               EVENTS                                          */
 /*********************************************************************************/
-
-const getEventsFilter = (summit, settings, view, fullView, searchTerm) => {
-    const { eventsData, sponsorId, roomId, trackId, speakerId, nowUtc, showAllEvents } = settings;
-    let filteredEvents = [];
-
-    if (searchTerm) {
-        let regex = new RegExp(searchTerm, 'gi');
-        filteredEvents = eventsData.filter(ev => ev.title.contains(regex) || ev.abstract.contains(regex) || ev.tags.contains(regex) || ev.speaker.contains(regex));
-    } else if (fullView) {        
-        if (sponsorId) {
-            filteredEvents = eventsData.filter(ev => ev.sponsors.some(s => s.id == sponsorId));
-        } else if (roomId) {
-            filteredEvents = eventsData.filter(ev => ev.location_id == roomId);
-        } else if (trackId) {
-            filteredEvents = eventsData.filter(ev => ev.track && ev.track.id == trackId);
-        } else if (speakerId) {
-            filteredEvents = eventsData.filter(ev => ev.speakers.some(s => s.id == speakerId));
-        }
-
-        if (!showAllEvents) {
-            filteredEvents = eventsData.filter(ev => ev.start_date >= nowUtc);
-        }
-
-    } else {
-        switch (view.type) {
-            case 'day':
-                let date = summit.dates.find(d => d.string === view.value);
-                filteredEvents = eventsData.filter(ev => ev.start_date >= date.startUtc && ev.end_date <= date.endUtc);
-                break;
-            case 'track':
-                const track = summit.tracks.find(t => t.code && t.code.toLowerCase() === view.value.toLowerCase());
-                if (track) filteredEvents = eventsData.filter(ev => ev.track && ev.track.id === track.id);
-                break;
-            case 'level':
-                filteredEvents = eventsData.filter(ev => ev.level === view.value);
-                break;
-        }
-    }
-
-    return filteredEvents;
-};
-
 export const getEvents = (summitData = null, showLoading = true) => (dispatch, getState) => {
-    let { summit, settings, view, searchTerm, fullView } = getState();
+    let { summit, events } = getState();
 
     if (showLoading) {
         dispatch(startWidgetLoading());
@@ -148,57 +94,8 @@ export const getEvents = (summitData = null, showLoading = true) => (dispatch, g
     if (!summit) return;
 
     dispatch(createAction(REQUEST_EVENTS));
-    
-    const filteredEvents = getEventsFilter(summit, settings, view, fullView, searchTerm)
-    
-    dispatch(createAction(RECEIVE_EVENTS)(filteredEvents));
+
+    dispatch(createAction(RECEIVE_EVENTS)(events));
 
     dispatch(stopWidgetLoading());
-};
-
-
-/*********************************************************************************/
-/*                               USER ACTIONS                                    */
-/*********************************************************************************/
-
-
-export const addEventToSchedule = (event) => (dispatch, getState) => {
-
-    return new Promise((resolve, reject) => {
-        dispatch(startWidgetLoading());
-
-        let { settings: { eventCallback } } = getState();
-    
-        eventCallback(ADDED_TO_SCHEDULE, event)
-            .then((event) => {
-                dispatch(createAction(ADDED_TO_SCHEDULE)({event}));
-                dispatch(stopWidgetLoading());
-                resolve(event);
-            }, (err) => {            
-                dispatch(stopWidgetLoading());
-                defaultErrorHandler(err);
-                reject(err); 
-            });    
-    })    
-};
-
-export const removeEventFromSchedule = (event) => (dispatch, getState) => {
-
-    return new Promise((resolve, reject) => {
-
-    dispatch(startWidgetLoading());
-
-    let { settings: { eventCallback } } = getState();
-
-    eventCallback(REMOVED_FROM_SCHEDULE, event)
-        .then((event) => {            
-            dispatch(createAction(REMOVED_FROM_SCHEDULE)({event}));
-            dispatch(stopWidgetLoading());
-            resolve(event);
-        }, (err) => {            
-            dispatch(stopWidgetLoading());
-            defaultErrorHandler(err);
-            reject(err); 
-        });    
-    });
 };

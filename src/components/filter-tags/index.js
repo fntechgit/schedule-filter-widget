@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styles from "./index.module.scss";
 import { Button } from 'react-bootstrap';
 
-const FilterTag = ({ title, quantity }) => {
+const FilterTag = ({ options }) => {
 
     const [isActive, setIsActive] = useState(false);
 

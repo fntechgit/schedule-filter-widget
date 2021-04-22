@@ -1,0 +1,13 @@
+.filterGroup {
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+  span {
+    font-weight: bold;
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+}

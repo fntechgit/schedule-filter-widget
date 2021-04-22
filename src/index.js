@@ -17,32 +17,18 @@ import ScheduleFilterWidget from './schedule-filter-widget';
 
 import EventsData from './events.json';
 import SummitData from './summit.json';
-import MarketingData from './marketing-data.json'
+import MarketingData from './marketing-data.json';
+import SettingsData from './settings.json';
 
-const scheduleProps = {
-    onEventClick: console.log,
-    onRef: console.log,
-    now: null,
-    roomId: null,
-    trackId: null,
-    sponsorId: null,
-    landscape: true,
-    hideAdd: true,
-    showFilters: true,
-    yourSchedule: true,
-    showNav: true,
-    showAllEvents: true,
-    showDetails: true,
-    eventCount: 100,
-    title: 'Filter by',
-    showUTC: true,
-    defaultImage: '', //https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-260nw-1048185397.jpg',
+const filterProps = {    
     eventsData: EventsData,
     summitData: SummitData.summit,
     marketingData: MarketingData.colors,
-    userProfile: null,
-    updateCallback: ev => console.log('event updated', ev),
-    eventCallback: (action, ev) => new Promise((resolve, reject) => {
+    filtersData: SettingsData,
+    title: 'Filter by',
+    onRef: console.log,
+    updateCallback: ev => console.log('filter updated', ev),
+    filterCallback: (action, ev) => new Promise((resolve, reject) => {
         setTimeout(() => {
             console.log('loading...', action, ev);
             resolve(ev);
@@ -55,7 +41,7 @@ const scheduleProps = {
 
 ReactDOM.render(
     <div style={{ width: '780px', margin: '0 auto' }}>
-        <ScheduleFilterWidget {...scheduleProps} />
+        <ScheduleFilterWidget {...filterProps} />
     </div>,
     document.querySelector('#root')
 );

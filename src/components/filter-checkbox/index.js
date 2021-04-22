@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 
 import styles from "./index.module.scss";
 
-const FilterCheckbox = ({ title, color }) => {
+const FilterCheckbox = ({ option, option: { label, name, color }, onFilterChange }) => {
     return (
-        <div className={styles.checkbox}>            
-            <input type="checkbox"/>
-            <span className={styles.title}>{title}</span>
+        <div className={styles.checkbox}>
+            <input type="checkbox" onChange={() => onFilterChange(option)} />
+            <span className={styles.title}>{label || name}</span>
         </div>
     )
 }

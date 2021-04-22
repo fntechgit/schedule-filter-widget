@@ -23,7 +23,10 @@ class ScheduleFilterWidget extends React.PureComponent {
     constructor(props) {
         super(props);
 
-        this.store = createStore(WidgetReducer, applyMiddleware(thunk));
+        const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
+        this.store = createStore(WidgetReducer, composeEnhancers(applyMiddleware(thunk)));
+
+        // this.store = createStore(WidgetReducer, applyMiddleware(thunk));
     }
 
     render() {
