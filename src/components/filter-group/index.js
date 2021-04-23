@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
+import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 
 import FilterCheckbox from '../filter-checkbox';
 import FilterTag from '../filter-tags';
 import FilterSpeaker from '../filter-speakers';
 
+import { changeFilter } from '../../actions';
+
 import styles from "./index.module.scss";
 
-const FilterGroup = ({ filter: { label, filterType, options } }) => {
+const FilterGroup = ({ filter: { label, filterType, options }, changeFilter }) => {
 
     const [isOpen, setIsOpen] = useState(true);
 
-    const onFilterChange = (option) => {
-        console.log('changed', option);
+    const onFilterChange = (option, value) => {
+        changeFilter(filterType, option, value);
     }
 
     const renderGroup = (filterType) => {
@@ -30,7 +33,7 @@ const FilterGroup = ({ filter: { label, filterType, options } }) => {
                 break;
             }
             case 'speakers': {
-                return <FilterSpeaker options={options} />
+                return <FilterSpeaker options={options} onFilterChange={onFilterChange} />
                 break;
             }
             case 'venues': {
@@ -38,7 +41,7 @@ const FilterGroup = ({ filter: { label, filterType, options } }) => {
                 break;
             }
             case 'tags': {
-                return options.map((option, index) => <FilterTag option={option} key={`tags-${index}`} />)
+                return options.map((option, index) => <FilterTag option={option} key={`tags-${index}`} onFilterChange={onFilterChange} />)
                 break;
             }
             case 'track_groups': {
@@ -56,10 +59,10 @@ const FilterGroup = ({ filter: { label, filterType, options } }) => {
 
     return (
         <div className={styles.filterGroup}>
-            <div className={styles.title}>
+            <div className={styles.title} onClick={() => setIsOpen(!isOpen)}>
                 <span>{label}</span>
                 <i className="" />
-                <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} onClick={() => setIsOpen(!isOpen)} />
+                <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
             </div>
             {isOpen &&
                 <div>
@@ -70,4 +73,13 @@ const FilterGroup = ({ filter: { label, filterType, options } }) => {
     )
 }
 
-export default FilterGroup;
+function mapStateToProps(scheduleReducer) {
+    return {
+        ...scheduleReducer
+    }
+}
+
+export default connect(mapStateToProps, {
+    changeFilter
+})(FilterGroup)
+

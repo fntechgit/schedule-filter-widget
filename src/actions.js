@@ -23,6 +23,8 @@ export const RECEIVE_SUMMIT                 = 'RECEIVE_SUMMIT';
 export const REQUEST_EVENTS                 = 'REQUEST_EVENTS';
 export const RECEIVE_EVENTS                 = 'RECEIVE_EVENTS';
 export const CHANGE_FILTER                  = 'CHANGE_FILTER';
+export const ADD_FILTER                     = 'ADD_FILTER';
+export const REMOVE_FILTER                  = 'REMOVE_FILTER';
 export const RESET_FILTERS                  = 'RESET_FILTERS';
 export const SET_FILTERS                    = 'SET_FILTERS';
 export const RECEIVE_MARKETING_SETTINGS     = 'RECEIVE_MARKETING_SETTINGS';
@@ -70,8 +72,13 @@ export const clearFilters = () => (dispatch, getState) => {
     dispatch(createAction(RESET_FILTERS)({}));
 };
 
-export const changeFilters = (filter) => (dispatch, getState) => {
-    dispatch(createAction(CHANGE_FILTER)({ filter }))
+export const changeFilter = (filterType, option, action) => (dispatch, getState) => {
+    dispatch(createAction(CHANGE_FILTER)());
+    if (action === true) {
+        dispatch(createAction(ADD_FILTER)({ filterType, option }));
+    } else {
+        dispatch(createAction(REMOVE_FILTER)({ filterType, option }));
+    }
 }
 
 export const toggleFilters = () => {

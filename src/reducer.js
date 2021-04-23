@@ -19,7 +19,8 @@ import {
     START_WIDGET_LOADING,
     STOP_WIDGET_LOADING,
     LOAD_INITIAL_VARS,
-    CHANGE_FILTER,
+    ADD_FILTER,
+    REMOVE_FILTER,
     RESET_FILTERS
 } from './actions';
 
@@ -31,7 +32,7 @@ const DEFAULT_STATE = {
         filterCallback: null,
         marketingData: null,
     },
-    summit: null,    
+    summit: null,
     events: [],
     filters: [],
     filtered: [],
@@ -60,13 +61,13 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
 
             const { summitData, eventsData, filtersData } = payload;
 
-            const newSettings = {                
+            const newSettings = {
                 title: payload.title,
-                updateCallback: payload.updateCallback,                
+                updateCallback: payload.updateCallback,
                 onRef: payload.onRef,
                 filterCallback: payload.filterCallback,
                 marketingData: payload.marketingData
-            };            
+            };
 
             return {
                 ...state,
@@ -82,9 +83,18 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
         case RESET_FILTERS: {
             return { ...state, filters: [], filtered: [] };
         }
-        case CHANGE_FILTER: {
-            const { filtered } = payload;
-            return { ...state, filtered };
+        case ADD_FILTER: {
+            const { filterType, option } = payload;
+            let newFilter = state.filtered.find(f => f.filterType === filterType) || [];
+            const options = newFilter.options || [];
+            newFilter = { filterType, options: [...options, option] };
+            return { ...state, filtered: [...state.filtered.filter(f => f.filterType !== filterType), newFilter] };
+        }
+        case REMOVE_FILTER: {
+            const { filterType, option } = payload;
+            let newFilter = state.filtered.find(f => f.filterType === filterType) || [];
+            newFilter = { filterType, options: [...newFilter.options.filter(f => f !== option)] };
+            return { ...state, filtered: [...state.filtered.filter(f => f.filterType !== filterType), newFilter] };
         }
             break;
         default: {
