@@ -55,7 +55,7 @@ const FilterGroup = ({ filter: { label, filterType, options } }) => {
     }
 
     return (
-        <div style={styles.filterGroup}>
+        <div className={styles.filterGroup}>
             <div className={styles.title}>
                 <span>{label}</span>
                 <i className="" />

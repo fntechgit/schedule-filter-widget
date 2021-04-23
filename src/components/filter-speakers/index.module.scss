@@ -1,8 +1,65 @@
-.picture {
-    border-radius: 50%;
-    height: 32px;
-}
+.speakersWrapper {
+  .speakersInput {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    input {
+      border: none;
+      padding: 5px;
+      width: 97%;
+    }
+    i {
+      padding: 7px;
+    }
+  }
 
-.name {
-    margin-left: 10px;    
+  .speakersDropdown {
+    margin-top: 10px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 5px;
+    max-height: 193px;
+    overflow: auto;
+
+    .speaker {
+      padding: 7px;
+      &:not(:last-of-type) {
+        border-bottom: 1px solid lightgray;
+      }
+      .picture {
+        border-radius: 50%;
+        height: 32px;
+      }
+
+      .name {
+        margin-left: 10px;
+      }
+    }
+    .noResult {
+      padding: 50px;
+      text-align: center;
+    }
+  }
+  .selectedSpeakers {
+    padding: 10px 5px;
+    div {
+      border-radius: 30px;
+      border: 1px solid lightgray;
+      padding: 3px 10px;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      .picture {
+        border-radius: 50%;
+        height: 32px;
+      }
+
+      .name {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+  }
 }

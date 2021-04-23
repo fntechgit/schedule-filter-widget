@@ -110,6 +110,7 @@
   },
   "dependencies": {
     "dropzone": "^5.9.2",
-    "pure-react-carousel": "^1.27.4"
+    "pure-react-carousel": "^1.27.4",
+    "use-debounce": "^6.0.1"
   }
 }
