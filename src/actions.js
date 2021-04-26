@@ -73,11 +73,16 @@ export const clearFilters = () => (dispatch, getState) => {
 };
 
 export const changeFilter = (filterType, option, action) => (dispatch, getState) => {
+
+    const { settings: { filterCallback } } = getState();
+
     dispatch(createAction(CHANGE_FILTER)());
     if (action === true) {
         dispatch(createAction(ADD_FILTER)({ filterType, option }));
+        filterCallback(ADD_FILTER, { filterType, option })
     } else {
         dispatch(createAction(REMOVE_FILTER)({ filterType, option }));
+        filterCallback(REMOVE_FILTER, { filterType, option })
     }
 }
 

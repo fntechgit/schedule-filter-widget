@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import styles from "./index.module.scss";
 
-const FilterCheckbox = ({ option, option: { label, name, color }, onFilterChange }) => {
+const FilterCheckbox = ({ option, option: { label, name, color }, onFilterChange, filtered }) => {
 
     const [checked, setChecked] = useState(null);
 
     useEffect(() => {
-        if (checked !== null) {
-            onFilterChange(option, checked);
+        if (checked === null && filtered[0]?.options.find(f => f === option)) {
+            setChecked(true);
+        } else if (checked !== null) {
+            checked ? onFilterChange(option, true) : onFilterChange(option, false);
         }
     }, [checked]);
 

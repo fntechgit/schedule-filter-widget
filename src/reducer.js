@@ -27,8 +27,7 @@ import {
 const DEFAULT_STATE = {
     settings: {
         title: null,
-        onRef: null,
-        updateCallback: null,
+        onRef: null,        
         filterCallback: null,
         marketingData: null,
     },
@@ -59,11 +58,10 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             break;
         case LOAD_INITIAL_VARS:
 
-            const { summitData, eventsData, filtersData } = payload;
+            const { filtersData } = payload;
 
             const newSettings = {
                 title: payload.title,
-                updateCallback: payload.updateCallback,
                 onRef: payload.onRef,
                 filterCallback: payload.filterCallback,
                 marketingData: payload.marketingData
@@ -71,8 +69,6 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
 
             return {
                 ...state,
-                summit: summitData,
-                events: eventsData,
                 filters: filtersData,
                 settings: {
                     ...state.settings,

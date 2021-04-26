@@ -6,11 +6,11 @@ import FilterCheckbox from '../filter-checkbox';
 import FilterTag from '../filter-tags';
 import FilterSpeaker from '../filter-speakers';
 
-import { changeFilter } from '../../actions';
+import { changeFilter, setMarketingSettings } from '../../actions';
 
 import styles from "./index.module.scss";
 
-const FilterGroup = ({ filter: { label, filterType, options }, changeFilter }) => {
+const FilterGroup = ({ filter: { label, filterType, options }, changeFilter, filtered }) => {
 
     const [isOpen, setIsOpen] = useState(true);
 
@@ -21,35 +21,35 @@ const FilterGroup = ({ filter: { label, filterType, options }, changeFilter }) =
     const renderGroup = (filterType) => {
         switch (filterType) {
             case 'date': {
-                return options.map((option, index) => <FilterCheckbox option={option} onFilterChange={onFilterChange} key={`date-${index}`} />)
+                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} key={`date-${index}`} />)
                 break;
             }
             case 'level': {
-                return options.map((option, index) => <FilterCheckbox option={option} onFilterChange={onFilterChange} key={`level-${index}`} />)
+                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} key={`level-${index}`} />)
                 break;
             }
             case 'track': {
-                return options.map((option, index) => <FilterCheckbox option={option} onFilterChange={onFilterChange} key={`track-${index}`} />)
+                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} key={`track-${index}`} />)
                 break;
             }
             case 'speakers': {
-                return <FilterSpeaker options={options} onFilterChange={onFilterChange} />
+                return <FilterSpeaker options={options} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} />
                 break;
             }
             case 'venues': {
-                return options.map((option, index) => <FilterCheckbox option={option} onFilterChange={onFilterChange} key={`venues-${index}`} />)
+                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} key={`venues-${index}`} />)
                 break;
             }
             case 'tags': {
-                return options.map((option, index) => <FilterTag option={option} key={`tags-${index}`} onFilterChange={onFilterChange} />)
+                return options.map((option, index) => <FilterTag option={option} key={`tags-${index}`} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} />)
                 break;
             }
             case 'track_groups': {
-                return options.map((option, index) => <FilterCheckbox option={option} onFilterChange={onFilterChange} key={`track_groups-${index}`} />)
+                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} key={`track_groups-${index}`} />)
                 break;
             }
             case 'event_types': {
-                return options.map((option, index) => <FilterCheckbox option={option} onFilterChange={onFilterChange} key={`event_types-${index}`} />)
+                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered.filter(f => f.filterType === filterType)} onFilterChange={onFilterChange} key={`event_types-${index}`} />)
                 break;
             }
             default:

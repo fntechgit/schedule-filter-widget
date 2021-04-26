@@ -15,25 +15,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ScheduleFilterWidget from './schedule-filter-widget';
 
-import EventsData from './events.json';
-import SummitData from './summit.json';
 import MarketingData from './marketing-data.json';
 import SettingsData from './settings.json';
 
-const filterProps = {    
-    eventsData: EventsData,
-    summitData: SummitData.summit,
+const filterProps = {
     marketingData: MarketingData.colors,
     filtersData: SettingsData,
     title: 'Filter by',
     onRef: console.log,
-    updateCallback: ev => console.log('filter updated', ev),
-    filterCallback: (action, ev) => new Promise((resolve, reject) => {
-        setTimeout(() => {
-            console.log('loading...', action, ev);
-            resolve(ev);
-        }, 500)
-    })
+    filterCallback: (ev, data) => console.log('filter updated', ev, data),
 };
 
 
