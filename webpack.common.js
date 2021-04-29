@@ -38,7 +38,7 @@ module.exports = {
                         options: {
                             modules: {
                                 localIdentName: "[local]___[hash:base64:5]",
-                                hashPrefix: 'schedule-lite',
+                                hashPrefix: 'schedule-filter-widget',
                             },
                             sourceMap: false
                         }

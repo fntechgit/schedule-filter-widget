@@ -10,7 +10,7 @@ module.exports = merge(common, {
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
-            title: 'Schedule Lite',
+            title: 'Schedule Filter Widget',
             template: './src/index.ejs'
         }),
         new MiniCssExtractPlugin({

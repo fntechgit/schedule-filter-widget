@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 
 import styles from "./index.module.scss";
 
-const FilterTag = ({ option, option: { tag, count, color }, onFilterChange, filtered }) => {
+const FilterTag = ({ option, option: { tag, count }, onFilterChange }) => {
 
-    const [isActive, setIsActive] = useState(null);    
+    const [isActive, setIsActive] = useState(null);
 
     useEffect(() => {
-        if (isActive === null && filtered[0]?.options.find(f => f === option)) {
-            setIsActive(true);
-        } else if (isActive !== null) {
+        if (isActive !== null) {
             isActive ? onFilterChange(option, true) : onFilterChange(option, false);
         }
     }, [isActive]);

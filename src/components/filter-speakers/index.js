@@ -5,7 +5,7 @@ import styles from "./index.module.scss";
 
 import { useDebounce } from 'use-debounce';
 
-const FilterSpeaker = ({ options, onFilterChange, filtered }) => {
+const FilterSpeaker = ({ options, onFilterChange }) => {
 
     const [selectedSpeakers, setSelectedSpeakers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -24,10 +24,6 @@ const FilterSpeaker = ({ options, onFilterChange, filtered }) => {
                     speaker.last_name.toLowerCase().includes(debounceSearchTerm.toLowerCase());
             })
             setFilteredSpeakers(filtered);
-        } else {
-            const filteredOptions = filtered[0]?.options || [];
-            filteredOptions.length > 0 ? setFilteredSpeakers(options.filter(speaker => !filteredOptions.includes(speaker))) : setFilteredSpeakers(options);
-            setSelectedSpeakers([...selectedSpeakers, ...filteredOptions]);
         }
     }
 

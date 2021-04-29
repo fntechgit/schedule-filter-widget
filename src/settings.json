@@ -33,6 +33,7 @@
     "filterType": "track",
     "is_enabled": true,
     "label": "track",
+    "useColors": false,
     "options": [
       {
         "id": 35820,
@@ -576,7 +577,7 @@
   {
     "filterType": "tags",
     "is_enabled": true,
-    "label": "",
+    "label": "Tags",
     "options": [
       {
         "id": 16,
@@ -639,6 +640,7 @@
     "filterType": "track_groups",
     "is_enabled": true,
     "label": "track group",
+    "useColors": false,
     "options": [
       {
         "id": 16,
@@ -657,6 +659,7 @@
     "filterType": "event_types",
     "is_enabled": true,
     "label": "event type",
+    "useColors": true,
     "options": [
       {
         "id": 135,
