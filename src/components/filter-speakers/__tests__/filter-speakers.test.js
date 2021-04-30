@@ -78,12 +78,12 @@ it('FilterSpeaker search a speaker', async () => {
 
     const input = getByTestId('speakers-input');
     fireEvent.focus(input);
-    fireEvent.change(input, { target: { value: 'Jeremy' } });    
+    fireEvent.change(input, { target: { value: 'Jeremy' } });
     expect(input.value).toBe('Jeremy');
     const dropdown = screen.queryByTestId('speakers-dropdown');
     await waitFor(() => expect(dropdown.childNodes.length).toEqual(1));
-    fireEvent.change(input, { target: { value: '' } });    
-    await waitFor(() => expect(screen.queryByTestId('speakers-dropdown').childNodes.length).toEqual(mockSpeakers.length));    
+    fireEvent.change(input, { target: { value: '' } });
+    await waitFor(() => expect(screen.queryByTestId('speakers-dropdown').childNodes.length).toEqual(mockSpeakers.length));
 });
 
 

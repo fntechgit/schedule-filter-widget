@@ -72,12 +72,12 @@ const FilterGroup = ({ filter: { label, useColors, filterType, options }, change
 
     return (
         <div className={styles.filterGroup}>
-            <div className={styles.title} onClick={() => setIsOpen(!isOpen)}>
+            <div className={styles.title} onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
                 <span>{label}</span>
                 <i className="" />
                 <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
             </div>
-            <animated.div style={{ overflow: 'hidden', ...toggleAnimation }}>
+            <animated.div style={{ overflow: 'hidden', ...toggleAnimation }} data-testid="filter-group-options">
                 <div ref={ref}>
                     {renderGroup(filterType)}
                 </div>

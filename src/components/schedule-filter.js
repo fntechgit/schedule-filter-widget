@@ -62,20 +62,19 @@ class ScheduleFilter extends React.Component {
         const { settings, widgetLoading } = this.props;
 
         return (
-            <div className={`${styles.outerWrapper} schedule-widget`} ref={el => this.wrapperElem = el}>
+            <div className={`${styles.outerWrapper} schedule-widget`} ref={el => this.wrapperElem = el} data-testid="schedule-filter-wrapper">
                 <AjaxLoader show={widgetLoading} size={60} relative />
                 <>
                     <div className={styles.header}>
                         <div className={styles.titleWrapper}>
-                            <div className={`${styles.title} widget-subtitle`}>
+                            <div className={`${styles.title} widget-subtitle`} data-testid="schedule-filter-title">
                                 {settings.title}
                             </div>
                         </div>
                     </div>
-                    <div className={`${styles.innerWrapper}`}>
+                    <div className={`${styles.innerWrapper}`} data-testid="schedule-filter-list">
                         {this.getFilterList()}
                     </div>
-
                 </>
             </div>
         );
