@@ -17,13 +17,15 @@ const FilterSpeaker = ({ options, onFilterChange }) => {
         searchSpeakers();
     }, [debounceSearchTerm]);
 
-    const searchSpeakers = () => {
+    const searchSpeakers = () => {        
         if (debounceSearchTerm.length > 2) {
             const filtered = options.filter((speaker) => {
                 return speaker.first_name.toLowerCase().includes(debounceSearchTerm.toLowerCase()) ||
                     speaker.last_name.toLowerCase().includes(debounceSearchTerm.toLowerCase());
             })
             setFilteredSpeakers(filtered);
+        } else {
+            setFilteredSpeakers(options.sort((a, b) => a.last_name.localeCompare(b.last_name)));
         }
     }
 
@@ -41,7 +43,7 @@ const FilterSpeaker = ({ options, onFilterChange }) => {
     }
 
     return (
-        <div className={styles.speakersWrapper}>
+        <div className={styles.speakersWrapper} data-testid="speakers-wrapper">
             <div className={styles.speakersInput}>
                 <input
                     onChange={(ev) => setSearchTerm(ev.target.value)}
@@ -51,11 +53,12 @@ const FilterSpeaker = ({ options, onFilterChange }) => {
                             setSearching(false);
                         }, 400)
                     }}
-                    placeholder="Search Speakers" />
+                    placeholder="Search Speakers"
+                    data-testid="speakers-input" />
                 <i className="fa fa-search" />
             </div>
             {searching &&
-                <div className={styles.speakersDropdown}>
+                <div className={styles.speakersDropdown} data-testid="speakers-dropdown">
                     {filteredSpeakers.length > 0
                         ?
                         filteredSpeakers.map(speaker => {
@@ -74,10 +77,10 @@ const FilterSpeaker = ({ options, onFilterChange }) => {
                 </div>
             }
             {selectedSpeakers.length > 0 &&
-                <div className={styles.selectedSpeakers}>
+                <div className={styles.selectedSpeakers} data-testid="speakers-selected">
                     {selectedSpeakers.map(speaker => {
                         return (
-                            <div key={speaker.id} onClick={() => removeSpeaker(speaker)}>
+                            <div key={speaker.id} onClick={() => removeSpeaker(speaker)} data-testid="speakers-selected-button">
                                 <img className={styles.picture} src={speaker.pic} />
                                 <span className={styles.name}>{speaker.first_name} {speaker.last_name}</span>
                                 <i className="fa fa-close" />

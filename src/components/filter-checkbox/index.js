@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import styles from "./index.module.scss";
 
-const FilterCheckbox = ({ option, option: { label, name, color }, applyColors, onFilterChange }) => {
+const FilterCheckbox = ({ option, option: { label = '', name = '', color }, applyColors, onFilterChange }) => {
 
-    const [checked, setChecked] = useState(null);
+    const [checked, setChecked] = useState(null);    
 
     useEffect(() => {
         if (checked !== null) {
@@ -16,7 +16,7 @@ const FilterCheckbox = ({ option, option: { label, name, color }, applyColors, o
     return (
         <div className={styles.checkboxWrapper} onClick={() => setChecked(!checked)} data-testid="checkbox-wrapper">
             <div className={`${styles.checkbox} ${checked ? styles.checked : ''}`} style={{ backgroundColor: applyColors && checked && color ? color : '' }} data-testid="checkbox">
-                {checked && <i className="fa fa-check" />}
+                {checked && <i className="fa fa-check" data-testid="checkmark"/>}
             </div>
             <span className={styles.title}>{label || name}</span>
         </div>

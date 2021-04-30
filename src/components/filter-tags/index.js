@@ -14,10 +14,10 @@ const FilterTag = ({ option, option: { tag, count }, onFilterChange }) => {
     }, [isActive]);
 
     return (
-        <button className={`${styles.tagButton} ${isActive ? styles.tagButtonActive : ''}`} onClick={() => setIsActive(!isActive)}>
-            <span className={styles.title}>{tag}</span>
+        <button className={`${styles.tagButton} ${isActive ? styles.tagButtonActive : ''}`} onClick={() => setIsActive(!isActive)} data-testid="tag-button">
+            <span className={styles.title} data-testid="tag-title">{tag}</span>
                 &nbsp;
-            <span className={styles.quantity}>({count})</span>
+            <span className={styles.quantity} data-testid="tag-count">({count})</span>
         </button>
     )
 }

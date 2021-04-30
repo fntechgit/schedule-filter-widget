@@ -14,6 +14,7 @@ module.exports = merge(common, {
         new MiniCssExtractPlugin({
             filename: './index.css',
         }),
+        ["react-remove-properties", {"properties": ["data-testid"]}]
     ],
     output: {
         filename: 'index.js',
