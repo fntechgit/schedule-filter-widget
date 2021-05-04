@@ -1,6 +1,6 @@
 import React from 'react';
 import { cleanup, fireEvent, waitFor, render } from '@testing-library/react';
-import { screen } from '@testing-library/dom'
+import { getByText, screen } from '@testing-library/dom'
 import '@testing-library/jest-dom';
 
 import FilterSpeaker from "..";
@@ -86,13 +86,16 @@ it('FilterSpeaker search a speaker', async () => {
     await waitFor(() => expect(screen.queryByTestId('speakers-dropdown').childNodes.length).toEqual(mockSpeakers.length));
 });
 
+it("FilterSpeaker shows a message when no speaker it's found", async () => {
+    const { getByTestId, getByText } = render(<FilterSpeaker options={mockSpeakers} onFilterChange={mockCallBack} />);
 
-// it("FilterSpeaker apply a custom class when it's clicked", () => {
-//     const { getByTestId } = render(<FilterSpeaker option={mockTag} onFilterChange={mockCallBack} applyColors={true} />);
-
-//     const button = getByTestId('tag-button');
-//     fireEvent.click(button);
-//     expect(button).toHaveClass('tagButtonActive');
-//     fireEvent.click(button);
-//     expect(button).not.toHaveClass('tagButtonActive');
-// });
+    const input = getByTestId('speakers-input');
+    fireEvent.focus(input);
+    fireEvent.change(input, { target: { value: 'asdasdasd' } });
+    expect(input.value).toBe('asdasdasd');
+    const dropdown = screen.queryByTestId('speakers-dropdown');
+    await waitFor(() => expect(dropdown.childNodes.length).toEqual(1));
+    const noResultText = getByText('There is no results for the search');
+    await waitFor(() => expect(noResultText).toBeTruthy());
+    // console.log('asda', dropdown.firstChild)
+});

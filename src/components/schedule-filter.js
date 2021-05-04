@@ -38,11 +38,6 @@ class ScheduleFilter extends React.Component {
         this.props.onRef(undefined)
     }
 
-    triggerUpdate = (action, event) => {
-        this.props.updateEvent(action, event);
-        console.log(`Update triggered from host: ${action} on ${event.id}`);
-    };
-
     getFilterList = () => {
         const { filters } = this.props;
 

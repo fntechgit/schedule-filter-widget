@@ -9,6 +9,8 @@ import * as actions from '../../../actions';
 import { Provider } from 'react-redux';
 
 import FilterGroup from "..";
+import FilterSpeaker from '../../filter-speakers';
+import FilterTag from '../../filter-tags';
 
 import MockData from '../../../settings.json';
 
@@ -16,7 +18,10 @@ const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 const store = mockStore({})
 
-const mockFilter = MockData.find(data => data.filterType === 'date');
+const mockFilterCheckbox = MockData.find(data => data.filterType === 'date');
+const mockFilterSpeakers = MockData.find(data => data.filterType === 'speakers');
+const mockFilterTag = MockData.find(data => data.filterType === 'tags');
+const unknowFilterType = { ...mockFilterTag, filterType: 'not a case' }
 
 const mockCallBack = jest.fn();
 
@@ -33,7 +38,7 @@ const expectedActions = (filterType, filter, value) => [
 ]
 
 it('FilterGroup display and hide the options ', async () => {
-    const { getByTestId } = render(<Provider store={store}><FilterGroup filter={mockFilter} changeFilter={mockCallBack} /></Provider>);
+    const { getByTestId } = render(<Provider store={store}><FilterGroup filter={mockFilterCheckbox} changeFilter={mockCallBack} /></Provider>);
 
     const title = getByTestId('filter-group-title');
     await waitFor(() => expect(screen.queryByTestId('filter-group-options')).toBeVisible());
@@ -41,16 +46,32 @@ it('FilterGroup display and hide the options ', async () => {
     await waitFor(() => expect(screen.queryByTestId('filter-group-options')).toHaveStyle({ height: "0px" }));
 });
 
-// it('FilterGroup display and hide the options ', async () => {
-//     const { getByTestId } = render(<Provider store={store}><FilterGroup filter={mockFilter} changeFilter={(filter, value) => expectedActions(mockFilter.filterType, filter, value)} /></Provider>);
 
-//     const options = getByTestId('filter-group-options');
-//     const firstOption = options.firstChild;
-//     // fireEvent.click(firstOption.firstChild);
+it('FilterGroup render a checkbox filter group ', async () => {
+    const { getAllByTestId } = render(<Provider store={store}><FilterGroup filter={mockFilterCheckbox} changeFilter={mockCallBack} /></Provider>);
 
-//     // return store.dispatch(actions.changeFilter(filter, value)).then(() => {
-//     //     // return of async actions
-//     //     expect(store.getActions()).toEqual(expectedActions)
-//     // })
+    const checkboxGroup = getAllByTestId('checkbox-wrapper');
+    await waitFor(() => expect(checkboxGroup.length).toBeGreaterThan(0));
+});
 
-// });
+it('FilterGroup render a speaker filter group ', async () => {
+    const { getAllByTestId } = render(<Provider store={store}><FilterGroup filter={mockFilterSpeakers} changeFilter={mockCallBack} /></Provider>);
+
+    const speakerGroup = getAllByTestId('speakers-wrapper');
+    await waitFor(() => expect(speakerGroup.length).toBeGreaterThan(0));
+});
+
+it('FilterGroup render a tag filter group ', async () => {
+    const { getAllByTestId } = render(<Provider store={store}><FilterGroup filter={mockFilterTag} changeFilter={mockCallBack} /></Provider>);
+
+    const tagGroup = getAllByTestId('tag-button');
+    await waitFor(() => expect(tagGroup.length).toBeGreaterThan(0));
+});
+
+it('FilterGroup should not render anything if the filter type is unknow ', async () => {
+    
+    const { getByTestId } = render(<Provider store={store}><FilterGroup filter={unknowFilterType} changeFilter={mockCallBack} /></Provider>);
+
+    const group = getByTestId('filter-group-options');
+    await waitFor(() => expect(group.firstChild.childNodes.length).toBeFalsy());
+});

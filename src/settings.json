@@ -2,7 +2,7 @@
   {
     "filterType": "date",
     "is_enabled": true,
-    "label": "date",
+    "label": "Date",
     "options": [
       {
         "value": "2021-04-21",
@@ -21,7 +21,7 @@
   {
     "filterType": "level",
     "is_enabled": true,
-    "label": "level",
+    "label": "Level",
     "options": [
       { "value": "N/A", "label": "N/A" },
       { "value": "Intermediate", "label": "Intermediate" },
@@ -32,7 +32,7 @@
   {
     "filterType": "track",
     "is_enabled": true,
-    "label": "track",
+    "label": "Track",
     "useColors": false,
     "options": [
       {
@@ -128,7 +128,7 @@
   {
     "filterType": "speakers",
     "is_enabled": true,
-    "label": "speakers",
+    "label": "Speakers",
     "options": [
       {
         "id": 27093,
@@ -639,7 +639,7 @@
   {
     "filterType": "track_groups",
     "is_enabled": true,
-    "label": "track group",
+    "label": "Track Group",
     "useColors": false,
     "options": [
       {
@@ -658,7 +658,7 @@
   {
     "filterType": "event_types",
     "is_enabled": true,
-    "label": "event type",
+    "label": "Event Type",
     "useColors": true,
     "options": [
       {

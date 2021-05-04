@@ -1,7 +1,7 @@
 {
   "name": "schedule-filter-widget",
   "version": "1.0.0",
-  "description": "Schedule Filter Widget App",
+  "description": "Schedule Filter Widget",
   "main": "index.js",
   "scripts": {
     "build-dev": "./node_modules/.bin/webpack --config webpack.dev.js",

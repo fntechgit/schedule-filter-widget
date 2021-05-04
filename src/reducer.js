@@ -11,7 +11,6 @@
  * limitations under the License.
  **/
 
-import moment from "moment";
 import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/actions';
 
 
@@ -27,12 +26,9 @@ import {
 const DEFAULT_STATE = {
     settings: {
         title: null,
-        onRef: null,        
         filterCallback: null,
         marketingData: null,
     },
-    summit: null,
-    events: [],
     filters: [],
     filtered: [],
     widgetLoading: false,
@@ -45,20 +41,17 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
         case LOGOUT_USER: {
             return DEFAULT_STATE;
         }
-            break;
         case START_WIDGET_LOADING: {
             let widgetLoading = state.widgetLoading + 1;
             return { ...state, widgetLoading };
         }
-            break;
         case STOP_WIDGET_LOADING: {
             let widgetLoading = state.widgetLoading < 2 ? 0 : (state.widgetLoading - 1);
             return { ...state, widgetLoading };
         }
-            break;
         case LOAD_INITIAL_VARS:
 
-            const { filtersData } = payload;
+            const { filtersData } = payload;            
 
             const newSettings = {
                 title: payload.title,
@@ -75,30 +68,29 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
                     ...newSettings
                 }
             };
-            break;
         case RESET_FILTERS: {
-            return { ...state, filters: [], filtered: [] };
+            return { ...state, filtered: [] };
         }
         case ADD_FILTER: {
             const { filterType, option } = payload;
-            let newFilter = state.filtered.find(f => f.filterType === filterType) || [];
+            let otherFilters = state.filtered?.filter(f => f.filterType !== filterType) || [];
+            let newFilter = state.filtered?.find(f => f.filterType === filterType) || [];
             const options = newFilter.options || [];
             newFilter = { filterType, options: [...options, option] };
-            return { ...state, filtered: [...state.filtered.filter(f => f.filterType !== filterType), newFilter] };
+            return { ...state, filtered: [...otherFilters, newFilter] };
         }
         case REMOVE_FILTER: {
             const { filterType, option } = payload;
-            let newFilter = state.filtered.find(f => f.filterType === filterType) || [];
-            newFilter = { filterType, options: [...newFilter.options.filter(f => f !== option)] };
-            return { ...state, filtered: [...state.filtered.filter(f => f.filterType !== filterType), newFilter] };
+            let otherFilters = state.filtered?.filter(f => f.filterType !== filterType) || [];
+            let newFilter = state.filtered?.find(f => f.filterType === filterType) || [];
+            let remainingOptions = newFilter.options.filter(f => f !== option) || [];
+            newFilter = { filterType, options: [...remainingOptions] };
+            return { ...state, filtered: remainingOptions.length > 0 ? [...otherFilters, newFilter] : [...otherFilters] };
         }
-            break;
         default: {
             return state;
         }
     }
-
-    return state
 }
 
 export default WidgetReducer

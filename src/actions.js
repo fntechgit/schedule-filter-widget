@@ -20,8 +20,6 @@ export const STOP_WIDGET_LOADING            = 'STOP_WIDGET_LOADING';
 export const LOAD_INITIAL_VARS              = 'LOAD_INITIAL_VARS';
 export const REQUEST_SUMMIT                 = 'REQUEST_SUMMIT';
 export const RECEIVE_SUMMIT                 = 'RECEIVE_SUMMIT';
-export const REQUEST_EVENTS                 = 'REQUEST_EVENTS';
-export const RECEIVE_EVENTS                 = 'RECEIVE_EVENTS';
 export const CHANGE_FILTER                  = 'CHANGE_FILTER';
 export const ADD_FILTER                     = 'ADD_FILTER';
 export const REMOVE_FILTER                  = 'REMOVE_FILTER';
@@ -47,11 +45,10 @@ export const setMarketingSettings = () => (dispatch, getState) => {
 
     dispatch(startWidgetLoading());
 
-    let { settings } = getState();
+    let { settings } = getState();    
     let { marketingData } = settings;
 
     dispatch(createAction(RECEIVE_MARKETING_SETTINGS));
-
 
     Object.keys(marketingData).forEach(setting => {
         if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting}`)) {
@@ -85,29 +82,3 @@ export const changeFilter = (filterType, option, action) => (dispatch, getState)
         filterCallback(REMOVE_FILTER, { filterType, option })
     }
 }
-
-export const toggleFilters = () => {
-    return { type: TOGGLE_FILTERS }
-};
-
-
-/*********************************************************************************/
-/*                               EVENTS                                          */
-/*********************************************************************************/
-export const getEvents = (summitData = null, showLoading = true) => (dispatch, getState) => {
-    let { summit, events } = getState();
-
-    if (showLoading) {
-        dispatch(startWidgetLoading());
-    }
-
-    summit = summit ? summit : summitData;
-
-    if (!summit) return;
-
-    dispatch(createAction(REQUEST_EVENTS));
-
-    dispatch(createAction(RECEIVE_EVENTS)(events));
-
-    dispatch(stopWidgetLoading());
-};
