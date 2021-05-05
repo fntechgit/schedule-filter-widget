@@ -46,7 +46,7 @@ class ScheduleFilter extends React.Component {
                 return (
                     <React.Fragment key={filter.filterType} >
                         <FilterGroup filter={filter} />
-                        { index !== filters.length - 1 && <hr />}
+                        <hr />
                     </React.Fragment>
                 )
             }

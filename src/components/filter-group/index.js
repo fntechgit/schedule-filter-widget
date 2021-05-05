@@ -19,11 +19,12 @@ const FilterGroup = ({ filter: { label, useColors, filterType, options }, change
     const [ref, { height }] = useMeasure();    
 
     const toggleAnimation = useSpring({
-        config: { ...config.stiff },
+        config: { bounce: 0, ...config.stiff },
         from: { opacity: 0, height: 0 },
         to: {
             opacity: 1,
-            height: isOpen ? height : 0
+            height: isOpen ? height : 0,
+            marginBottom: isOpen ? 13 : 0
         }
     });
 
@@ -66,7 +67,6 @@ const FilterGroup = ({ filter: { label, useColors, filterType, options }, change
         <div className={styles.filterGroup} data-testid="filter-group-wrapper">
             <div className={styles.title} onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
                 <span>{label}</span>
-                <i className="" />
                 <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
             </div>
             <animated.div style={{ overflow: 'hidden', ...toggleAnimation }} data-testid="filter-group-options">

@@ -11,7 +11,8 @@
   }
 
   .header {
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     background-color: white;
     border: 1px solid var(--color_primary_contrast);
     display: flex;
@@ -48,7 +49,10 @@
   
   .innerWrapper {
     color: var(--color_text_dark);
-    padding-top: 0.7em;
+
+    hr {
+      margin: 0px;
+    }
 
     &.boxed {
       padding: 0.7em;
@@ -136,8 +140,6 @@
         transition: opacity 100ms ease-in;
       }
     }
-
-
   }
 
   .viewNav {

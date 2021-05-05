@@ -605,7 +605,7 @@
   {
     "filterType": "venues",
     "is_enabled": true,
-    "label": "venues",
+    "label": "Venues",
     "options": [
       {
         "id": 100,
