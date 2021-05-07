@@ -25,7 +25,7 @@ import FilterGroup from './filter-group';
 class ScheduleFilter extends React.Component {
 
     componentDidMount() {
-        const { loadSession, setMarketingSettings, filters, ...rest } = this.props;        
+        const { loadSession, setMarketingSettings, filters, ...rest } = this.props;
 
         loadSession(rest).then(() => {
             setMarketingSettings();
@@ -39,13 +39,13 @@ class ScheduleFilter extends React.Component {
     }
 
     getFilterList = () => {
-        const { filters } = this.props;
+        const { filters, filtered } = this.props;
 
         return filters.map((filter, index) => {
             if (filter.is_enabled && filter.options.length > 0) {
                 return (
                     <React.Fragment key={filter.filterType} >
-                        <FilterGroup filter={filter} />
+                        <FilterGroup filter={filter} filtered={filtered.find(f => f.filterType === filter.filterType) || null} />
                         <hr />
                     </React.Fragment>
                 )

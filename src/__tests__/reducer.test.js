@@ -46,17 +46,19 @@ describe('filter reducer', () => {
         expect(reducer({}, {
             type: types.LOAD_INITIAL_VARS,
             payload: {
-                title: "Testing",
+                title: 'Testing',
                 marketingData: MockMarketingData,
+                filteredData: [],
                 onRef: () => console.log('on ref'),
                 filterCallback: () => console.log('filter callback'),
                 filtersData: MockData,
             }
-        })).toBe(
+        })).toMatchObject(
             {
                 filters: MockData,
+                filtered: [],
                 settings: {
-                    title: "Testing",
+                    title: 'Testing',
                     marketingData: MockMarketingData,
                     onRef: () => console.log('on ref'),
                     filterCallback: () => console.log('filter callback')

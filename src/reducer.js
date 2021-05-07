@@ -51,7 +51,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
         }
         case LOAD_INITIAL_VARS:
 
-            const { filtersData } = payload;            
+            const { filtersData, filteredData } = payload;
 
             const newSettings = {
                 title: payload.title,
@@ -63,6 +63,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             return {
                 ...state,
                 filters: filtersData,
+                filtered: filteredData,
                 settings: {
                     ...state.settings,
                     ...newSettings
@@ -83,7 +84,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             const { filterType, option } = payload;
             let otherFilters = state.filtered?.filter(f => f.filterType !== filterType) || [];
             let newFilter = state.filtered?.find(f => f.filterType === filterType) || [];
-            let remainingOptions = newFilter.options.filter(f => f !== option) || [];
+            let remainingOptions = newFilter.options.filter(f => (f.value && f.value !== option.value) || (f.id && f.id !== option.id)) || [];
             newFilter = { filterType, options: [...remainingOptions] };
             return { ...state, filtered: remainingOptions.length > 0 ? [...otherFilters, newFilter] : [...otherFilters] };
         }

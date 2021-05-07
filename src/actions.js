@@ -45,10 +45,10 @@ export const setMarketingSettings = () => (dispatch, getState) => {
 
     dispatch(startWidgetLoading());
 
-    let { settings } = getState();    
+    let { settings } = getState();
     let { marketingData } = settings;
 
-    dispatch(createAction(RECEIVE_MARKETING_SETTINGS));
+    dispatch(createAction(RECEIVE_MARKETING_SETTINGS)({}));
 
     Object.keys(marketingData).forEach(setting => {
         if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting}`)) {

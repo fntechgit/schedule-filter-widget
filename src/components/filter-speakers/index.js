@@ -5,27 +5,33 @@ import styles from "./index.module.scss";
 
 import { useDebounce } from 'use-debounce';
 
-const FilterSpeaker = ({ options, onFilterChange }) => {
+const FilterSpeaker = ({ options, filtered, onFilterChange }) => {
 
-    const [selectedSpeakers, setSelectedSpeakers] = useState([]);
+    const [selectedSpeakers, setSelectedSpeakers] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [debounceSearchTerm] = useDebounce(searchTerm, 500);
     const [searching, setSearching] = useState(false);
     const [filteredSpeakers, setFilteredSpeakers] = useState(options.sort((a, b) => a.last_name.localeCompare(b.last_name)));
 
     useEffect(() => {
-        searchSpeakers();
+        if (selectedSpeakers === null) {
+            const filteredOptions = filtered || [];
+            if (filteredOptions.length > 0) setFilteredSpeakers(options.filter(speaker => !filteredOptions.some(s => s.id === speaker.id)));
+            setSelectedSpeakers([...filteredOptions]);
+        } else {
+            searchSpeakers();
+        }
     }, [debounceSearchTerm]);
 
-    const searchSpeakers = () => {        
+    const searchSpeakers = () => {
         if (debounceSearchTerm.length > 2) {
             const filtered = options.filter((speaker) => {
                 return speaker.first_name.toLowerCase().includes(debounceSearchTerm.toLowerCase()) ||
                     speaker.last_name.toLowerCase().includes(debounceSearchTerm.toLowerCase());
             })
-            setFilteredSpeakers(filtered);
+            setFilteredSpeakers(filtered.filter(speaker => !selectedSpeakers.some(selected => selected.id === speaker.id)));
         } else {
-            setFilteredSpeakers(options.sort((a, b) => a.last_name.localeCompare(b.last_name)));
+            setFilteredSpeakers(options.filter(speaker => !selectedSpeakers.some(selected => selected.id === speaker.id)).sort((a, b) => a.last_name.localeCompare(b.last_name)));
         }
     }
 
@@ -34,6 +40,7 @@ const FilterSpeaker = ({ options, onFilterChange }) => {
         setFilteredSpeakers(filteredSpeakers.filter(s => s.id !== speaker.id));
         onFilterChange(speaker, true);
         setSearching(false);
+        setSearchTerm('');
     }
 
     const removeSpeaker = (speaker) => {
@@ -46,6 +53,7 @@ const FilterSpeaker = ({ options, onFilterChange }) => {
         <div className={styles.speakersWrapper} data-testid="speakers-wrapper">
             <div className={styles.speakersInput}>
                 <input
+                    value={searchTerm}
                     onChange={(ev) => setSearchTerm(ev.target.value)}
                     onFocus={() => setSearching(true)}
                     onBlur={() => {
@@ -76,7 +84,7 @@ const FilterSpeaker = ({ options, onFilterChange }) => {
                     }
                 </div>
             }
-            {selectedSpeakers.length > 0 &&
+            {selectedSpeakers?.length > 0 &&
                 <div className={styles.selectedSpeakers} data-testid="speakers-selected">
                     {selectedSpeakers.map(speaker => {
                         return (

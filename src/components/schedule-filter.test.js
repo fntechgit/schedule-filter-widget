@@ -26,7 +26,7 @@ export const renderWithState = (
         ...renderOptions
     } = {}
 ) => {
-    const store = mockStore({ WidgetReducer, ...initialState });    
+    const store = mockStore({ WidgetReducer, ...initialState });
     const Wrapper = ({ children }) => (
         <Provider store={store}>{children}</Provider>
     );
@@ -48,8 +48,9 @@ it('ScheduleFilter render the correct title', async () => {
                 marketingData: MockMarketingData,
                 onRef: mockCallBack
             }}
-            filters={MockData} />,
-        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData } }
+            filters={MockData}
+            filtered={[]} />,
+        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData, filtered: [] } }
     );
 
     const title = getByTestId('schedule-filter-title');
@@ -67,11 +68,12 @@ it('ScheduleFilter should render the correct number of filters', async () => {
                 marketingData: MockMarketingData,
                 onRef: mockCallBack
             }}
-            filters={MockData} />,
-        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData } }
+            filters={MockData}
+            filtered={[]} />,
+        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData, filtered: [] } }
     );
-    
-    const expectedGroups = MockData.filter(f => f.is_enabled === true).length;    
+
+    const expectedGroups = MockData.filter(f => f.is_enabled === true).length;
     const filterList = getByTestId('schedule-filter-list');
     const filterGroups = within(filterList).getAllByTestId('filter-group-wrapper');
 
