@@ -7,8 +7,12 @@
     border-radius: 5px;
     input {
       border: none;
+      background-color: transparent;
       padding: 5px;
-      width: 97%;
+      width: 100%;
+      &:focus {
+        outline: none;
+      }
     }
     i {
       padding: 7px;
