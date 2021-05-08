@@ -45,7 +45,7 @@ class ScheduleFilter extends React.Component {
             if (filter.is_enabled && filter.options.length > 0) {
                 return (
                     <React.Fragment key={filter.filterType} >
-                        <FilterGroup filter={filter} filtered={filtered.find(f => f.filterType === filter.filterType) || null} />
+                        <FilterGroup filter={filter} filtered={filtered && filtered.find(f => f.filterType === filter.filterType) || null} />
                         <hr />
                     </React.Fragment>
                 )
