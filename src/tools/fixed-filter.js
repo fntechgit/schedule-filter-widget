@@ -15,41 +15,41 @@ const EventListFixedFilter = {
 
     events(filters, events, loggedUser) {
         const { roomId, sponsorId, trackId, speakerId, yours } = filters;
-        const {schedule_summit_events} = loggedUser || {};
+        const { schedule_summit_events } = loggedUser || {};
 
         return events.filter(event => {
             return (
                 // (!roomId    || this.matchRoom(event, roomId)) &&
                 // (!sponsorId || this.matchSponsor(event, sponsorId)) &&
-                // (!speakerId  || this.matchSpeaker(event, speakerId)) &&
-                // (!trackId  || this.matchTrack(event, trackId)) &&
-                (!yours      || this.matchYours(event, schedule_summit_events))
+                // (!speakerId || this.matchSpeaker(event, speakerId)) &&
+                // (!trackId   || this.matchTrack(event, trackId)) &&
+                (!yours     || this.matchYours(event, schedule_summit_events))
             )
         });
     },
 
     matchRoom(event, filterValue) {
-        if ( !event.hasOwnProperty('location')) return false;
+        if (!event.hasOwnProperty('location')) return false;
         return (filterValue === event.location.id);
     },
 
     matchSponsor(event, filterValue) {
-        if ( !event.sponsors || event.sponsors.length === 0) return false;
+        if (!event.sponsors || event.sponsors.length === 0) return false;
         return event.sponsors.map(s => s.name).includes(filterValue);
     },
 
     matchSpeaker(event, filterValue) {
-        if ( !event.speakers || event.speakers.length === 0) return false;
+        if (!event.speakers || event.speakers.length === 0) return false;
         return event.speakers.map(s => s.id).includes(filterValue);
     },
 
     matchTrack(event, filterValue) {
-        if ( !event.hasOwnProperty('track')) return false;
+        if (!event.hasOwnProperty('track')) return false;
         return (filterValue === event.track.id);
     },
 
     matchYours(event, yourScheduleEvents) {
-        if ( !yourScheduleEvents || yourScheduleEvents.length === 0) return false;
+        if (!yourScheduleEvents || yourScheduleEvents.length === 0) return false;
         return yourScheduleEvents.includes(event.id);
     },
 };
