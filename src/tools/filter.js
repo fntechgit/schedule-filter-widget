@@ -15,7 +15,7 @@ const EventListFilter = {
 
     events(filters, events, loggedUser) {
         const { tracks, trackgroups, eventtypes, room, sponsor, speaker, yours } = filters;
-        const {schedule_summit_events, favorite_summit_events} = loggedUser || {};
+        const { schedule_summit_events, favorite_summit_events } = loggedUser || {};
 
         const unmatchedEvents = events.filter(event => {
             return (
@@ -29,7 +29,7 @@ const EventListFilter = {
     },
 
     matchTrackGroups(event, filterValue) {
-        if ( !event.hasOwnProperty('track')) return false;
+        if (!event.hasOwnProperty('track')) return false;
         return filterValue.some(groupId => event.track.track_groups.includes(groupId));
     },
 
@@ -38,12 +38,12 @@ const EventListFilter = {
     },
 
     matchTracks(event, filterValue) {
-        if ( !event.hasOwnProperty('track')) return false;
+        if (!event.hasOwnProperty('track')) return false;
         return filterValue.includes(event.track.id);
     },
 
     matchLevels(event, filterValue) {
-        if ( !event.hasOwnProperty('level')) return false;
+        if (!event.hasOwnProperty('level')) return false;
         return filterValue.includes(event.level.toLowerCase());
     },
 
