@@ -24,10 +24,9 @@ const FilterSpeaker = ({ options, filtered, onFilterChange }) => {
     }, [debounceSearchTerm]);
 
     const searchSpeakers = () => {
-        if (debounceSearchTerm.length > 2) {
+        if (debounceSearchTerm.length > 1) {
             const filtered = options.filter((speaker) => {
-                return speaker.first_name.toLowerCase().includes(debounceSearchTerm.toLowerCase()) ||
-                    speaker.last_name.toLowerCase().includes(debounceSearchTerm.toLowerCase());
+                return `${speaker.first_name} ${speaker.last_name}`.toLowerCase().includes(debounceSearchTerm.toLowerCase());
             })
             setFilteredSpeakers(filtered.filter(speaker => !selectedSpeakers.some(selected => selected.id === speaker.id)));
         } else {
