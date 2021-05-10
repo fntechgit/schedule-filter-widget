@@ -21,6 +21,7 @@ import SettingsData from './settings.json';
 const filterProps = {
     marketingData: MarketingData.colors,
     filtersData: SettingsData,
+    filteredData: [],
     title: 'Filter by',
     onRef: console.log,
     filterCallback: (ev, data) => console.log('filter updated', ev, data),
