@@ -4,15 +4,35 @@ React component for the schedule filter widget
 
 ## Schedule Filter config      
 
-   title            = widget title
+   **title**            = widget title
    
-   onRef            = method to retrieve schedule component ref. Usage -> {ref => (this.child = ref)}
-   
-   updateCallback   = method passed that will be called by component on update. args -> {action: 'ADD_TO_SCHEDULE', event}
+   **onRef**            = method to retrieve schedule component ref. Usage -> {ref => (this.child = ref)}
 
-   marketingData    = object with the settings from the marketing API
+   **filtersData**      = array with the desired filters to render. 
    
-   eventCallback    = method that will return a promise with the result of add or remove an event for the user schedule.
+   Example
+   
+   ```
+   [{"filterType":"date", "is_enabled":true, "label":"Date", options:[{"value":"2021-04-21", "label":"Wednesday, April 21", "start_time":1618988400, "end_time":1619074799}]}]
+   ```
+
+   #### NOTES:
+
+   * options on filters must have a value or id and a label
+
+   * according to the specification, the filterTypes ***track***, ***track_groups*** and ***event_types*** have a property called ***useColors*** to defying which filter should applied colors on the checkmarks
+
+
+   **filteredData**     = array with the filtered options marked. 
+   
+   Example
+   ```
+   [{filterType: 'date', options: [{"value":"2021-04-21", "label":"Wednesday, April 21", "start_time":1618988400, "end_time":1619074799}]}]
+   ```
+   
+   **filterCallback**   = method passed that will be called by component on update. args -> `{action: 'ADD_FILTER', data: {filterType, option}}`
+
+   **marketingData**    = object with the settings from the marketing API      
 
    
 ## PUBLISH TO NPM:
