@@ -9,7 +9,7 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid var(--color_text_light);
 
     img {
       height: 150px;
@@ -20,7 +20,7 @@
 
     i {
       font-size: 120px;
-      color: lightgray;
+      color: var(--color_text_light);
       margin: auto;
     }
   }
@@ -180,7 +180,7 @@
 }
 
 .wrapper.placeholder {
-  color: lightgray;
+  color: var(--color_text_light);
   font-size: 20px;
   text-align: center;
   padding-top: 30px;

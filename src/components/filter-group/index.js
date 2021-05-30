@@ -24,7 +24,7 @@ const FilterGroup = ({ filter: { label, useColors, filterType, options }, filter
         to: {
             opacity: 1,
             height: isOpen ? height : 0,
-            marginBottom: isOpen ? 13 : 0
+            marginBottom: isOpen ? (filterType === 'tags' ? 14 : 20) : 0
         }
     });
 

@@ -1,13 +1,14 @@
-.tagButton {
-    border-radius: 15px;
+.tag-button {
+    border-radius: 17px;
     background-color: white;
-    color: var(--color_primary);   
-    border: 1px solid #f1f2f2;    
-    padding: 2px 13px;
+    border: 1px solid var(--color_text_light);
+    padding: 6px 12px;
     display: inline-flex;
-    margin-right: 5px;
+    margin-right: 6px;
+    margin-bottom: 6px;
     align-items: baseline;
-
+    max-height: 34px;
+    overflow: hidden;
     .title {
         font-size: 14px;
         text-transform: capitalize;
@@ -18,7 +19,7 @@
         margin-bottom: 1px;
     }
 
-    &Active {
-        border: 1px solid black;
+    &--active {
+        border: 1px solid var(--color_text_dark);
     }
 }

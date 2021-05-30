@@ -1,7 +1,11 @@
-.checkboxWrapper {
+.checkbox-wrapper {
   display: flex;
   align-items: center;
   cursor: pointer;
+
+  &:not(:last-of-type) {
+    margin-bottom: 8px;
+  }
 
   input[type="checkbox"] {
     margin-left: 2px;
@@ -13,26 +17,26 @@
   }
 
   .title {
-    margin-left: 10px;    
+    margin-left: 10px;
     font-size: 14px;
     display: inline;
   }
 
   .checkbox {
-    height: 18px;
-    width: 18px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
+    height: 24px;
+    width: 24px;
+    border: 1px solid var(--color_text_light);
+    border-radius: 3px;
     display: flex;
     justify-content: center;
     align-content: center;
     i {
-      font-size: 16px;
-      color: #fff;
+      font-size: 14px;
+      line-height: 23px;
+      color: var(--color_text_dark);
     }
     &.checked {
-      border: none;
-      background-color: var(--color_primary);
+      border: 1px solid var(--color_text_dark);
     }
   }
 }
