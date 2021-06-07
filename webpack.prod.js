@@ -13,8 +13,7 @@ module.exports = merge(common, {
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: './index.css',
-        }),
-        ["react-remove-properties", {"properties": ["data-testid"]}]
+        })
     ],
     output: {
         filename: 'index.js',

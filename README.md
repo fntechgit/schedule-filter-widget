@@ -43,9 +43,9 @@ React component for the schedule filter widget
 
 ## IMPORT:
 
-import ScheduleFilterWidget from 'schedule-filter-widget';
+import ScheduleFilterWidget from 'schedule-filter-widget/dist';
 
-import 'schedule-filter-widget/index.css';
+import 'schedule-filter-widget/dist/index.css';
 
 ## DEBUG:
 You can pass this hash on url to override current time, time must be in this format and on summit timezone
