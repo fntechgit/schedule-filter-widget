@@ -1,15 +1,37 @@
 import React from 'react';
-import { cleanup, fireEvent, render } from '@testing-library/react';
+import { cleanup, fireEvent, render as rtlRender, render, waitFor } from '@testing-library/react';
 import { screen } from '@testing-library/dom'
 import '@testing-library/jest-dom';
 
 import FilterCheckbox from "..";
 
-const mockOption = {
-    value: "testing value",
-    name: "testing value",
-    color: "red"
-}
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk'
+import { Provider } from 'react-redux';
+import WidgetReducer from '../../../reducer';
+import * as actions from '../../../actions';
+import MockMarketingData from '../../../marketing-data.json';
+import MockData from '../../../settings.json';
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+
+export const renderWithState = (
+    ui,
+    {
+        initialState,
+        ...renderOptions
+    } = {}
+) => {
+    const store = mockStore({ WidgetReducer, ...initialState });
+    const Wrapper = ({ children }) => (
+        <Provider store={store}>{children}</Provider>
+    );
+
+    return rtlRender(ui, { wrapper: Wrapper, ...renderOptions });
+};
+
+const mockOption = MockData.find(data => data.filterType === 'date').options[0];
 
 const mockCallBack = jest.fn();
 
@@ -25,23 +47,29 @@ it('FilterChecbox triggers onFilterChange function on click', () => {
     expect(mockCallBack.mock.calls.length).toEqual(1);
 });
 
-it('FilterChecbox changes checkmark after click', () => {
-    const { getByTestId } = render(<FilterCheckbox option={mockOption} onFilterChange={mockCallBack} />);
+it('FilterChecbox changes checkmark after click', async () => {
+
+    const onFilterChange = (option, value) => {
+        actions.changeFilter('date', option, value);
+    }
+
+    const { getByTestId } = renderWithState(
+        <FilterCheckbox option={mockOption} onFilterChange={onFilterChange} />,
+        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData, filtered: [{filterType: 'date', options: [mockOption]}] } }
+    );
 
     const wrapper = getByTestId('checkbox-wrapper');
     fireEvent.click(wrapper);
-    const checkmark = screen.queryByTestId('checkmark');
-    expect(checkmark).toBeVisible();
+    const checkmark = await waitFor(() => screen.queryByTestId('checkmark'));    
+    await waitFor(() => expect(checkmark).toBeVisible());
     fireEvent.click(wrapper);
-    expect(checkmark).not.toBeVisible();
+    await waitFor(() => expect(checkmark).not.toBeVisible());
 
 });
 
 it("FilterChecbox has a custom color when the color setting it's passed", () => {
-    const { getByTestId } = render(<FilterCheckbox option={mockOption} onFilterChange={mockCallBack} applyColors={true} />);
+    const { getByTestId } = render(<FilterCheckbox option={mockOption} filtered={true} onFilterChange={mockCallBack} applyColors={true} />);
 
-    const wrapper = getByTestId('checkbox-wrapper');
-    fireEvent.click(wrapper);    
     const checkbox = screen.queryByTestId('checkbox');
     expect(checkbox).toHaveStyle(`background-color: ${mockOption.color}`);
 });
