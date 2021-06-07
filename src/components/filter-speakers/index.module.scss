@@ -1,40 +1,61 @@
-.speakersWrapper {
+.speakers-wrapper {
+  background-color: #f6f6f6;
+  padding: 16px;
+  
   .speakersInput {
     display: flex;
     align-content: center;
     justify-content: space-between;
-    border: 1px solid lightgray;
-    border-radius: 5px;
+    background-color: #ffffff;
+    border: 1px solid var(--color_text_light);
+    border-radius: 6px;
+    height: 39px;
     input {
       border: none;
       background-color: transparent;
-      padding: 5px;
+      font-size: 14px;
+      padding: 0 15px;
       width: 100%;
+      &::placeholder {
+        color: #8e8e8e;
+      }
       &:focus {
         outline: none;
+        &::placeholder {
+          color: var(--color_text_dark);
+        }
       }
     }
     i {
-      padding: 7px;
+      font-size: 18px;
+      padding: 10px 15px 0 0;
+      color: #8e8e8e;
+      &.focus {
+        color: var(--color_text_dark);
+      }
     }
   }
 
-  .speakersDropdown {
-    margin-top: 10px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    padding: 5px;
-    max-height: 193px;
+  .speakers-dropdown {
+    margin-top: 6px;
+    background-color: #ffffff;
+    border: 1px solid var(--color_text_light);
+    border-radius: 4px;
+    max-height: 132px;
     overflow: auto;
+    box-shadow: 0 8px 10px rgba(0,0,0,0.1);
 
     .speaker {
-      padding: 7px;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+
       &:not(:last-of-type) {
-        border-bottom: 1px solid lightgray;
+        border-bottom: 1px solid #f2f2f2;
       }
       .picture {
         border-radius: 50%;
-        height: 32px;
+        height: 24px;
       }
 
       .name {
@@ -42,27 +63,41 @@
       }
     }
     .noResult {
-      padding: 50px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-style: italic;
+      height: 74px;
+      span {
+        color: #8e8e8e;
+      }
     }
   }
-  .selectedSpeakers {
-    padding: 10px 5px;
+  .selected-speakers {
+    padding-top: 10px;
+    display: inline-flex;
+    flex-wrap: wrap;
+    margin: -6px 0 0 -6px;
+    width: calc(100% + 6px);
     div {
-      border-radius: 30px;
-      border: 1px solid lightgray;
-      padding: 3px 10px;
+      border-radius: 18px;
+      border: 1px solid var(--color_text_light);
+      padding: 6px 10px 6px 7px;
+      margin: 6px 0 0 6px;
       display: inline-flex;
       align-items: center;
       cursor: pointer;
+      background-color: #ffffff;
       .picture {
         border-radius: 50%;
-        height: 32px;
+        height: 24px;
       }
-
       .name {
-        margin-left: 10px;
-        margin-right: 10px;
+        margin: 0 8px;
+      }
+      i {
+        font-size: 14px;
+        margin-top: -1px;
       }
     }
   }

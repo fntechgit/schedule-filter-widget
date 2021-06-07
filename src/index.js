@@ -31,7 +31,7 @@ const filterProps = {
 // width 780px or 230px
 
 ReactDOM.render(
-    <div style={{ width: '780px', margin: '0 auto' }}>
+    <div style={{ margin: '20px' }}>
         <ScheduleFilterWidget {...filterProps} />
     </div>,
     document.querySelector('#root')

@@ -40,6 +40,7 @@ module.exports = {
                                 localIdentName: "[local]___[hash:base64:5]",
                                 hashPrefix: 'schedule-filter-widget',
                             },
+                            localsConvention: 'camelCase',
                             sourceMap: false
                         }
                     },

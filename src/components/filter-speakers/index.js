@@ -7,6 +7,7 @@ import { useDebounce } from 'use-debounce';
 
 const FilterSpeaker = ({ options, filtered, onFilterChange }) => {
 
+    const [focus, setFocus] = useState(false);
     const [selectedSpeakers, setSelectedSpeakers] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [debounceSearchTerm] = useDebounce(searchTerm, 500);
@@ -54,15 +55,19 @@ const FilterSpeaker = ({ options, filtered, onFilterChange }) => {
                 <input
                     value={searchTerm}
                     onChange={(ev) => setSearchTerm(ev.target.value)}
-                    onFocus={() => setSearching(true)}
+                    onFocus={() => {
+                        setFocus(true);
+                        setSearching(true);
+                    }}
                     onBlur={() => {
+                        setFocus(false);
                         setTimeout(() => {
                             setSearching(false);
-                        }, 400)
+                        }, 200);
                     }}
                     placeholder="Search Speakers"
                     data-testid="speakers-input" />
-                <i className="fa fa-search" />
+                <i className={`fa fa-search ${focus ? styles.focus : ''}`} onClick={() => setSearching(true)} />
             </div>
             {searching &&
                 <div className={styles.speakersDropdown} data-testid="speakers-dropdown">
