@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 
 import styles from "./index.module.scss";
 
-const FilterTag = ({ option, option: { tag, count }, filtered, onFilterChange }) => {
+const FilterTag = ({ option, filtered, onFilterChange }) => {
+    const buttonClass = `${styles.tagButton} ${filtered ? styles.tagButtonActive : ''}`;
 
     return (
-        <button className={`${styles.tagButton} ${filtered ? styles.tagButtonActive : ''}`} onClick={() => onFilterChange(option, !filtered)} data-testid="tag-button">
-            <span className={styles.title} data-testid="tag-title">{tag}</span>
+        <button className={buttonClass} onClick={() => onFilterChange(option, !filtered)} data-testid="tag-button">
+            <span className={styles.title} data-testid="tag-title">{option.name}</span>
                 &nbsp;
-            <span className={styles.quantity} data-testid="tag-count">({count})</span>
+            <span className={styles.quantity} data-testid="tag-count">({option.count})</span>
         </button>
     )
-}
+};
 
 export default FilterTag;

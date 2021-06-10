@@ -1,0 +1,33 @@
+{
+  "date": {
+    "label": "Date",
+    "values": []
+  },
+  "level": {
+    "label": "Level",
+    "values": []
+  },
+  "track": {
+    "label": "Track",
+    "values": [],
+    "useColors": false
+  },
+  "track_group": {
+    "label": "Track Group",
+    "values": [],
+    "useColors": false
+  },
+  "tag": {
+    "label": "Tags",
+    "values": []
+  },
+  "venue": {
+    "label": "Venue",
+    "values": []
+  },
+  "event_type": {
+    "label": "Event Type",
+    "values": [],
+    "useColors": false
+  }
+}

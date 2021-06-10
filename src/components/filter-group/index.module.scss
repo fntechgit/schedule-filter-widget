@@ -1,14 +1,16 @@
-.title {
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-  line-height: 50px;
-  span {
-    font-weight: 500;
-    font-size: 16px;
-  }
-  i {
-    font-size: 14px;
+.wrapper {
+  .title {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
     line-height: 50px;
+    span {
+      font-weight: 500;
+      font-size: 16px;
+    }
+    i {
+      font-size: 14px;
+      line-height: 50px;
+    }
   }
 }

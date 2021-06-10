@@ -10,8 +10,8 @@ import * as types from '../actions'
 const middlewares = [thunk]
 const mockStore = configureMockStore(middlewares)
 
-import MockData from '../settings.json';
-import MockMarketingData from '../marketing-data.json';
+import MockData from '../dummy_data/filters.json';
+import MockMarketingData from '../dummy_data/marketing-data.json';
 
 const dateMockOption = MockData.find(f => f.filterType === 'date').options[0];
 

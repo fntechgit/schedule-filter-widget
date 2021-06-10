@@ -12,57 +12,51 @@
  **/
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { AjaxLoader } from 'openstack-uicore-foundation/lib/components';
-import { loadSession, setMarketingSettings } from "../actions";
+import { loadSession } from "../actions";
 
 import styles from "../styles/general.module.scss";
 import 'openstack-uicore-foundation/lib/css/components.css';
 
 import FilterGroup from './filter-group';
 
-class ScheduleFilter extends React.Component {
+class Filters extends React.Component {
 
     componentDidMount() {
-        const { loadSession, setMarketingSettings, filters, ...rest } = this.props;
+        const { loadSession, ...rest } = this.props;
 
-        loadSession(rest).then(() => {
-            setMarketingSettings();
-        });
-
-        this.props.onRef(this)
+        loadSession(rest);
     }
 
-    componentWillUnmount() {
-        this.props.onRef(undefined)
-    }
+    triggerFilterChange = (type, value) => {
+        this.props.triggerAction('UPDATE_FILTER', {});
+    };
 
     getFilterList = () => {
-        const { filters, filtered } = this.props;
+        const { filtersWithOptions } = this.props;
 
-        return filters.map((filter, index) => {
-            if (filter.is_enabled && filter.options.length > 0) {
-                return (
-                    <React.Fragment key={filter.filterType} >
-                        <FilterGroup filter={filter} filtered={filtered && filtered.find(f => f.filterType === filter.filterType) || null} />
-                        <hr />
-                    </React.Fragment>
-                )
-            }
-        })
-    }
+        return Object.entries(filtersWithOptions).map(([type, filter]) => {
+            return (
+                <React.Fragment key={type} >
+                    <FilterGroup filter={filter} type={type} changeFilter={this.triggerFilterChange} />
+                    <hr />
+                </React.Fragment>
+            )
+        });
+    };
 
     render() {
-        const { settings, widgetLoading } = this.props;
+        const { settings, widgetLoading, filtersWithOptions } = this.props;
 
         return (
-            <div className={`${styles.outerWrapper} schedule-widget`} ref={el => this.wrapperElem = el} data-testid="schedule-filter-wrapper">
+            <div className={`${styles.outerWrapper} schedule-filter-widget`} data-testid="schedule-filter-wrapper">
                 <AjaxLoader show={widgetLoading} size={60} relative />
+                {filtersWithOptions &&
                 <>
                     <div className={styles.header}>
                         <div className={styles.titleWrapper}>
-                            <div className={`${styles.title} widget-subtitle`} data-testid="schedule-filter-title">
+                            <div className={`${styles.title} widget-title`} data-testid="schedule-filter-title">
                                 {settings.title}
                             </div>
                         </div>
@@ -71,6 +65,7 @@ class ScheduleFilter extends React.Component {
                         {this.getFilterList()}
                     </div>
                 </>
+                }
             </div>
         );
     }
@@ -78,12 +73,13 @@ class ScheduleFilter extends React.Component {
 
 function mapStateToProps(scheduleReducer) {
     return {
-        ...scheduleReducer
+        title: scheduleReducer.title,
+        settings: scheduleReducer.settings,
+        filtersWithOptions: scheduleReducer.filtersWithOptions
     }
 }
 
 export default connect(mapStateToProps, {
     loadSession,
-    setMarketingSettings
-})(ScheduleFilter)
+})(Filters)
 

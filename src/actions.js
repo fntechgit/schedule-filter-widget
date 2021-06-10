@@ -11,21 +11,12 @@
  * limitations under the License.
  **/
 
-import {
-    createAction
-} from "openstack-uicore-foundation/lib/methods";
+import { createAction } from "openstack-uicore-foundation/lib/methods";
 
 export const START_WIDGET_LOADING           = 'START_WIDGET_LOADING';
 export const STOP_WIDGET_LOADING            = 'STOP_WIDGET_LOADING';
 export const LOAD_INITIAL_VARS              = 'LOAD_INITIAL_VARS';
-export const REQUEST_SUMMIT                 = 'REQUEST_SUMMIT';
-export const RECEIVE_SUMMIT                 = 'RECEIVE_SUMMIT';
-export const CHANGE_FILTER                  = 'CHANGE_FILTER';
-export const ADD_FILTER                     = 'ADD_FILTER';
-export const REMOVE_FILTER                  = 'REMOVE_FILTER';
-export const RESET_FILTERS                  = 'RESET_FILTERS';
-export const SET_FILTERS                    = 'SET_FILTERS';
-export const RECEIVE_MARKETING_SETTINGS     = 'RECEIVE_MARKETING_SETTINGS';
+export const UPDATE_FILTER_OPTIONS          = 'UPDATE_FILTER_OPTIONS';
 
 
 const startWidgetLoading = () => (dispatch) => {
@@ -41,44 +32,10 @@ export const loadSession = (settings) => (dispatch) => {
     return Promise.resolve();
 };
 
-export const setMarketingSettings = () => (dispatch, getState) => {
-
-    dispatch(startWidgetLoading());
-
-    let { settings } = getState();
-    let { marketingData } = settings;
-
-    dispatch(createAction(RECEIVE_MARKETING_SETTINGS)({}));
-
-    Object.keys(marketingData).forEach(setting => {
-        if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting}`)) {
-            document.documentElement.style.setProperty(`--${setting}`, marketingData[setting]);
-            document.documentElement.style.setProperty(`--${setting}50`, `${marketingData[setting]}50`);
-        }
-    });
-
-    dispatch(stopWidgetLoading());
-};
 
 
 /*********************************************************************************/
 /*                               FILTERS                                         */
 /*********************************************************************************/
 
-export const clearFilters = () => (dispatch, getState) => {
-    dispatch(createAction(RESET_FILTERS)({}));
-};
 
-export const changeFilter = (filterType, option, action) => (dispatch, getState) => {
-
-    const { settings: { filterCallback } } = getState();
-
-    dispatch(createAction(CHANGE_FILTER)());
-    if (action === true) {
-        dispatch(createAction(ADD_FILTER)({ filterType, option }));
-        filterCallback(ADD_FILTER, { filterType, option })
-    } else {
-        dispatch(createAction(REMOVE_FILTER)({ filterType, option }));
-        filterCallback(REMOVE_FILTER, { filterType, option })
-    }
-}

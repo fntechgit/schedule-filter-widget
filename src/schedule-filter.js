@@ -16,26 +16,24 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import WidgetReducer from './reducer'
-import ScheduleFilter from "./components/schedule-filter";
+import Filters from "./components/filters";
 
-class ScheduleFilterWidget extends React.PureComponent {
+class ScheduleFilter extends React.PureComponent {
 
     constructor(props) {
         super(props);
 
         const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
         this.store = createStore(WidgetReducer, composeEnhancers(applyMiddleware(thunk)));
-
-        // this.store = createStore(WidgetReducer, applyMiddleware(thunk));
     }
 
     render() {
         return (
             <Provider store={this.store}>
-                <ScheduleFilter {...this.props} />
+                <Filters {...this.props} />
             </Provider>
         );
     }
 }
 
-export default ScheduleFilterWidget;
+export default ScheduleFilter;

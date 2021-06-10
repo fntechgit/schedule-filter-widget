@@ -12,7 +12,7 @@ import FilterGroup from "..";
 import FilterSpeaker from '../../filter-speakers';
 import FilterTag from '../../filter-tags';
 
-import MockData from '../../../settings.json';
+import MockData from '../../../dummy_data/filters.json';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

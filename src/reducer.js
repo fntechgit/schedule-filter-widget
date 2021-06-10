@@ -18,21 +18,19 @@ import {
     START_WIDGET_LOADING,
     STOP_WIDGET_LOADING,
     LOAD_INITIAL_VARS,
-    ADD_FILTER,
-    REMOVE_FILTER,
-    RESET_FILTERS
+    UPDATE_FILTER_OPTIONS
 } from './actions';
 
 const DEFAULT_STATE = {
     settings: {
-        title: null,
-        filterCallback: null,
+        title: "Filter by",
         marketingData: null,
+        triggerAction: null,
     },
+    summit: null,
+    events: [],
     filters: [],
-    filtered: [],
     widgetLoading: false,
-    firstLoad: false,
 };
 
 const WidgetReducer = (state = DEFAULT_STATE, action) => {
@@ -49,49 +47,109 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             let widgetLoading = state.widgetLoading < 2 ? 0 : (state.widgetLoading - 1);
             return { ...state, widgetLoading };
         }
-        case LOAD_INITIAL_VARS:
+        case LOAD_INITIAL_VARS: {
+            const {summit, events, filters, triggerAction, marketingData, ...rest} = payload;
 
-            const { filtersData, filteredData } = payload;
+            Object.keys(marketingData).forEach(setting => {
+                if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting}`)) {
+                    document.documentElement.style.setProperty(`--${setting}`, marketingData[setting]);
+                    document.documentElement.style.setProperty(`--${setting}50`, `${marketingData[setting]}50`);
+                }
+            });
 
-            const newSettings = {
-                title: payload.title,
-                onRef: payload.onRef,
-                filterCallback: payload.filterCallback,
-                marketingData: payload.marketingData
-            };
+            const filtersWithOptions = updateFilterOptions(summit, events, filters);
 
             return {
                 ...state,
-                filters: filtersData,
-                filtered: filteredData,
+                summit,
+                events,
+                filters,
+                filtersWithOptions,
                 settings: {
                     ...state.settings,
-                    ...newSettings
+                    ...rest,
+                    marketingData,
+                    triggerAction
                 }
             };
-        case RESET_FILTERS: {
-            return { ...state, filtered: [] };
         }
-        case ADD_FILTER: {
-            const { filterType, option } = payload;
-            let otherFilters = state.filtered?.filter(f => f.filterType !== filterType) || [];
-            let newFilter = state.filtered?.find(f => f.filterType === filterType) || [];
-            const options = newFilter.options || [];
-            newFilter = { filterType, options: [...options, option] };
-            return { ...state, filtered: [...otherFilters, newFilter] };
-        }
-        case REMOVE_FILTER: {
-            const { filterType, option } = payload;
-            let otherFilters = state.filtered?.filter(f => f.filterType !== filterType) || [];
-            let newFilter = state.filtered?.find(f => f.filterType === filterType) || [];
-            let remainingOptions = newFilter.options.filter(f => (f.value && f.value !== option.value) || (f.id && f.id !== option.id)) || [];
-            newFilter = { filterType, options: [...remainingOptions] };
-            return { ...state, filtered: remainingOptions.length > 0 ? [...otherFilters, newFilter] : [...otherFilters] };
+        case UPDATE_FILTER_OPTIONS: {
+
         }
         default: {
             return state;
         }
     }
-}
+};
+
+const updateFilterOptions = (summit, events, filters) => {
+  const {dates_with_events: dates, levels, tracks, track_groups, event_types} = summit;
+  const newOptions = {date: [], level: [], track: [], track_group: [], event_type: [], tag: [], venue: [], speaker: []};
+  const filterKeys = Object.keys(filters);
+
+    filterKeys.forEach(k => {
+        filters[k].options = [];
+    });
+
+
+  events.forEach(ev => {
+      if (filters.date && !newOptions.date.includes(ev.start_date)) {
+          newOptions.date.push(ev.start_date);
+          filters.date.options.push({name: ev.start_date, value: ev.start_date, count: 0});
+      }
+
+      if (filters.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
+          newOptions.level.push(ev.level);
+          filters.level.options.push({name: ev.level, value: ev.level, count: 0});
+      }
+
+      if (filters.track && !newOptions.track.includes(ev.track.id)) {
+          newOptions.track.push(ev.track.id);
+          filters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0});
+      }
+
+      if (filters.event_type && !newOptions.event_type.includes(ev.type.id)) {
+          newOptions.event_type.push(ev.type.id);
+          filters.event_type.options.push({name: ev.type.name, value: ev.type.id, count: 0});
+      }
+
+      if (filters.venue && ev.location && !newOptions.venue.includes(ev.location.id)) {
+          newOptions.venue.push(ev.location.id);
+          filters.venue.options.push({name: ev.location.name, value: ev.location.id, count: 0});
+      }
+
+      if (filters.track_group){
+          ev.track.track_groups.forEach(tg => {
+              if (!newOptions.track_group.includes(tg)) {
+                  newOptions.track_group.push(tg);
+                  const trackg = summit.track_groups.find(t => t.id === tg.id);
+                  filters.track_group.options.push({name: trackg.name, value: trackg.id, count: 0});
+              }
+          });
+      }
+
+      if (filters.tag && ev.tags.length > 0){
+          ev.tags.forEach(t => {
+              if (!newOptions.tag.includes(t.id)) {
+                  newOptions.tag.push(t.id);
+                  filters.tag.options.push({name: t.tag, value: t.id, count: 0});
+              }
+          });
+      }
+
+
+      if (filters.speaker && ev.speakers.length > 0){
+          ev.speakers.forEach(s => {
+              if (!newOptions.speaker.includes(s.id)) {
+                  newOptions.speaker.push(s.id);
+                  filters.speaker.options.push({name: `${s.first_name} ${s.last_name}`, value: s.id, count: 0});
+              }
+          })
+      }
+
+  });
+
+  return filters;
+};
 
 export default WidgetReducer

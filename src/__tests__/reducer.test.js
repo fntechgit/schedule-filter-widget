@@ -2,8 +2,8 @@ import reducer from '../reducer'
 import * as types from '../actions'
 import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/actions';
 
-import MockData from '../settings.json';
-import MockMarketingData from '../marketing-data.json';
+import MockData from '../dummy_data/filters.json';
+import MockMarketingData from '../dummy_data/marketing-data.json';
 
 const dateMockOption = MockData.find(f => f.filterType === 'date').options[0];
 
@@ -48,19 +48,15 @@ describe('filter reducer', () => {
             payload: {
                 title: 'Testing',
                 marketingData: MockMarketingData,
-                filteredData: [],
-                onRef: () => console.log('on ref'),
                 filterCallback: () => console.log('filter callback'),
                 filtersData: MockData,
             }
         })).toMatchObject(
             {
                 filters: MockData,
-                filtered: [],
                 settings: {
                     title: 'Testing',
                     marketingData: MockMarketingData,
-                    onRef: () => console.log('on ref'),
                     filterCallback: () => console.log('filter callback')
                 }
             }

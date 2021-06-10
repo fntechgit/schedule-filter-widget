@@ -13,18 +13,21 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ScheduleFilterWidget from './schedule-filter-widget';
+import ScheduleFilter from './schedule-filter';
 
-import MarketingData from './marketing-data.json';
-import SettingsData from './settings.json';
+import summit from './dummy_data/summit.json';
+import events from './dummy_data/events.json';
+import marketing from './dummy_data/marketing-data.json';
+import filters from './dummy_data/filters.json';
+
 
 const filterProps = {
-    marketingData: MarketingData.colors,
-    filtersData: SettingsData,
-    filteredData: [],
     title: 'Filter by',
-    onRef: console.log,
-    filterCallback: (ev, data) => console.log('filter updated', ev, data),
+    summit: summit,
+    events: events,
+    filters: filters,
+    marketingData: marketing.colors,
+    triggerAction: (action, payload) => console.log('filter updated', action, payload),
 };
 
 
@@ -32,7 +35,7 @@ const filterProps = {
 
 ReactDOM.render(
     <div style={{ margin: '20px' }}>
-        <ScheduleFilterWidget {...filterProps} />
+        <ScheduleFilter {...filterProps} />
     </div>,
     document.querySelector('#root')
 );

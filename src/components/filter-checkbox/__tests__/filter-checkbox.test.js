@@ -10,8 +10,8 @@ import thunk from 'redux-thunk'
 import { Provider } from 'react-redux';
 import WidgetReducer from '../../../reducer';
 import * as actions from '../../../actions';
-import MockMarketingData from '../../../marketing-data.json';
-import MockData from '../../../settings.json';
+import MockMarketingData from '../../../dummy_data/marketing-data.json';
+import MockData from '../../../dummy_data/filters.json';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -55,7 +55,7 @@ it('FilterChecbox changes checkmark after click', async () => {
 
     const { getByTestId } = renderWithState(
         <FilterCheckbox option={mockOption} onFilterChange={onFilterChange} />,
-        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData, filtered: [{filterType: 'date', options: [mockOption]}] } }
+        { initialState: { settings: { title: "Test title", marketingData: MockMarketingData }, filters: MockData, filtered: [{filterType: 'date', options: [mockOption]}] } }
     );
 
     const wrapper = getByTestId('checkbox-wrapper');

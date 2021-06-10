@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from "react-redux";
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 
 import { useSpring, config, animated } from "react-spring";
 import { useMeasure } from "react-use";
@@ -9,11 +7,9 @@ import FilterCheckbox from '../filter-checkbox';
 import FilterTag from '../filter-tags';
 import FilterSpeaker from '../filter-speakers';
 
-import { changeFilter } from '../../actions';
-
 import styles from "./index.module.scss";
 
-const FilterGroup = ({ filter: { label, useColors, filterType, options }, filtered, changeFilter }) => {
+export default ({ filter: { label, options, values, useColors }, type, changeFilter }) => {
 
     const [isOpen, setIsOpen] = useState(true);
     const [ref, { height }] = useMeasure();
@@ -24,61 +20,67 @@ const FilterGroup = ({ filter: { label, useColors, filterType, options }, filter
         to: {
             opacity: 1,
             height: isOpen ? height : 0,
-            marginBottom: isOpen ? (filterType === 'tags' ? 14 : 20) : 0
+            marginBottom: isOpen ? (type === 'tags' ? 14 : 20) : 0
         }
     });
 
-    const onFilterChange = (option, value) => {
-        changeFilter(filterType, option, value);
-    }
+    const onFilterChange= (option, value) => {
+        const newOptions = value ? [...options, option] : options.filter(op => op.value !== option.value);
+        changeFilter(type, newOptions);
+    };
 
-    const renderGroup = (filterType) => {
-        switch (filterType) {
-            case 'date': {
-                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered?.options?.some(elem => (elem.value && elem.value === option.value) || (elem.id && elem.id === option.id))} onFilterChange={onFilterChange} key={`date-${index}`} />)
+    const renderGroup = () => {
+        switch (type) {
+            case 'date':
+            case 'level':
+            case 'track':
+            case 'venue':
+            case 'track_group':
+            case 'event_type': {
+                return options.map(
+                    (option, index) =>
+                        <FilterCheckbox
+                            key={`op-${type}-${index}`}
+                            option={option}
+                            selected={values.find(v => v === options.value)}
+                            applyColors={useColors}
+                            onFilterChange={onFilterChange}
+                        />
+                    );
             }
-            case 'level': {
-                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered?.options?.some(elem => (elem.value && elem.value === option.value) || (elem.id && elem.id === option.id))} onFilterChange={onFilterChange} key={`level-${index}`} />)
+            case 'speaker': {
+                return <FilterSpeaker options={options} values={values} onFilterChange={onFilterChange} />
             }
-            case 'track': {
-                return options.map((option, index) => <FilterCheckbox applyColors={useColors} option={option} filtered={filtered?.options?.some(elem => (elem.value && elem.value === option.value) || (elem.id && elem.id === option.id))} onFilterChange={onFilterChange} key={`track-${index}`} />)
-            }
-            case 'speakers': {
-                return <FilterSpeaker options={options} filtered={filtered?.options} onFilterChange={onFilterChange} />
-            }
-            case 'venues': {
-                return options.map((option, index) => <FilterCheckbox option={option} filtered={filtered?.options?.some(elem => (elem.value && elem.value === option.value) || (elem.id && elem.id === option.id))} onFilterChange={onFilterChange} key={`venues-${index}`} />)
-            }
-            case 'tags': {
-                return options.map((option, index) => <FilterTag option={option} filtered={filtered?.options?.some(elem => (elem.value && elem.value === option.value) || (elem.id && elem.id === option.id))} key={`tags-${index}`} onFilterChange={onFilterChange} />)
-            }
-            case 'track_groups': {
-                return options.map((option, index) => <FilterCheckbox applyColors={useColors} option={option} filtered={filtered?.options?.some(elem => (elem.value && elem.value === option.value) || (elem.id && elem.id === option.id))} onFilterChange={onFilterChange} key={`track_groups-${index}`} />)
-            }
-            case 'event_types': {
-                return options.map((option, index) => <FilterCheckbox applyColors={useColors} option={option} filtered={filtered?.options?.some(elem => (elem.value && elem.value === option.value) || (elem.id && elem.id === option.id))} onFilterChange={onFilterChange} key={`event_types-${index}`} />)
+            case 'tag': {
+                return options.map(
+                    (option, index) =>
+                        <FilterTag
+                            key={`op-tags-${index}`}
+                            option={option}
+                            selected={values.find(v => v === options.value)}
+                            onFilterChange={onFilterChange}
+                        />
+                    );
             }
             default:
                 return null;
         }
-    }
+    };
+
+    if (!options || options.length < 2) return null;
 
     return (
-        <div className={styles.filterGroup} data-testid="filter-group-wrapper">
+        <div className={styles.wrapper} data-testid="filter-group-wrapper">
             <div className={styles.title} onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
                 <span>{label}</span>
                 <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
             </div>
             <animated.div style={{ overflow: 'hidden', ...toggleAnimation }} data-testid="filter-group-options">
                 <div ref={ref}>
-                    {renderGroup(filterType)}
+                    {renderGroup()}
                 </div>
             </animated.div>
         </div >
     )
-}
-
-export default connect(null, {
-    changeFilter
-})(FilterGroup)
+};
 

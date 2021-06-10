@@ -5,7 +5,7 @@ import '@testing-library/jest-dom';
 
 import FilterSpeaker from "..";
 
-import MockData from '../../../settings.json';
+import MockData from '../../../dummy_data/filters.json';
 
 const mockSpeakers = MockData.find(data => data.filterType === 'speakers').options;
 

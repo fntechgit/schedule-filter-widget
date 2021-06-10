@@ -10,9 +10,9 @@ import WidgetReducer from '../reducer';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux';
 
-import ScheduleFilter from './schedule-filter';
-import MockData from '../settings.json';
-import MockMarketingData from '../marketing-data.json';
+import ScheduleFilter from './filters';
+import MockData from '../dummy_data/filters.json';
+import MockMarketingData from '../dummy_data/marketing-data.json';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -42,15 +42,13 @@ it('ScheduleFilter render the correct title', async () => {
     const { getByTestId } = renderWithState(
         <ScheduleFilter
             updateEvent={mockCallBack}
-            onRef={mockCallBack}
             settings={{
                 title: "Test title",
                 marketingData: MockMarketingData,
-                onRef: mockCallBack
             }}
             filters={MockData}
             filtered={[]} />,
-        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData, filtered: [] } }
+        { initialState: { settings: { title: "Test title", marketingData: MockMarketingData }, filters: MockData, filtered: [] } }
     );
 
     const title = getByTestId('schedule-filter-title');
@@ -62,15 +60,13 @@ it('ScheduleFilter should render the correct number of filters', async () => {
     const { getByTestId } = renderWithState(
         <ScheduleFilter
             updateEvent={mockCallBack}
-            onRef={mockCallBack}
             settings={{
                 title: "Test title",
                 marketingData: MockMarketingData,
-                onRef: mockCallBack
             }}
             filters={MockData}
             filtered={[]} />,
-        { initialState: { settings: { title: "Test title", onRef: mockCallBack, marketingData: MockMarketingData }, filters: MockData, filtered: [] } }
+        { initialState: { settings: { title: "Test title", marketingData: MockMarketingData }, filters: MockData, filtered: [] } }
     );
 
     const expectedGroups = MockData.filter(f => f.is_enabled === true).length;
