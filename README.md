@@ -24,7 +24,7 @@ React component for the schedule filter widget
    ```
    
    **triggerAction**    = method that will take an ACTION and a payload as params and will return a promise.
-   Example: `{action: 'UPDATE_FILTER', payload: {type, options}}`
+   Example: `{action: 'UPDATE_FILTER', payload: {type, values}}`
 
 
 #### Notes:

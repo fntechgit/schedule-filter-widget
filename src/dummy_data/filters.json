@@ -29,5 +29,9 @@
     "label": "Event Type",
     "values": [],
     "useColors": false
+  },
+  "speaker": {
+    "label": "Speaker",
+    "values": []
   }
 }

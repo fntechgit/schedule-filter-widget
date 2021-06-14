@@ -28,6 +28,7 @@ class ScheduleFilter extends React.PureComponent {
     }
 
     render() {
+
         return (
             <Provider store={this.store}>
                 <Filters {...this.props} />

@@ -14,7 +14,7 @@
 import React from 'react';
 import { connect } from "react-redux";
 import { AjaxLoader } from 'openstack-uicore-foundation/lib/components';
-import { loadSession } from "../actions";
+import { loadSettings, updateFilters } from "../actions";
 
 import styles from "../styles/general.module.scss";
 import 'openstack-uicore-foundation/lib/css/components.css';
@@ -24,13 +24,23 @@ import FilterGroup from './filter-group';
 class Filters extends React.Component {
 
     componentDidMount() {
-        const { loadSession, ...rest } = this.props;
-
-        loadSession(rest);
+        const { loadSettings, updateFilters, ...rest } = this.props;
+        loadSettings(rest);
     }
 
-    triggerFilterChange = (type, value) => {
-        this.props.triggerAction('UPDATE_FILTER', {});
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {events: prevEvents} = prevProps;
+        const {events, filters, updateFilters} = this.props;
+        const prevEventsIds = prevEvents.map(e => e.id);
+        const eventsIds = events.map(e => e.id);
+
+        if (!prevEventsIds.every((v,i) => v === eventsIds[i])) {
+            updateFilters(events, filters);
+        }
+    }
+
+    triggerFilterChange = (type, values) => {
+        this.props.triggerAction('UPDATE_FILTER', {type, values});
     };
 
     getFilterList = () => {
@@ -80,6 +90,7 @@ function mapStateToProps(scheduleReducer) {
 }
 
 export default connect(mapStateToProps, {
-    loadSession,
+    loadSettings,
+    updateFilters
 })(Filters)
 

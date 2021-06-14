@@ -23,15 +23,13 @@ import filters from './dummy_data/filters.json';
 
 const filterProps = {
     title: 'Filter by',
-    summit: summit,
+    summit: summit.summit,
     events: events,
     filters: filters,
     marketingData: marketing.colors,
-    triggerAction: (action, payload) => console.log('filter updated', action, payload),
+    triggerAction: (action, {type, values}) => {console.log(`${action}: ${type} - ${values}`)},
 };
 
-
-// width 780px or 230px
 
 ReactDOM.render(
     <div style={{ margin: '20px' }}>

@@ -11,7 +11,7 @@
  * limitations under the License.
  **/
 
-import { epochToMomentTimeZone, epochToMoment } from "openstack-uicore-foundation/lib/methods";
+import { epochToMoment } from "openstack-uicore-foundation/lib/methods";
 import { FragmentParser } from "openstack-uicore-foundation/lib/components";
 import moment from "moment-timezone";
 

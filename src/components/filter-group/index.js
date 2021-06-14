@@ -24,9 +24,9 @@ export default ({ filter: { label, options, values, useColors }, type, changeFil
         }
     });
 
-    const onFilterChange= (option, value) => {
-        const newOptions = value ? [...options, option] : options.filter(op => op.value !== option.value);
-        changeFilter(type, newOptions);
+    const onFilterChange = (option, value) => {
+        const newValues = value ? [...values, option.value] : values.filter(val => val !== option.value);
+        changeFilter(type, newValues);
     };
 
     const renderGroup = () => {

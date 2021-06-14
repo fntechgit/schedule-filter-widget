@@ -8,7 +8,7 @@ const { CleanWebpackPlugin }    = require('clean-webpack-plugin');
 const MiniCssExtractPlugin      = require("mini-css-extract-plugin");
 
 module.exports = merge(common, {
-    entry: './src/schedule-filter-widget.js',
+    entry: './src/schedule-filter.js',
     plugins: [
         new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({

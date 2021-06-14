@@ -13,10 +13,10 @@
 
 import { createAction } from "openstack-uicore-foundation/lib/methods";
 
-export const START_WIDGET_LOADING           = 'START_WIDGET_LOADING';
-export const STOP_WIDGET_LOADING            = 'STOP_WIDGET_LOADING';
-export const LOAD_INITIAL_VARS              = 'LOAD_INITIAL_VARS';
-export const UPDATE_FILTER_OPTIONS          = 'UPDATE_FILTER_OPTIONS';
+export const START_WIDGET_LOADING    = 'START_WIDGET_LOADING';
+export const STOP_WIDGET_LOADING     = 'STOP_WIDGET_LOADING';
+export const LOAD_INITIAL_VARS       = 'LOAD_INITIAL_VARS';
+export const UPDATE_FILTERS          = 'UPDATE_FILTERS';
 
 
 const startWidgetLoading = () => (dispatch) => {
@@ -27,15 +27,15 @@ const stopWidgetLoading = () => (dispatch) => {
     dispatch(createAction(STOP_WIDGET_LOADING)({}));
 };
 
-export const loadSession = (settings) => (dispatch) => {
+export const loadSettings = (settings) => (dispatch) => {
+    dispatch(createAction(START_WIDGET_LOADING)({}))
     dispatch(createAction(LOAD_INITIAL_VARS)(settings));
-    return Promise.resolve();
 };
 
+export const updateFilters = (events, filters) => (dispatch) => {
+    dispatch(createAction(START_WIDGET_LOADING)({}))
+    dispatch(createAction(UPDATE_FILTERS)({events, filters}));
+};
 
-
-/*********************************************************************************/
-/*                               FILTERS                                         */
-/*********************************************************************************/
 
 

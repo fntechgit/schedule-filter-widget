@@ -11,14 +11,15 @@
  * limitations under the License.
  **/
 
-import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/actions';
+import { epochToMomentTimeZone } from "openstack-uicore-foundation/lib/methods";
 
+import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/actions';
 
 import {
     START_WIDGET_LOADING,
     STOP_WIDGET_LOADING,
     LOAD_INITIAL_VARS,
-    UPDATE_FILTER_OPTIONS
+    UPDATE_FILTERS
 } from './actions';
 
 const DEFAULT_STATE = {
@@ -61,6 +62,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
 
             return {
                 ...state,
+                widgetLoading: false,
                 summit,
                 events,
                 filters,
@@ -73,8 +75,18 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
                 }
             };
         }
-        case UPDATE_FILTER_OPTIONS: {
+        case UPDATE_FILTERS: {
+            const {events, filters} = payload;
 
+            const filtersWithOptions = updateFilterOptions(state.summit, events, filters);
+
+            return {
+                ...state,
+                widgetLoading: false,
+                events,
+                filters,
+                filtersWithOptions,
+            };
         }
         default: {
             return state;
@@ -93,9 +105,17 @@ const updateFilterOptions = (summit, events, filters) => {
 
 
   events.forEach(ev => {
-      if (filters.date && !newOptions.date.includes(ev.start_date)) {
-          newOptions.date.push(ev.start_date);
-          filters.date.options.push({name: ev.start_date, value: ev.start_date, count: 0});
+      if (filters.date) {
+          const dateObj = epochToMomentTimeZone(ev.start_date, summit.time_zone_id);
+          const date = dateObj.format('YYYY-MM-DD');
+
+          if (!newOptions.date.includes(date)) {
+              const day = dateObj.format('dddd');
+              const month = dateObj.format('MMMM D');
+
+              newOptions.date.push(date);
+              filters.date.options.push({name: [day, month], value: date, count: 0});
+          }
       }
 
       if (filters.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
@@ -134,15 +154,16 @@ const updateFilterOptions = (summit, events, filters) => {
                   newOptions.tag.push(t.id);
                   filters.tag.options.push({name: t.tag, value: t.id, count: 0});
               }
+
+              filters.tag.options.find(tt => tt.value === t.id).count++;
           });
       }
-
 
       if (filters.speaker && ev.speakers.length > 0){
           ev.speakers.forEach(s => {
               if (!newOptions.speaker.includes(s.id)) {
                   newOptions.speaker.push(s.id);
-                  filters.speaker.options.push({name: `${s.first_name} ${s.last_name}`, value: s.id, count: 0});
+                  filters.speaker.options.push({name: `${s.first_name} ${s.last_name}`, value: s.id, id: s.id, pic: s.pic, count: 0});
               }
           })
       }
