@@ -26,6 +26,7 @@ const filterProps = {
     summit: summit.summit,
     events: events,
     filters: filters,
+    colorSource: 'track',
     marketingData: marketing.colors,
     triggerAction: (action, {type, values}) => {console.log(`${action}: ${type} - ${values}`)},
 };

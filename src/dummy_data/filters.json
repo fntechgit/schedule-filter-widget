@@ -1,37 +1,42 @@
 {
   "date": {
     "label": "Date",
-    "values": []
+    "values": [],
+    "enabled": true
   },
   "level": {
     "label": "Level",
-    "values": []
+    "values": [],
+    "enabled": true
   },
   "track": {
     "label": "Track",
     "values": [],
-    "useColors": false
+    "enabled": true
   },
-  "track_group": {
+  "track_groups": {
     "label": "Track Group",
     "values": [],
-    "useColors": false
+    "enabled": true
   },
-  "tag": {
+  "tags": {
     "label": "Tags",
-    "values": []
+    "values": [],
+    "enabled": true
   },
-  "venue": {
+  "venues": {
     "label": "Venue",
-    "values": []
+    "values": [],
+    "enabled": true
   },
-  "event_type": {
+  "event_types": {
     "label": "Event Type",
     "values": [],
-    "useColors": false
+    "enabled": true
   },
-  "speaker": {
+  "speakers": {
     "label": "Speaker",
-    "values": []
+    "values": [],
+    "enabled": true
   }
 }

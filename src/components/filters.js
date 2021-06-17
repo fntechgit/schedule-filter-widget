@@ -57,7 +57,7 @@ class Filters extends React.Component {
     };
 
     render() {
-        const { settings, widgetLoading, filtersWithOptions } = this.props;
+        const { title, widgetLoading, filtersWithOptions } = this.props;
 
         return (
             <div className={`${styles.outerWrapper} schedule-filter-widget`} data-testid="schedule-filter-wrapper">
@@ -67,7 +67,7 @@ class Filters extends React.Component {
                     <div className={styles.header}>
                         <div className={styles.titleWrapper}>
                             <div className={`${styles.title} widget-title`} data-testid="schedule-filter-title">
-                                {settings.title}
+                                {title}
                             </div>
                         </div>
                     </div>

@@ -25,6 +25,7 @@ import {
 const DEFAULT_STATE = {
     settings: {
         title: "Filter by",
+        colorSource: '',
         marketingData: null,
         triggerAction: null,
     },
@@ -49,7 +50,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             return { ...state, widgetLoading };
         }
         case LOAD_INITIAL_VARS: {
-            const {summit, events, filters, triggerAction, marketingData, ...rest} = payload;
+            const {summit, events, filters, triggerAction, marketingData, colorSource, ...rest} = payload;
 
             Object.keys(marketingData).forEach(setting => {
                 if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting}`)) {
@@ -70,6 +71,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
                 settings: {
                     ...state.settings,
                     ...rest,
+                    colorSource,
                     marketingData,
                     triggerAction
                 }
@@ -95,82 +97,80 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
 };
 
 const updateFilterOptions = (summit, events, filters) => {
-  const {dates_with_events: dates, levels, tracks, track_groups, event_types} = summit;
-  const newOptions = {date: [], level: [], track: [], track_group: [], event_type: [], tag: [], venue: [], speaker: []};
-  const filterKeys = Object.keys(filters);
+    const newOptions = {date: [], level: [], track: [], track_groups: [], event_types: [], tags: [], venues: [], speakers: []};
+    const filterKeys = Object.keys(filters);
 
     filterKeys.forEach(k => {
         filters[k].options = [];
     });
 
+    events.forEach(ev => {
+        if (filters.date && filters.date.values.length === 0) {
+            const dateObj = epochToMomentTimeZone(ev.start_date, summit.time_zone_id);
+            const date = dateObj.format('YYYY-MM-DD');
 
-  events.forEach(ev => {
-      if (filters.date) {
-          const dateObj = epochToMomentTimeZone(ev.start_date, summit.time_zone_id);
-          const date = dateObj.format('YYYY-MM-DD');
+            if (!newOptions.date.includes(date)) {
+                const day = dateObj.format('dddd');
+                const month = dateObj.format('MMMM D');
 
-          if (!newOptions.date.includes(date)) {
-              const day = dateObj.format('dddd');
-              const month = dateObj.format('MMMM D');
+                newOptions.date.push(date);
+                filters.date.options.push({name: [day, month], value: date, count: 0});
+            }
+        }
 
-              newOptions.date.push(date);
-              filters.date.options.push({name: [day, month], value: date, count: 0});
-          }
-      }
+        if (filters.level && filters.level.values.length === 0 && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
+            newOptions.level.push(ev.level);
+            filters.level.options.push({name: ev.level, value: ev.level, count: 0});
+        }
 
-      if (filters.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
-          newOptions.level.push(ev.level);
-          filters.level.options.push({name: ev.level, value: ev.level, count: 0});
-      }
+        if (filters.track && filters.track.values.length === 0 && !newOptions.track.includes(ev.track.id)) {
+            newOptions.track.push(ev.track.id);
+            filters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0});
+        }
 
-      if (filters.track && !newOptions.track.includes(ev.track.id)) {
-          newOptions.track.push(ev.track.id);
-          filters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0});
-      }
+        if (filters.event_types && filters.event_types.values.length === 0 && !newOptions.event_types.includes(ev.type.id)) {
+            newOptions.event_types.push(ev.type.id);
+            filters.event_types.options.push({name: ev.type.name, value: ev.type.id, count: 0});
+        }
 
-      if (filters.event_type && !newOptions.event_type.includes(ev.type.id)) {
-          newOptions.event_type.push(ev.type.id);
-          filters.event_type.options.push({name: ev.type.name, value: ev.type.id, count: 0});
-      }
+        if (filters.venues && filters.venues.values.length === 0 && ev.location && !newOptions.venues.includes(ev.location.id)) {
+            newOptions.venues.push(ev.location.id);
+            filters.venues.options.push({name: ev.location.name, value: ev.location.id, count: 0});
+        }
 
-      if (filters.venue && ev.location && !newOptions.venue.includes(ev.location.id)) {
-          newOptions.venue.push(ev.location.id);
-          filters.venue.options.push({name: ev.location.name, value: ev.location.id, count: 0});
-      }
+        if (filters.track_groups && filters.track_groups.values.length === 0){
+            ev.track.track_groups.forEach(tg => {
+                if (!newOptions.track_groups.includes(tg)) {
+                    newOptions.track_groups.push(tg);
+                    const trackg = summit.track_groups.find(t => t.id === tg.id);
+                    filters.track_groups.options.push({name: trackg.name, value: trackg.id, count: 0});
+                }
+            });
+        }
 
-      if (filters.track_group){
-          ev.track.track_groups.forEach(tg => {
-              if (!newOptions.track_group.includes(tg)) {
-                  newOptions.track_group.push(tg);
-                  const trackg = summit.track_groups.find(t => t.id === tg.id);
-                  filters.track_group.options.push({name: trackg.name, value: trackg.id, count: 0});
-              }
-          });
-      }
+        if (filters.tags && filters.tags.values.length === 0 && ev.tags.length > 0){
+            ev.tags.forEach(t => {
+                if (!newOptions.tags.includes(t.id)) {
+                    newOptions.tags.push(t.id);
+                    filters.tags.options.push({name: t.tag, value: t.id, count: 0});
+                }
 
-      if (filters.tag && ev.tags.length > 0){
-          ev.tags.forEach(t => {
-              if (!newOptions.tag.includes(t.id)) {
-                  newOptions.tag.push(t.id);
-                  filters.tag.options.push({name: t.tag, value: t.id, count: 0});
-              }
+                filters.tags.options.find(tt => tt.value === t.id).count++;
+            });
+        }
 
-              filters.tag.options.find(tt => tt.value === t.id).count++;
-          });
-      }
+        if (filters.speakers && filters.speakers.values.length === 0 && ev.speakers.length > 0){
+            ev.speakers.forEach(s => {
+                if (!newOptions.speakers.includes(s.id)) {
+                    newOptions.speakers.push(s.id);
+                    filters.speakers.options.push({name: `${s.first_name} ${s.last_name}`, value: s.id, id: s.id, pic: s.pic, count: 0});
+                }
+            })
+        }
 
-      if (filters.speaker && ev.speakers.length > 0){
-          ev.speakers.forEach(s => {
-              if (!newOptions.speaker.includes(s.id)) {
-                  newOptions.speaker.push(s.id);
-                  filters.speaker.options.push({name: `${s.first_name} ${s.last_name}`, value: s.id, id: s.id, pic: s.pic, count: 0});
-              }
-          })
-      }
+    });
 
-  });
-
-  return filters;
+    return filters;
 };
 
 export default WidgetReducer

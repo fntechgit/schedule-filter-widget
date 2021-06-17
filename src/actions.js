@@ -28,12 +28,12 @@ const stopWidgetLoading = () => (dispatch) => {
 };
 
 export const loadSettings = (settings) => (dispatch) => {
-    dispatch(createAction(START_WIDGET_LOADING)({}))
+    dispatch(createAction(START_WIDGET_LOADING)({}));
     dispatch(createAction(LOAD_INITIAL_VARS)(settings));
 };
 
 export const updateFilters = (events, filters) => (dispatch) => {
-    dispatch(createAction(START_WIDGET_LOADING)({}))
+    dispatch(createAction(START_WIDGET_LOADING)({}));
     dispatch(createAction(UPDATE_FILTERS)({events, filters}));
 };
 

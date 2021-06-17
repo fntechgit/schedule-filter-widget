@@ -11,26 +11,22 @@ React component for the schedule filter widget
    **events**           = the collection of events currently rendered
    
    **marketingData**    = object with the settings from the marketing API
+    
+   **colorSource**      = source of color, could be one of : event_type, track, track_group 
    
    **filters**          = object with the desired filters to render and its values. 
+   
    
    Example:
    ```
    [
-     date: {label: "Date", values: []},
-     level: {label: "Level", values: ["Beginner", "Intermediate"]}
-     track: {label: "Date", values: [], useColor: true},
+     date: {label: "Date", values: [], enabled: true},
+     level: {label: "Level", values: ["Beginner", "Intermediate"], enabled: false}
    ]
    ```
    
    **triggerAction**    = method that will take an ACTION and a payload as params and will return a promise.
    Example: `{action: 'UPDATE_FILTER', payload: {type, values}}`
-
-
-#### Notes:
-   * types ***track***, ***track_groups*** and ***event_types*** must include property ***useColors*** to define if checkmarks should be colored
-   
-
    
 ## PUBLISH TO NPM:
 

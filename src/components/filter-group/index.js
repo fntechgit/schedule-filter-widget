@@ -9,7 +9,7 @@ import FilterSpeaker from '../filter-speakers';
 
 import styles from "./index.module.scss";
 
-export default ({ filter: { label, options, values, useColors }, type, changeFilter }) => {
+export default ({ filter: { label, options, values }, colorSource, type, changeFilter }) => {
 
     const [isOpen, setIsOpen] = useState(true);
     const [ref, { height }] = useMeasure();
@@ -34,30 +34,30 @@ export default ({ filter: { label, options, values, useColors }, type, changeFil
             case 'date':
             case 'level':
             case 'track':
-            case 'venue':
-            case 'track_group':
-            case 'event_type': {
+            case 'venues':
+            case 'track_groups':
+            case 'event_types': {
                 return options.map(
                     (option, index) =>
                         <FilterCheckbox
                             key={`op-${type}-${index}`}
                             option={option}
-                            selected={values.find(v => v === options.value)}
-                            applyColors={useColors}
+                            selected={values?.find(v => v === option.value)}
+                            applyColors={colorSource === type}
                             onFilterChange={onFilterChange}
                         />
                     );
             }
-            case 'speaker': {
+            case 'speakers': {
                 return <FilterSpeaker options={options} values={values} onFilterChange={onFilterChange} />
             }
-            case 'tag': {
+            case 'tags': {
                 return options.map(
                     (option, index) =>
                         <FilterTag
                             key={`op-tags-${index}`}
                             option={option}
-                            selected={values.find(v => v === options.value)}
+                            selected={values?.find(v => v === options.value)}
                             onFilterChange={onFilterChange}
                         />
                     );
