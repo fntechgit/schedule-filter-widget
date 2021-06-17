@@ -4,17 +4,17 @@ React component for the schedule filter widget
 
 ## Schedule Filter config      
 
-   **title**            = widget title, defaults to "Filter by"
+   **title**                = widget title, defaults to "Filter by"
    
-   **summit**           = the summit object
+   **summit**               = the summit object
    
-   **events**           = the collection of events currently rendered
+   **events**               = the collection of events currently rendered
    
-   **marketingData**    = object with the settings from the marketing API
+   **marketingSettings**    = object with the settings from the marketing API
     
-   **colorSource**      = source of color, could be one of : event_type, track, track_group 
+   **colorSource**          = source of color, could be one of : event_type, track, track_group 
    
-   **filters**          = object with the desired filters to render and its values. 
+   **filters**              = object with the desired filters to render and its values. 
    
    
    Example:

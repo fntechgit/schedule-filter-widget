@@ -26,7 +26,7 @@ const DEFAULT_STATE = {
     settings: {
         title: "Filter by",
         colorSource: '',
-        marketingData: null,
+        marketingSettings: null,
         triggerAction: null,
     },
     summit: null,
@@ -50,12 +50,12 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             return { ...state, widgetLoading };
         }
         case LOAD_INITIAL_VARS: {
-            const {summit, events, filters, triggerAction, marketingData, colorSource, ...rest} = payload;
+            const {summit, events, filters, triggerAction, marketingSettings, colorSource, ...rest} = payload;
 
-            Object.keys(marketingData).forEach(setting => {
+            Object.keys(marketingSettings).forEach(setting => {
                 if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting}`)) {
-                    document.documentElement.style.setProperty(`--${setting}`, marketingData[setting]);
-                    document.documentElement.style.setProperty(`--${setting}50`, `${marketingData[setting]}50`);
+                    document.documentElement.style.setProperty(`--${setting}`, marketingSettings[setting]);
+                    document.documentElement.style.setProperty(`--${setting}50`, `${marketingSettings[setting]}50`);
                 }
             });
 
@@ -72,7 +72,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
                     ...state.settings,
                     ...rest,
                     colorSource,
-                    marketingData,
+                    marketingSettings,
                     triggerAction
                 }
             };

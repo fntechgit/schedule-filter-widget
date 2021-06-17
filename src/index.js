@@ -27,7 +27,7 @@ const filterProps = {
     events: events,
     filters: filters,
     colorSource: 'track',
-    marketingData: marketing.colors,
+    marketingSettings: marketing.colors,
     triggerAction: (action, {type, values}) => {console.log(`${action}: ${type} - ${values}`)},
 };
 
