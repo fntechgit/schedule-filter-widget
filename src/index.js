@@ -24,7 +24,8 @@ import filters from './dummy_data/filters.json';
 const filterProps = {
     title: 'Filter by',
     summit: summit.summit,
-    events: events,
+    events: events.filter(ev => ev.id !== 312),
+    allEvents: events,
     filters: filters,
     colorSource: 'track',
     marketingSettings: marketing.colors,

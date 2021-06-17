@@ -8,7 +8,9 @@ React component for the schedule filter widget
    
    **summit**               = the summit object
    
-   **events**               = the collection of events currently rendered
+   **events**               = the FILTERED collection of events currently rendered
+   
+   **allEvents**            = the COMPLETE collection of events, needed to pull all available options.
    
    **marketingSettings**    = object with the settings from the marketing API
     
