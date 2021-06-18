@@ -13,9 +13,11 @@ const FilterSpeaker = ({ options, values, onFilterChange }) => {
 
     useEffect(() => {
         if (selectedSpeakers === null) {
-            const filteredOptions = values || [];
-            if (filteredOptions.length > 0) setFilteredSpeakers(options.filter(speaker => !filteredOptions.some(s => s.id === speaker.id)));
-            setSelectedSpeakers([...filteredOptions]);
+            if (values.length > 0) {
+                const newOptions = options.filter(s => !values.includes(s.id));
+                setFilteredSpeakers(newOptions);
+            }
+            setSelectedSpeakers([...values]);
         } else {
             searchSpeakers();
         }
@@ -35,14 +37,14 @@ const FilterSpeaker = ({ options, values, onFilterChange }) => {
 
     const selectSpeaker = (speakerId) => {
         setSelectedSpeakers([...selectedSpeakers, speakerId]);
-        onFilterChange(speakerId, true);
+        onFilterChange({value: speakerId}, true);
         setSearching(false);
         setSearchTerm('');
     };
 
     const removeSpeaker = (speakerId) => {
-        setSelectedSpeakers(selectedSpeakers.filter(s => s.id !== speakerId));
-        onFilterChange(speakerId, false);
+        setSelectedSpeakers(selectedSpeakers.filter(s => s !== speakerId));
+        onFilterChange({value: speakerId}, false);
     };
 
     return (
