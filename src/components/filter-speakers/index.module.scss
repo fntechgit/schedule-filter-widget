@@ -1,6 +1,6 @@
 .speakers-wrapper {
   background-color: #f6f6f6;
-  padding: 16px;
+  padding: 14px;
   
   .speakersInput {
     display: flex;
@@ -75,17 +75,15 @@
     }
   }
   .selected-speakers {
-    padding: 10px 5px;
     display: inline-flex;
     flex-wrap: wrap;
-    margin: -6px 0 0 -6px;
     width: calc(100% + 6px);
     div {
       border-radius: 16px;
       height: 36px;
       border: 1px solid var(--color_text_light);
       padding: 6px 10px 6px 7px;
-      margin: 6px 0 0 6px;
+      margin: 10px 10px 0 0;
       display: inline-flex;
       align-items: center;
       cursor: pointer;
