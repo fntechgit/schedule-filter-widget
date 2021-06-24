@@ -19,8 +19,9 @@
     .titleWrapper {
       .title {
         color: var(--color_text_dark);
-        font-size: 24px;
+        font-size: medium;
         font-weight: bold;
+        margin-bottom: 14px;
       }
     }
   }
@@ -30,6 +31,10 @@
 
     hr {
       margin: 0px;
+      color: #f2f2f2;
+      &:last-of-type {
+        display: none;
+      }
     }
   }
 }

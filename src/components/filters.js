@@ -50,7 +50,6 @@ class Filters extends React.Component {
             return (
                 <React.Fragment key={type} >
                     <FilterGroup filter={filter} type={type} changeFilter={this.triggerFilterChange} />
-                    <hr />
                 </React.Fragment>
             )
         });

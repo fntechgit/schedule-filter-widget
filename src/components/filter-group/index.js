@@ -46,7 +46,7 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                             applyColors={colorSource === type}
                             onFilterChange={onFilterChange}
                         />
-                    );
+                );
             }
             case 'speakers': {
                 return <FilterSpeaker options={options} values={values} onFilterChange={onFilterChange} />
@@ -60,7 +60,7 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                             selected={values?.find(v => v === options.value)}
                             onFilterChange={onFilterChange}
                         />
-                    );
+                );
             }
             default:
                 return null;
@@ -70,17 +70,20 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
     if (!options || options.length < 2) return null;
 
     return (
-        <div className={styles.wrapper} data-testid="filter-group-wrapper">
-            <div className={styles.title} onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
-                <span>{label}</span>
-                <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
-            </div>
-            <animated.div style={{ overflow: 'hidden', ...toggleAnimation }} data-testid="filter-group-options">
-                <div ref={ref}>
-                    {renderGroup()}
+        <>
+            <div className={styles.wrapper} data-testid="filter-group-wrapper">
+                <div className={styles.title} onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
+                    <span>{label}</span>
+                    <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
                 </div>
-            </animated.div>
-        </div >
+                <animated.div style={{ overflow: 'hidden', ...toggleAnimation }} data-testid="filter-group-options">
+                    <div ref={ref}>
+                        {renderGroup()}
+                    </div>
+                </animated.div>
+            </div >
+            <hr />
+        </>
     )
 };
 
