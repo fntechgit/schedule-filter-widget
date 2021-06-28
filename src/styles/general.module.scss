@@ -31,7 +31,7 @@
 
     hr {
       margin: 0px;
-      color: #f2f2f2;
+      color: var(--color_gray_lighter);
       &:last-of-type {
         display: none;
       }

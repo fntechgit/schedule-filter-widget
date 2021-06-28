@@ -1,20 +1,14 @@
 :root {
-  --color_primary: #254586;
-  --color_primary50: #25458650;
-  --color_primary_contrast: #396bd0;
-  --color_primary_contrast50: #396bd0;
-  --color_secondary: #93959e;
-  --color_secondary_contrast: #babdc8;
-  --color_text_dark: #6d6e71;
-  --color_text_light: #ffffff;
+  --color_primary: #6D6E71;
+  --color_primary50: #6D6E7150;
+  --color_secondary: #1EAAA3;
+  --color_secondary50: #1EAAA350;
+  --color_accent: #FF5E32;
+  --color_accent50: #FF5E3250;
+  --color_text_dark: #4A4A4A;
+  --color_text_med: #828282;
+  --color_text_light: #FFFFFF;
+  --color_gray_dark: #999999;
+  --color_gray_light: #DFDFDF;
+  --color_gray_lighter: #F2F2F2;
 }
-
-// YOCO colors
-/*:root {
-  --color_primary: #6d6e71;
-  --color_primary_contrast: #f1f2f2;
-  --color_secondary: #006d68;
-  --color_secondary_contrast: #ff5e32;
-  --color_text_dark: #6d6e71;
-  --color_text_light: #ffffff;
-}*/
