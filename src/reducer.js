@@ -148,12 +148,12 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
 
         if (filters.track && newOptions.track && !newOptions.track.includes(ev.track.id)) {
             newOptions.track.push(ev.track.id);
-            filters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0});
+            filters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
         }
 
         if (filters.event_types && newOptions.event_types && !newOptions.event_types.includes(ev.type.id)) {
             newOptions.event_types.push(ev.type.id);
-            filters.event_types.options.push({name: ev.type.name, value: ev.type.id, count: 0});
+            filters.event_types.options.push({name: ev.type.name, value: ev.type.id, count: 0, color: ev.type.color});
         }
 
         if (filters.venues && newOptions.venues && ev.location && !newOptions.venues.includes(ev.location.id)) {
@@ -166,7 +166,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                 if (!newOptions.track_groups.includes(tg)) {
                     newOptions.track_groups.push(tg);
                     const trackg = summit.track_groups.find(t => t.id === tg);
-                    filters.track_groups.options.push({name: trackg.name, value: trackg.id, count: 0});
+                    filters.track_groups.options.push({name: trackg.name, value: trackg.id, count: 0, color: trackg.color});
                 }
             });
         }
@@ -219,12 +219,12 @@ const getAllOptions = (summit, events) => {
 
         if (!uniqueOptions.track.includes(ev.track.id)) {
             uniqueOptions.track.push(ev.track.id);
-            allOptions.track.push({name: ev.track.name, value: ev.track.id, count: 0});
+            allOptions.track.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
         }
 
         if (!uniqueOptions.event_types.includes(ev.type.id)) {
             uniqueOptions.event_types.push(ev.type.id);
-            allOptions.event_types.push({name: ev.type.name, value: ev.type.id, count: 0});
+            allOptions.event_types.push({name: ev.type.name, value: ev.type.id, count: 0, color: ev.type.color});
         }
 
         if (ev.location && !uniqueOptions.venues.includes(ev.location.id)) {
@@ -236,7 +236,7 @@ const getAllOptions = (summit, events) => {
             if (!uniqueOptions.track_groups.includes(tg)) {
                 uniqueOptions.track_groups.push(tg);
                 const trackg = summit.track_groups.find(t => t.id === tg);
-                allOptions.track_groups.push({name: trackg.name, value: trackg.id, count: 0});
+                allOptions.track_groups.push({name: trackg.name, value: trackg.id, count: 0, color: trackg.color});
             }
         });
 

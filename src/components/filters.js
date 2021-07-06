@@ -44,12 +44,12 @@ class Filters extends React.Component {
     };
 
     getFilterList = () => {
-        const { filtersWithOptions } = this.props;
+        const { filtersWithOptions, settings } = this.props;
 
         return Object.entries(filtersWithOptions).map(([type, filter]) => {
             return (
                 <React.Fragment key={type} >
-                    <FilterGroup filter={filter} type={type} changeFilter={this.triggerFilterChange} />
+                    <FilterGroup filter={filter} type={type} colorSource={settings.colorSource} changeFilter={this.triggerFilterChange} />
                     <hr />
                 </React.Fragment>
             )
