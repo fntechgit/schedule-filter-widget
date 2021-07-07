@@ -43,7 +43,7 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                             key={`op-${type}-${index}`}
                             option={op}
                             selected={values?.find(v => v === op.value)}
-                            applyColors={type.startsWith(colorSource)}
+                            applyColors={type === colorSource}
                             onFilterChange={onFilterChange}
                         />
                     );
