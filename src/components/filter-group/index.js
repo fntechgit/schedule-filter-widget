@@ -38,12 +38,12 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
             case 'track_groups':
             case 'event_types': {
                 return options.map(
-                    (option, index) =>
+                    (op, index) =>
                         <FilterCheckbox
                             key={`op-${type}-${index}`}
-                            option={option}
-                            selected={values?.find(v => v === option.value)}
-                            applyColors={colorSource === type}
+                            option={op}
+                            selected={values?.find(v => v === op.value)}
+                            applyColors={type === colorSource}
                             onFilterChange={onFilterChange}
                         />
                 );
@@ -53,11 +53,11 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
             }
             case 'tags': {
                 return options.map(
-                    (option, index) =>
+                    (op, index) =>
                         <FilterTag
                             key={`op-tags-${index}`}
-                            option={option}
-                            selected={values?.find(v => v === options.value)}
+                            option={op}
+                            selected={values?.find(v => v === op.value)}
                             onFilterChange={onFilterChange}
                         />
                 );

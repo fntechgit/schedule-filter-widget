@@ -9,6 +9,7 @@
     align-items: baseline;
     height: 34px;
     overflow: hidden;
+
     .title {
         font-size: 14px;
         text-transform: capitalize;
@@ -23,7 +24,7 @@
         border: 1px solid var(--color_text_dark);
     }
 
-    &--active {
-        border: 1px solid var(--color_text_dark);
+    &.active {
+        border: 1px solid #4A4A4A;
     }
 }
