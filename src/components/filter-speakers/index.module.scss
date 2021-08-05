@@ -50,17 +50,23 @@
       display: flex;
       align-items: center;
       height: 39px;
-
+      cursor: pointer;
       &:not(:last-of-type) {
         border-bottom: 1px solid var(--color_gray_lighter);
       }
+
       .picture {
         border-radius: 50%;
         height: 24px;
+        width: 24px;
       }
 
       .name {
         margin-left: 10px;
+      }
+
+      &:hover {
+        background-color: #f5f5f5;
       }
     }
     .noResult {
