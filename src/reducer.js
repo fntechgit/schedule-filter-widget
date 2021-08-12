@@ -171,7 +171,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             });
         }
 
-        if (filters.tags && newOptions.tags && ev.tags.length > 0){
+        if (filters.tags && newOptions.tags && ev.tags?.length > 0){
             ev.tags.forEach(t => {
                 if (!newOptions.tags.includes(t.id)) {
                     newOptions.tags.push(t.id);
@@ -182,7 +182,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             });
         }
 
-        if (filters.speakers && newOptions.speakers && ev.speakers.length > 0){
+        if (filters.speakers && newOptions.speakers && ev.speakers?.length > 0){
             ev.speakers.forEach(s => {
                 if (!newOptions.speakers.includes(s.id)) {
                     newOptions.speakers.push(s.id);
@@ -240,7 +240,7 @@ const getAllOptions = (summit, events) => {
             }
         });
 
-        if (ev.tags.length > 0){
+        if (ev.tags?.length > 0){
             ev.tags.forEach(t => {
                 if (!uniqueOptions.tags.includes(t.id)) {
                     uniqueOptions.tags.push(t.id);
@@ -251,7 +251,7 @@ const getAllOptions = (summit, events) => {
             });
         }
 
-        if (ev.speakers.length > 0){
+        if (ev.speakers?.length > 0){
             ev.speakers.forEach(s => {
                 if (!uniqueOptions.speakers.includes(s.id)) {
                     uniqueOptions.speakers.push(s.id);
