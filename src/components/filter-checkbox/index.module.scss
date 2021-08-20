@@ -3,11 +3,6 @@
   align-items: center;
   cursor: pointer;
   height: 32px;
-
-  &:not(:last-of-type) {
-    margin-bottom: 8px;
-  }
-
   &:hover {
     background-color: #f6f6f6;
   }

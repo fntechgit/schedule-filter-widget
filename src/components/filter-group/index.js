@@ -20,7 +20,7 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
         to: {
             opacity: 1,
             height: isOpen ? height : 0,
-            marginBottom: isOpen ? (type === 'tags' ? 14 : 20) : 0
+            marginBottom: isOpen ? (type === 'tags' ? 14 : 16) : 0
         }
     });
 
