@@ -33,8 +33,6 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
         switch (type) {
             case 'date':
             case 'level':
-            case 'track':
-            case 'venues':
             case 'track_groups':
             case 'event_types': {
                 return options.map(
@@ -46,7 +44,25 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                             applyColors={type === colorSource}
                             onFilterChange={onFilterChange}
                         />
-                    );
+                );
+            }
+            case 'track':
+            case 'venues': {
+                const sortedOptions = options.sort((a, b) => {
+                    const first = Array.isArray(a.name) ? a.name.join() : a.name;
+                    const second = Array.isArray(b.name) ? b.name.join() : b.name;
+                    return first.localeCompare(second);
+                });
+                return sortedOptions.map(
+                    (op, index) =>
+                        <FilterCheckbox
+                            key={`op-${type}-${index}`}
+                            option={op}
+                            selected={values?.find(v => v === op.value)}
+                            applyColors={type === colorSource}
+                            onFilterChange={onFilterChange}
+                        />
+                );
             }
             case 'speakers': {
                 return <FilterSpeaker options={options} values={values} onFilterChange={onFilterChange} />
@@ -60,7 +76,7 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                             selected={values?.find(v => v === op.value)}
                             onFilterChange={onFilterChange}
                         />
-                    );
+                );
             }
             default:
                 return null;
