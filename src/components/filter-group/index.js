@@ -29,31 +29,32 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
         changeFilter(type, newValues);
     };
 
+    const shouldSort = (type) => {
+        if(type === 'track' || type === 'venues') {
+            return true;          
+        } else {
+            return false;
+        }
+    }
+
+    const sortOptions = (options) => {
+        return options.sort((a, b) => {
+            const first = Array.isArray(a.name) ? a.name.join() : a.name;
+            const second = Array.isArray(b.name) ? b.name.join() : b.name;
+            return first.localeCompare(second);
+        });
+    }
+
     const renderGroup = () => {
         switch (type) {
             case 'date':
             case 'level':
+            case 'track':
+            case 'venues':
             case 'track_groups':
             case 'event_types': {
+                if (shouldSort(type)) options = sortOptions(options);
                 return options.map(
-                    (op, index) =>
-                        <FilterCheckbox
-                            key={`op-${type}-${index}`}
-                            option={op}
-                            selected={values?.find(v => v === op.value)}
-                            applyColors={type === colorSource}
-                            onFilterChange={onFilterChange}
-                        />
-                );
-            }
-            case 'track':
-            case 'venues': {
-                const sortedOptions = options.sort((a, b) => {
-                    const first = Array.isArray(a.name) ? a.name.join() : a.name;
-                    const second = Array.isArray(b.name) ? b.name.join() : b.name;
-                    return first.localeCompare(second);
-                });
-                return sortedOptions.map(
                     (op, index) =>
                         <FilterCheckbox
                             key={`op-${type}-${index}`}
