@@ -15,11 +15,11 @@ import React from 'react';
 import { connect } from "react-redux";
 import { AjaxLoader } from 'openstack-uicore-foundation/lib/components';
 import { loadSettings, updateFilters } from "../actions";
+import FilterGroup from './filter-group';
 
 import styles from "../styles/general.module.scss";
 import 'openstack-uicore-foundation/lib/css/components.css';
 
-import FilterGroup from './filter-group';
 
 class Filters extends React.Component {
 
@@ -48,11 +48,8 @@ class Filters extends React.Component {
 
         return Object.entries(filtersWithOptions).map(([type, filter]) => {
             return (
-                <React.Fragment key={type} >
-                    <FilterGroup filter={filter} type={type} colorSource={settings.colorSource} changeFilter={this.triggerFilterChange} />
-                    <hr />
-                </React.Fragment>
-            )
+                <FilterGroup key={type} filter={filter} type={type} colorSource={settings.colorSource} changeFilter={this.triggerFilterChange} />
+            );
         });
     };
 
