@@ -5,11 +5,12 @@ import { useMeasure } from "react-use";
 
 import FilterCheckbox from '../filter-checkbox';
 import FilterTag from '../filter-tags';
-import FilterSpeaker from '../filter-speakers';
+import FilterAutocomplete from '../filter-autocomplete';
+import FilterText from '../filter-text';
 
 import styles from "./index.module.scss";
 
-export default ({ filter: { label, options, values }, colorSource, type, changeFilter }) => {
+export default ({ filter: { label, options, values, freeText, enabled }, colorSource, type, changeFilter }) => {
 
     const [isOpen, setIsOpen] = useState(true);
     const [ref, { height }] = useMeasure();
@@ -30,12 +31,8 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
     };
 
     const shouldSort = (type) => {
-        if(type === 'track' || type === 'venues') {
-            return true;          
-        } else {
-            return false;
-        }
-    }
+        return !!(type === 'track' || type === 'venues');
+    };
 
     const sortOptions = (options) => {
         return options.sort((a, b) => {
@@ -66,7 +63,7 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                 );
             }
             case 'speakers': {
-                return <FilterSpeaker options={options} values={values} onFilterChange={onFilterChange} />
+                return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder="Search Speakers" />
             }
             case 'tags': {
                 return options.map(
@@ -79,12 +76,18 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                         />
                 );
             }
+            case 'company': {
+                return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder="Search for Company" />
+            }
+            case 'title': {
+                return <FilterText value={values} placeholder="Search Title" onFilterChange={value => changeFilter(type, value)} />
+            }
             default:
                 return null;
         }
     };
 
-    if (!options || options.length < 2) return null;
+    if (!enabled || ((!options || options.length < 2) && !freeText)) return null;
 
     return (
         <div className={styles.wrapper} data-testid="filter-group-wrapper">
@@ -97,7 +100,7 @@ export default ({ filter: { label, options, values }, colorSource, type, changeF
                     {renderGroup()}
                 </div>
             </animated.div>
-        </div >
-    )
+        </div>
+    );
 };
 

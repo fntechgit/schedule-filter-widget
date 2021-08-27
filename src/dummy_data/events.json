@@ -35,7 +35,33 @@
   "status": "Accepted",
   "progress": "COMPLETE",
   "selection_status": "unaccepted",
-  "sponsors": [],
+  "sponsors": [
+    {
+      "admin_email": null,
+      "big_logo": "https://object-storage.public.mtl1.vexxhost.net/swift/v1/6e4619c416ff4bd19e1c087f27a43eea/assets-fn-dev/companies/main-logo/dp2.png",
+      "city": null,
+      "color": "#f0f0ee",
+      "commitment": null,
+      "commitment_author": null,
+      "contact_email": null,
+      "contributions": null,
+      "country": null,
+      "created": 1579295374,
+      "description": null,
+      "display_on_site": false,
+      "featured": false,
+      "id": 4,
+      "industry": null,
+      "last_edited": 1593013691,
+      "logo": "https://object-storage.public.mtl1.vexxhost.net/swift/v1/6e4619c416ff4bd19e1c087f27a43eea/assets-fn-dev/Uploads/dp2.png",
+      "member_level": "None",
+      "name": "Dom Perignon",
+      "overview": null,
+      "products": null,
+      "state": null,
+      "url": "https://www.domperignon.com/ww-en/"
+    }
+  ],
   "tags": [
     {
     "tag": "tag name",
@@ -138,7 +164,33 @@
   "status": "Accepted",
   "progress": "COMPLETE",
   "selection_status": "unaccepted",
-  "sponsors": [],
+  "sponsors": [
+    {
+      "admin_email": null,
+      "big_logo": "https://object-storage.public.mtl1.vexxhost.net/swift/v1/6e4619c416ff4bd19e1c087f27a43eea/assets-fn-dev/companies/main-logo/dp2.png",
+      "city": null,
+      "color": "#f0f0ee",
+      "commitment": null,
+      "commitment_author": null,
+      "contact_email": null,
+      "contributions": null,
+      "country": null,
+      "created": 1579295374,
+      "description": null,
+      "display_on_site": false,
+      "featured": false,
+      "id": 44,
+      "industry": null,
+      "last_edited": 1593013691,
+      "logo": "https://object-storage.public.mtl1.vexxhost.net/swift/v1/6e4619c416ff4bd19e1c087f27a43eea/assets-fn-dev/Uploads/dp2.png",
+      "member_level": "None",
+      "name": "Mc Donalds",
+      "overview": null,
+      "products": null,
+      "state": null,
+      "url": "https://www.domperignon.com/ww-en/"
+    }
+  ],
   "tags": [{
     "tag": "tag name",
     "id": 2
