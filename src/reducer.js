@@ -44,7 +44,9 @@ const ALL_FILTERS = {
     event_types: [],
     tags: [],
     venues: [],
-    speakers: []
+    speakers: [],
+    company: [],
+    text: ''
 };
 
 const WidgetReducer = (state = DEFAULT_STATE, action) => {
@@ -74,6 +76,9 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             const allOptions = getAllOptions(summit, allEvents);
             const filtersWithOptions = updateFilterOptions(summit, events, filters, allOptions);
 
+            // mark title filter as freeText so that we show it regardless it has no options
+            filtersWithOptions.title = {...filters.title, freeText: true};
+
             return {
                 ...state,
                 widgetLoading: false,
@@ -96,6 +101,9 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             const {events, filters} = payload;
 
             const filtersWithOptions = updateFilterOptions(state.summit, events, filters, state.allOptions);
+
+            // mark title filter as freeText so that we show it regardless it has no options
+            filtersWithOptions.title = {...filters.title, freeText: true};
 
             return {
                 ...state,
@@ -161,7 +169,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             filters.venues.options.push({name: ev.location.name, value: ev.location.id, count: 0});
         }
 
-        if (filters.track_groups && newOptions.track_groups){
+        if (filters.track_groups && newOptions.track_groups) {
             ev.track.track_groups.forEach(tg => {
                 if (!newOptions.track_groups.includes(tg)) {
                     newOptions.track_groups.push(tg);
@@ -171,7 +179,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             });
         }
 
-        if (filters.tags && newOptions.tags && ev.tags?.length > 0){
+        if (filters.tags && newOptions.tags && ev.tags?.length > 0) {
             ev.tags.forEach(t => {
                 if (!newOptions.tags.includes(t.id)) {
                     newOptions.tags.push(t.id);
@@ -182,13 +190,67 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             });
         }
 
-        if (filters.speakers && newOptions.speakers && ev.speakers?.length > 0){
-            ev.speakers.forEach(s => {
-                if (!newOptions.speakers.includes(s.id)) {
-                    newOptions.speakers.push(s.id);
-                    filters.speakers.options.push({name: `${s.first_name} ${s.last_name}`, value: s.id, id: s.id, pic: s.pic, count: 0});
-                }
-            })
+        if (filters.speakers && newOptions.speakers) {
+            if (ev.speakers?.length > 0) {
+                ev.speakers.forEach(s => {
+                    if (!newOptions.speakers.includes(s.id)) {
+                        newOptions.speakers.push(s.id);
+                        filters.speakers.options.push({
+                            name: `${s.first_name} ${s.last_name}`,
+                            value: s.id,
+                            id: s.id,
+                            pic: s.pic,
+                            count: 0
+                        });
+                    }
+                })
+            }
+
+            if (ev.moderator && !newOptions.speakers.includes(ev.moderator.id)) {
+                newOptions.speakers.push(ev.moderator.id);
+                filters.speakers.options.push({
+                    name: `${ev.moderator.first_name} ${ev.moderator.last_name}`,
+                    value: ev.moderator.id,
+                    id: ev.moderator.id,
+                    pic: ev.moderator.pic,
+                    count: 0
+                });
+            }
+        }
+
+        if (filters.company && newOptions.company) {
+            if (ev.sponsors?.length > 0) {
+                ev.sponsors.forEach(s => {
+                    if (!newOptions.company.includes(s.name)) {
+                        newOptions.company.push(s.name);
+                        filters.company.options.push({name: s.name, value: s.name.id, id: s.name, count: 0});
+                    }
+                })
+            }
+
+            if (ev.speakers?.length > 0) {
+                ev.speakers.forEach(s => {
+                    if (s.company && !newOptions.company.includes(s.company)) {
+                        newOptions.company.push(s.company);
+                        filters.company.options.push({
+                            name: s.company,
+                            value: s.company,
+                            id: s.company,
+                            count: 0
+                        });
+                    }
+                })
+            }
+
+            if (ev.moderator?.company && !newOptions.company.includes(ev.moderator.company)) {
+                newOptions.company.push(ev.moderator.company);
+                filters.company.options.push({
+                    name: ev.moderator.company,
+                    value: ev.moderator.company,
+                    id: ev.moderator.company,
+                    count: 0
+                });
+            }
         }
 
     });
@@ -240,7 +302,7 @@ const getAllOptions = (summit, events) => {
             }
         });
 
-        if (ev.tags?.length > 0){
+        if (ev.tags?.length > 0) {
             ev.tags.forEach(t => {
                 if (!uniqueOptions.tags.includes(t.id)) {
                     uniqueOptions.tags.push(t.id);
@@ -251,11 +313,37 @@ const getAllOptions = (summit, events) => {
             });
         }
 
-        if (ev.speakers?.length > 0){
+        if (ev.speakers?.length > 0) {
             ev.speakers.forEach(s => {
                 if (!uniqueOptions.speakers.includes(s.id)) {
                     uniqueOptions.speakers.push(s.id);
                     allOptions.speakers.push({name: `${s.first_name} ${s.last_name}`, value: s.id, id: s.id, pic: s.pic, count: 0});
+                }
+
+                if (s.company && !uniqueOptions.company.includes(s.company)) {
+                    uniqueOptions.company.push(s.company);
+                    allOptions.company.push({name: s.company, value: s.company, id: s.company, count: 0});
+                }
+            })
+        }
+
+        if (ev.moderator) {
+            if (!uniqueOptions.speakers.includes(ev.moderator.id)) {
+                uniqueOptions.speakers.push(ev.moderator.id);
+                allOptions.speakers.push({name: `${ev.moderator.first_name} ${ev.moderator.last_name}`, value: ev.moderator.id, id: ev.moderator.id, pic: ev.moderator.pic, count: 0});
+            }
+
+            if (ev.moderator.company && !uniqueOptions.company.includes(ev.moderator.company)) {
+                uniqueOptions.company.push(ev.moderator.company);
+                allOptions.company.push({name: ev.moderator.company, value: ev.moderator.company, id: ev.moderator.company, count: 0});
+            }
+        }
+
+        if (ev.sponsors?.length > 0) {
+            ev.sponsors.forEach(s => {
+                if (!uniqueOptions.company.includes(s.id)) {
+                    uniqueOptions.company.push(s.name);
+                    allOptions.company.push({name: s.name, value: s.name.id, id: s.name, count: 0});
                 }
             })
         }

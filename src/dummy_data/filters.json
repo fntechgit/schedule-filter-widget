@@ -38,5 +38,15 @@
     "label": "Speaker",
     "values": [],
     "enabled": true
+  },
+  "company": {
+    "label": "Company",
+    "values": [],
+    "enabled": false
+  },
+  "title": {
+    "label": "Title",
+    "values": [],
+    "enabled": true
   }
 }
