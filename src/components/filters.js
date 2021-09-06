@@ -54,7 +54,7 @@ class Filters extends React.Component {
     };
 
     render() {
-        const { title, widgetLoading, filtersWithOptions } = this.props;
+        const { settings, widgetLoading, filtersWithOptions } = this.props;
 
         return (
             <div className={`${styles.outerWrapper} schedule-filter-widget`} data-testid="schedule-filter-wrapper">
@@ -62,10 +62,8 @@ class Filters extends React.Component {
                 {filtersWithOptions &&
                 <>
                     <div className={styles.header}>
-                        <div className={styles.titleWrapper}>
-                            <div className={`${styles.title} widget-title`} data-testid="schedule-filter-title">
-                                {title}
-                            </div>
+                        <div className={`${styles.title} widget-title`} data-testid="schedule-filter-title">
+                            {settings.title}
                         </div>
                     </div>
                     <div className={`${styles.innerWrapper}`} data-testid="schedule-filter-list">
@@ -78,11 +76,10 @@ class Filters extends React.Component {
     }
 }
 
-function mapStateToProps(scheduleReducer) {
+function mapStateToProps(widgetReducer) {
     return {
-        title: scheduleReducer.title,
-        settings: scheduleReducer.settings,
-        filtersWithOptions: scheduleReducer.filtersWithOptions
+        settings: widgetReducer.settings,
+        filtersWithOptions: widgetReducer.filtersWithOptions
     }
 }
 

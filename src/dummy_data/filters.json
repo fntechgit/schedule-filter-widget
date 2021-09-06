@@ -42,7 +42,7 @@
   "company": {
     "label": "Company",
     "values": [],
-    "enabled": false
+    "enabled": true
   },
   "title": {
     "label": "Title",

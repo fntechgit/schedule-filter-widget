@@ -223,7 +223,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                 ev.sponsors.forEach(s => {
                     if (!newOptions.company.includes(s.name)) {
                         newOptions.company.push(s.name);
-                        filters.company.options.push({name: s.name, value: s.name.id, id: s.name, count: 0});
+                        filters.company.options.push({name: s.name, value: s.name, id: s.name, count: 0});
                     }
                 })
             }
@@ -341,7 +341,7 @@ const getAllOptions = (summit, events) => {
 
         if (ev.sponsors?.length > 0) {
             ev.sponsors.forEach(s => {
-                if (!uniqueOptions.company.includes(s.id)) {
+                if (!uniqueOptions.company.includes(s.name)) {
                     uniqueOptions.company.push(s.name);
                     allOptions.company.push({name: s.name, value: s.name.id, id: s.name, count: 0});
                 }
