@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import styles from "./index.module.scss";
 
@@ -30,7 +30,7 @@ const FilterText = ({ value, placeholder, onFilterChange }) => {
                     onKeyPress={onKeyPress}
                 />
                 <i className={`fa fa-search ${styles.focus}`} onClick={() => onSearch(inputRef.current.value)} />
-                {value && <i className={`fa fa-times ${styles.focus}`} onClick={() => onSearch('')} />}
+                {!!value && <i className={`fa fa-times ${styles.focus}`} onClick={() => onSearch('')} />}
             </div>
         </div>
     );
