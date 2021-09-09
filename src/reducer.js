@@ -46,7 +46,7 @@ const ALL_FILTERS = {
     venues: [],
     speakers: [],
     company: [],
-    text: ''
+    title: ''
 };
 
 const WidgetReducer = (state = DEFAULT_STATE, action) => {
@@ -221,33 +221,36 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
         if (filters.company && newOptions.company) {
             if (ev.sponsors?.length > 0) {
                 ev.sponsors.forEach(s => {
-                    if (!newOptions.company.includes(s.name)) {
-                        newOptions.company.push(s.name);
-                        filters.company.options.push({name: s.name, value: s.name, id: s.name, count: 0});
+                    const lowerCaseName = s.name?.toLowerCase();
+                    if (!newOptions.company.includes(lowerCaseName)) {
+                        newOptions.company.push(lowerCaseName);
+                        filters.company.options.push({name: s.name, value: s.name, id: lowerCaseName, count: 0});
                     }
                 })
             }
 
             if (ev.speakers?.length > 0) {
                 ev.speakers.forEach(s => {
-                    if (s.company && !newOptions.company.includes(s.company)) {
-                        newOptions.company.push(s.company);
+                    const lowerCaseCompany = s.company?.toLowerCase();
+                    if (s.company && !newOptions.company.includes(lowerCaseCompany)) {
+                        newOptions.company.push(lowerCaseCompany);
                         filters.company.options.push({
                             name: s.company,
                             value: s.company,
-                            id: s.company,
+                            id: lowerCaseCompany,
                             count: 0
                         });
                     }
                 })
             }
 
-            if (ev.moderator?.company && !newOptions.company.includes(ev.moderator.company)) {
-                newOptions.company.push(ev.moderator.company);
+            const lowerCaseModCompany = ev.moderator?.company?.toLowerCase();
+            if (ev.moderator?.company && !newOptions.company.includes(lowerCaseModCompany)) {
+                newOptions.company.push(lowerCaseModCompany);
                 filters.company.options.push({
                     name: ev.moderator.company,
                     value: ev.moderator.company,
-                    id: ev.moderator.company,
+                    id: lowerCaseModCompany,
                     count: 0
                 });
             }
@@ -320,9 +323,10 @@ const getAllOptions = (summit, events) => {
                     allOptions.speakers.push({name: `${s.first_name} ${s.last_name}`, value: s.id, id: s.id, pic: s.pic, count: 0});
                 }
 
-                if (s.company && !uniqueOptions.company.includes(s.company)) {
-                    uniqueOptions.company.push(s.company);
-                    allOptions.company.push({name: s.company, value: s.company, id: s.company, count: 0});
+                const lowerCaseCompany = s.company?.toLowerCase();
+                if (s.company && !uniqueOptions.company.includes(lowerCaseCompany)) {
+                    uniqueOptions.company.push(lowerCaseCompany);
+                    allOptions.company.push({name: s.company, value: s.company, id: lowerCaseCompany, count: 0});
                 }
             })
         }
@@ -333,17 +337,19 @@ const getAllOptions = (summit, events) => {
                 allOptions.speakers.push({name: `${ev.moderator.first_name} ${ev.moderator.last_name}`, value: ev.moderator.id, id: ev.moderator.id, pic: ev.moderator.pic, count: 0});
             }
 
-            if (ev.moderator.company && !uniqueOptions.company.includes(ev.moderator.company)) {
-                uniqueOptions.company.push(ev.moderator.company);
-                allOptions.company.push({name: ev.moderator.company, value: ev.moderator.company, id: ev.moderator.company, count: 0});
+            const lowerCaseModCompany = ev.moderator.company?.toLowerCase();
+            if (ev.moderator.company && !uniqueOptions.company.includes(lowerCaseModCompany)) {
+                uniqueOptions.company.push(lowerCaseModCompany);
+                allOptions.company.push({name: ev.moderator.company, value: ev.moderator.company, id: lowerCaseModCompany, count: 0});
             }
         }
 
         if (ev.sponsors?.length > 0) {
             ev.sponsors.forEach(s => {
-                if (!uniqueOptions.company.includes(s.name)) {
-                    uniqueOptions.company.push(s.name);
-                    allOptions.company.push({name: s.name, value: s.name.id, id: s.name, count: 0});
+                const lowerCaseName = s.name?.toLowerCase();
+                if (!uniqueOptions.company.includes(lowerCaseName)) {
+                    uniqueOptions.company.push(lowerCaseName);
+                    allOptions.company.push({name: s.name, value: s.name, id: lowerCaseName, count: 0});
                 }
             })
         }

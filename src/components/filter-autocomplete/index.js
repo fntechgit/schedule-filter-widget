@@ -21,8 +21,7 @@ const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterCha
         } else {
             search();
         }
-    }, [debounceSearchTerm]);
-
+    }, [debounceSearchTerm, values]);
 
 
     const search = () => {

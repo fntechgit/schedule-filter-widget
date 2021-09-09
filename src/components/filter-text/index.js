@@ -1,33 +1,36 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 import styles from "./index.module.scss";
 
 const FilterText = ({ value, placeholder, onFilterChange }) => {
-    const [searchTerm, setSearchTerm] = useState(value);
+    const inputRef = useRef();
 
     const onSearch = term => {
-      setSearchTerm(term);
       onFilterChange(term);
     };
 
     const onKeyPress = (ev) => {
         if (ev.charCode === 13) {
-            onSearch(searchTerm);
+            onSearch(inputRef.current.value);
         }
     };
+
+    useEffect(() => {
+        inputRef.current.value = value;
+        onSearch(value);
+    }, [value]);
 
     return (
         <div className={styles.wrapper}>
             <div className={styles.searchInput}>
                 <input
-                    value={searchTerm}
-                    onChange={(ev) => setSearchTerm(ev.target.value)}
+                    ref={inputRef}
                     placeholder={placeholder}
                     data-testid="autocomplete-input"
                     onKeyPress={onKeyPress}
                 />
-                <i className={`fa fa-search ${styles.focus}`} onClick={() => onSearch(searchTerm)} />
-                {searchTerm && <i className={`fa fa-times ${styles.focus}`} onClick={() => onSearch('')} />}
+                <i className={`fa fa-search ${styles.focus}`} onClick={() => onSearch(inputRef.current.value)} />
+                {value && <i className={`fa fa-times ${styles.focus}`} onClick={() => onSearch('')} />}
             </div>
         </div>
     );
