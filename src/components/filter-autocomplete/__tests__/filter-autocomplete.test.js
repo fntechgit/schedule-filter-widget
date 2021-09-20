@@ -97,5 +97,4 @@ it("FilterSpeaker shows a message when no speaker it's found", async () => {
     await waitFor(() => expect(dropdown.childNodes.length).toEqual(1));
     const noResultText = getByText('There is no results for the search');
     await waitFor(() => expect(noResultText).toBeTruthy());
-    // console.log('asda', dropdown.firstChild)
 });

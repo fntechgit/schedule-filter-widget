@@ -86,10 +86,8 @@ describe('filter actions', () => {
 
         const getHTMLStyles = () => {
             const HTML = document.getElementsByTagName("html");
-            console.log(HTML[0].getAttribute("style"));
             for (let i = 0; i < HTML.length; i += 1) {
                 if (HTML[i].getAttribute("style")) {
-                    console.log('yay');
                     return HTML[i].getAttribute("style");
                 }
             }

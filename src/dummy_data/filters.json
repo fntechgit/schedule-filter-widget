@@ -46,7 +46,7 @@
   },
   "title": {
     "label": "Title",
-    "values": [],
+    "values": "",
     "enabled": true
   }
 }

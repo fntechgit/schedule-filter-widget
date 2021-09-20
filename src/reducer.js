@@ -151,7 +151,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
 
         if (filters.level && newOptions.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
             newOptions.level.push(ev.level);
-            filters.level.options.push({name: ev.level, value: ev.level, count: 0});
+            filters.level.options.push({name: ev.level, value: ev.level.toLowerCase(), count: 0});
         }
 
         if (filters.track && newOptions.track && !newOptions.track.includes(ev.track.id)) {
@@ -278,8 +278,9 @@ const getAllOptions = (summit, events) => {
         }
 
         if (ev.level !== 'N/A' && !uniqueOptions.level.includes(ev.level)) {
+            // we need lowercase because of url hash filters
             uniqueOptions.level.push(ev.level);
-            allOptions.level.push({name: ev.level, value: ev.level, count: 0});
+            allOptions.level.push({name: ev.level, value: ev.level.toLowerCase(), count: 0});
         }
 
         if (!uniqueOptions.track.includes(ev.track.id)) {

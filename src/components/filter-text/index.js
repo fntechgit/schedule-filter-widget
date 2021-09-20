@@ -2,11 +2,11 @@ import React, {useEffect, useRef} from 'react';
 
 import styles from "./index.module.scss";
 
-const FilterText = ({ value, placeholder, onFilterChange }) => {
+const FilterText = ({ value = "", placeholder, onFilterChange }) => {
     const inputRef = useRef();
 
     const onSearch = term => {
-      onFilterChange(term);
+        onFilterChange(term);
     };
 
     const onKeyPress = (ev) => {
@@ -15,10 +15,12 @@ const FilterText = ({ value, placeholder, onFilterChange }) => {
         }
     };
 
+
     useEffect(() => {
         inputRef.current.value = value;
         onSearch(value);
     }, [value]);
+
 
     return (
         <div className={styles.wrapper}>

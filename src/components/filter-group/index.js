@@ -30,6 +30,10 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
         changeFilter(type, newValues);
     };
 
+    const onTextFilterChange = (value) => {
+        if (value !== values) changeFilter(type, value);
+    }
+
     const shouldSort = (type) => {
         return !!(type === 'track' || type === 'venues');
     };
@@ -80,7 +84,7 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
                 return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder="Search for Company" />
             }
             case 'title': {
-                return <FilterText value={values} placeholder="Search Title" onFilterChange={value => changeFilter(type, value)} />
+                return <FilterText value={values} placeholder="Search Title" onFilterChange={onTextFilterChange} />
             }
             default:
                 return null;
