@@ -5,29 +5,23 @@ import styles from "./index.module.scss";
 
 
 const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterChange }) => {
-    const [selected, setSelected] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [debounceSearchTerm] = useDebounce(searchTerm, 500);
     const [searching, setSearching] = useState(false);
     const [filtered, setFiltered] = useState(options.sort((a, b) => a.name.localeCompare(b.name)));
+    const selectedValues = options.filter(op => values.includes(op.id));
 
     useEffect(() => {
-        if (selected === null) {
-            if (values.length > 0) {
-                const newOptions = options.filter(s => !values.includes(s.id));
-                setFiltered(newOptions);
-            }
-            setSelected([...values]);
-        } else {
+        if (debounceSearchTerm) {
             search();
         }
-    }, [debounceSearchTerm, values]);
+    }, [debounceSearchTerm]);
 
 
     const search = () => {
-        const filtered = options.filter(s => {
-            const isMatch = !debounceSearchTerm || s.name.toLowerCase().includes(debounceSearchTerm.toLowerCase());
-            const alreadySelected = values.includes(s.id);
+        const filtered = options.filter(op => {
+            const isMatch = !debounceSearchTerm || op.id.includes(debounceSearchTerm.toLowerCase());
+            const alreadySelected = values.includes(op.id);
             return isMatch && !alreadySelected;
         });
 
@@ -35,14 +29,14 @@ const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterCha
     };
 
     const select = (itemId) => {
-        setSelected([...selected, itemId]);
+        // setSelected([...selected, itemId]);
         onFilterChange({value: itemId}, true);
         setSearching(false);
         setSearchTerm('');
     };
 
     const remove = (itemId) => {
-        setSelected(selected.filter(s => s !== itemId));
+        // setSelected(selected.filter(s => s !== itemId));
         onFilterChange({value: itemId}, false);
     };
 
@@ -77,9 +71,9 @@ const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterCha
                     }
                 </div>
             }
-            {selected?.length > 0 &&
+            {selectedValues.length > 0 &&
                 <div className={styles.selected} data-testid="autocomplete-selected">
-                    {options.filter(op => selected.includes(op.id)).map(item => {
+                    {selectedValues.map(item => {
                         return (
                             <div key={item.id} onClick={() => remove(item.id)} data-testid="autocomplete-selected-button">
                                 {item.pic && <img className={styles.picture} src={item.pic} />}
