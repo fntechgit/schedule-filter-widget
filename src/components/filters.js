@@ -59,7 +59,7 @@ class Filters extends React.Component {
         return (
             <div className={`${styles.outerWrapper} schedule-filter-widget`} data-testid="schedule-filter-wrapper">
                 <AjaxLoader show={widgetLoading} size={60} relative />
-                {filtersWithOptions &&
+                {filtersWithOptions && Object.keys(filtersWithOptions).length > 0 &&
                 <>
                     <div className={styles.header}>
                         <div className={`${styles.title} widget-title`} data-testid="schedule-filter-title">

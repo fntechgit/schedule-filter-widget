@@ -77,7 +77,9 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             const filtersWithOptions = updateFilterOptions(summit, events, filters, allOptions);
 
             // mark title filter as freeText so that we show it regardless it has no options
-            filtersWithOptions.title = {...filters.title, freeText: true};
+            if (filters.title) {
+                filtersWithOptions.title = {...filters.title, freeText: true};
+            }
 
             return {
                 ...state,
@@ -149,17 +151,17 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             }
         }
 
-        if (filters.level && newOptions.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
+        if (filters.level && newOptions.level && ev.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
             newOptions.level.push(ev.level);
             filters.level.options.push({name: ev.level, value: ev.level.toLowerCase(), count: 0});
         }
 
-        if (filters.track && newOptions.track && !newOptions.track.includes(ev.track.id)) {
+        if (filters.track && newOptions.track && ev.track && !newOptions.track.includes(ev.track.id)) {
             newOptions.track.push(ev.track.id);
             filters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
         }
 
-        if (filters.event_types && newOptions.event_types && !newOptions.event_types.includes(ev.type.id)) {
+        if (filters.event_types && newOptions.event_types && ev.type && !newOptions.event_types.includes(ev.type.id)) {
             newOptions.event_types.push(ev.type.id);
             filters.event_types.options.push({name: ev.type.name, value: ev.type.id, count: 0, color: ev.type.color});
         }
@@ -169,7 +171,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             filters.venues.options.push({name: ev.location.name, value: ev.location.id, count: 0});
         }
 
-        if (filters.track_groups && newOptions.track_groups) {
+        if (filters.track_groups && newOptions.track_groups && ev.track) {
             ev.track.track_groups.forEach(tg => {
                 if (!newOptions.track_groups.includes(tg)) {
                     newOptions.track_groups.push(tg);
@@ -277,18 +279,18 @@ const getAllOptions = (summit, events) => {
             allOptions.date.push({name: [day, month], value: date, count: 0});
         }
 
-        if (ev.level !== 'N/A' && !uniqueOptions.level.includes(ev.level)) {
+        if (ev.level && ev.level !== 'N/A' && !uniqueOptions.level.includes(ev.level)) {
             // we need lowercase because of url hash filters
             uniqueOptions.level.push(ev.level);
             allOptions.level.push({name: ev.level, value: ev.level.toLowerCase(), count: 0});
         }
 
-        if (!uniqueOptions.track.includes(ev.track.id)) {
+        if (ev.track && !uniqueOptions.track.includes(ev.track.id)) {
             uniqueOptions.track.push(ev.track.id);
             allOptions.track.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
         }
 
-        if (!uniqueOptions.event_types.includes(ev.type.id)) {
+        if (ev.type && !uniqueOptions.event_types.includes(ev.type.id)) {
             uniqueOptions.event_types.push(ev.type.id);
             allOptions.event_types.push({name: ev.type.name, value: ev.type.id, count: 0, color: ev.type.color});
         }
@@ -298,13 +300,15 @@ const getAllOptions = (summit, events) => {
             allOptions.venues.push({name: ev.location.name, value: ev.location.id, count: 0});
         }
 
-        ev.track.track_groups.forEach(tg => {
-            if (!uniqueOptions.track_groups.includes(tg)) {
-                uniqueOptions.track_groups.push(tg);
-                const trackg = summit.track_groups.find(t => t.id === tg);
-                allOptions.track_groups.push({name: trackg.name, value: trackg.id, count: 0, color: trackg.color});
-            }
-        });
+        if (ev.track) {
+            ev.track.track_groups.forEach(tg => {
+                if (!uniqueOptions.track_groups.includes(tg)) {
+                    uniqueOptions.track_groups.push(tg);
+                    const trackg = summit.track_groups.find(t => t.id === tg);
+                    allOptions.track_groups.push({name: trackg.name, value: trackg.id, count: 0, color: trackg.color});
+                }
+            });
+        }
 
         if (ev.tags?.length > 0) {
             ev.tags.forEach(t => {
