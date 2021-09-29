@@ -20,7 +20,7 @@ const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterCha
 
     const search = () => {
         const filtered = options.filter(op => {
-            const isMatch = !debounceSearchTerm || op.id.includes(debounceSearchTerm.toLowerCase());
+            const isMatch = !debounceSearchTerm || op.value.includes(debounceSearchTerm.toLowerCase());
             const alreadySelected = values.includes(op.id);
             return isMatch && !alreadySelected;
         });

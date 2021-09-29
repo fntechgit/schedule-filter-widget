@@ -197,9 +197,10 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                 ev.speakers.forEach(s => {
                     if (!newOptions.speakers.includes(s.id)) {
                         newOptions.speakers.push(s.id);
+                        const name = `${s.first_name} ${s.last_name}`;
                         filters.speakers.options.push({
-                            name: `${s.first_name} ${s.last_name}`,
-                            value: s.id,
+                            name: name,
+                            value: name.toLowerCase(),
                             id: s.id,
                             pic: s.pic,
                             count: 0
@@ -210,9 +211,10 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
 
             if (ev.moderator && !newOptions.speakers.includes(ev.moderator.id)) {
                 newOptions.speakers.push(ev.moderator.id);
+                const name = `${ev.moderator.first_name} ${ev.moderator.last_name}`;
                 filters.speakers.options.push({
-                    name: `${ev.moderator.first_name} ${ev.moderator.last_name}`,
-                    value: ev.moderator.id,
+                    name: name,
+                    value: name.toLowerCase(),
                     id: ev.moderator.id,
                     pic: ev.moderator.pic,
                     count: 0
@@ -226,7 +228,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                     const lowerCaseName = s.name?.toLowerCase();
                     if (!newOptions.company.includes(lowerCaseName)) {
                         newOptions.company.push(lowerCaseName);
-                        filters.company.options.push({name: s.name, value: s.name, id: lowerCaseName, count: 0});
+                        filters.company.options.push({name: s.name, value: lowerCaseName, id: lowerCaseName, count: 0});
                     }
                 })
             }
@@ -238,7 +240,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                         newOptions.company.push(lowerCaseCompany);
                         filters.company.options.push({
                             name: s.company,
-                            value: s.company,
+                            value: lowerCaseCompany,
                             id: lowerCaseCompany,
                             count: 0
                         });
@@ -251,7 +253,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                 newOptions.company.push(lowerCaseModCompany);
                 filters.company.options.push({
                     name: ev.moderator.company,
-                    value: ev.moderator.company,
+                    value: lowerCaseModCompany,
                     id: lowerCaseModCompany,
                     count: 0
                 });
@@ -325,13 +327,14 @@ const getAllOptions = (summit, events) => {
             ev.speakers.forEach(s => {
                 if (!uniqueOptions.speakers.includes(s.id)) {
                     uniqueOptions.speakers.push(s.id);
-                    allOptions.speakers.push({name: `${s.first_name} ${s.last_name}`, value: s.id, id: s.id, pic: s.pic, count: 0});
+                    const name = `${s.first_name} ${s.last_name}`;
+                    allOptions.speakers.push({name: name, value: name.toLowerCase(), id: s.id, pic: s.pic, count: 0});
                 }
 
                 const lowerCaseCompany = s.company?.toLowerCase();
                 if (s.company && !uniqueOptions.company.includes(lowerCaseCompany)) {
                     uniqueOptions.company.push(lowerCaseCompany);
-                    allOptions.company.push({name: s.company, value: s.company, id: lowerCaseCompany, count: 0});
+                    allOptions.company.push({name: s.company, value: lowerCaseCompany, id: lowerCaseCompany, count: 0});
                 }
             })
         }
@@ -339,13 +342,14 @@ const getAllOptions = (summit, events) => {
         if (ev.moderator) {
             if (!uniqueOptions.speakers.includes(ev.moderator.id)) {
                 uniqueOptions.speakers.push(ev.moderator.id);
-                allOptions.speakers.push({name: `${ev.moderator.first_name} ${ev.moderator.last_name}`, value: ev.moderator.id, id: ev.moderator.id, pic: ev.moderator.pic, count: 0});
+                const name = `${ev.moderator.first_name} ${ev.moderator.last_name}`;
+                allOptions.speakers.push({name: name, value: name.toLowerCase(), id: ev.moderator.id, pic: ev.moderator.pic, count: 0});
             }
 
             const lowerCaseModCompany = ev.moderator.company?.toLowerCase();
             if (ev.moderator.company && !uniqueOptions.company.includes(lowerCaseModCompany)) {
                 uniqueOptions.company.push(lowerCaseModCompany);
-                allOptions.company.push({name: ev.moderator.company, value: ev.moderator.company, id: lowerCaseModCompany, count: 0});
+                allOptions.company.push({name: ev.moderator.company, value: lowerCaseModCompany, id: lowerCaseModCompany, count: 0});
             }
         }
 
@@ -354,7 +358,7 @@ const getAllOptions = (summit, events) => {
                 const lowerCaseName = s.name?.toLowerCase();
                 if (!uniqueOptions.company.includes(lowerCaseName)) {
                     uniqueOptions.company.push(lowerCaseName);
-                    allOptions.company.push({name: s.name, value: s.name, id: lowerCaseName, count: 0});
+                    allOptions.company.push({name: s.name, value: lowerCaseName, id: lowerCaseName, count: 0});
                 }
             })
         }
