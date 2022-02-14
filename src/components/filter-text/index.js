@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 
 import styles from "./index.module.scss";
 
-const FilterText = ({ value = "", placeholder, onFilterChange }) => {
+const FilterText = ({ value = "", placeholder, onFilterChange, isNumeric = false }) => {
     const inputRef = useRef();
 
     const onSearch = term => {
@@ -27,6 +27,7 @@ const FilterText = ({ value = "", placeholder, onFilterChange }) => {
             <div className={styles.searchInput}>
                 <input
                     ref={inputRef}
+                    type={isNumeric? 'number':'text' }
                     placeholder={placeholder}
                     data-testid="autocomplete-input"
                     onKeyPress={onKeyPress}
