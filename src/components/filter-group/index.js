@@ -9,6 +9,7 @@ import FilterAutocomplete from '../filter-autocomplete';
 import FilterText from '../filter-text';
 
 import styles from "./index.module.scss";
+import { FilterTypes } from '../../constants';
 
 export default ({ filter: { label, options, values, freeText, enabled }, colorSource, type, changeFilter }) => {
 
@@ -21,7 +22,7 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
         to: {
             opacity: 1,
             height: isOpen ? height : 0,
-            marginBottom: isOpen ? (type === 'tags' ? 14 : 20) : 0
+            marginBottom: isOpen ? (type === FilterTypes.Tags ? 14 : 20) : 0
         }
     });
 
@@ -35,7 +36,7 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
     }
 
     const shouldSort = (type) => {
-        return !!(type === 'track' || type === 'venues');
+        return !!(type === FilterTypes.Track || type === FilterTypes.Venues);
     };
 
     const sortOptions = (options) => {
@@ -48,12 +49,12 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
 
     const renderGroup = () => {
         switch (type) {
-            case 'date':
-            case 'level':
-            case 'track':
-            case 'venues':
-            case 'track_groups':
-            case 'event_types': {
+            case FilterTypes.Date:
+            case FilterTypes.Level:
+            case FilterTypes.Track:
+            case FilterTypes.Venues:
+            case FilterTypes.TrackGroups:
+            case FilterTypes.EventTypes: {
                 if (shouldSort(type)) options = sortOptions(options);
                 return options.map(
                     (op, index) =>
@@ -66,10 +67,10 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
                         />
                 );
             }
-            case 'speakers': {
+            case FilterTypes.Speakers: {
                 return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder="Search Speakers" />
             }
-            case 'tags': {
+            case FilterTypes.Tags: {
                 return options.map(
                     (op, index) =>
                         <FilterTag
@@ -80,11 +81,18 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
                         />
                 );
             }
-            case 'company': {
-                return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder="Search for Company" />
+            case FilterTypes.Company: {
+                return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder={`Search ${label}`} />
             }
-            case 'title': {
-                return <FilterText value={values} placeholder="Search Title" onFilterChange={onTextFilterChange} />
+            case FilterTypes.Title: {
+                return <FilterText value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange} />
+            }
+            case FilterTypes.CustomOrder: {
+                return <FilterText isNumeric={true} value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange}  />
+            }
+            case FilterTypes.Abstract: {
+                return <FilterText value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange}  />
+
             }
             default:
                 return null;

@@ -118,7 +118,8 @@
     "moderator_label": null,
     "should_be_available_on_cfp": true,
     "summit_documents": [],
-    "allowed_media_upload_types": []
+    "allowed_media_upload_types": [],
+    "allows_publishing_dates": true
   },
   "speakers": [],
   "slides": [],
@@ -303,7 +304,8 @@
     "moderator_label": null,
     "should_be_available_on_cfp": true,
     "summit_documents": [],
-    "allowed_media_upload_types": []
+    "allowed_media_upload_types": [],
+    "allows_publishing_dates": true
   },
   "speakers": [
     {
@@ -551,7 +553,8 @@
     "moderator_label": null,
     "should_be_available_on_cfp": true,
     "summit_documents": [],
-    "allowed_media_upload_types": []
+    "allowed_media_upload_types": [],
+    "allows_publishing_dates": true
   },
   "speakers": [{
     "id": 202,
@@ -711,7 +714,8 @@
     "moderator_label": null,
     "should_be_available_on_cfp": true,
     "summit_documents": [],
-    "allowed_media_upload_types": []
+    "allowed_media_upload_types": [],
+    "allows_publishing_dates": true
   },
   "speakers": [],
   "slides": [],
@@ -807,7 +811,8 @@
     "moderator_label": null,
     "should_be_available_on_cfp": true,
     "summit_documents": [],
-    "allowed_media_upload_types": []
+    "allowed_media_upload_types": [],
+    "allows_publishing_dates": true
   },
   "speakers": [{
     "id": 190,

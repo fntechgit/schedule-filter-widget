@@ -48,5 +48,15 @@
     "label": "Title",
     "values": "",
     "enabled": true
+  },
+  "custom_order": {
+    "label": "Poster #",
+    "values": [],
+    "enabled": true
+  },
+  "abstract": {
+    "label": "Abstract",
+    "values": [],
+    "enabled": true
   }
 }

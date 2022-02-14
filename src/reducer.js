@@ -46,7 +46,9 @@ const ALL_FILTERS = {
     venues: [],
     speakers: [],
     company: [],
-    title: ''
+    title: '',
+    custom_order: '',
+    abstract: '',
 };
 
 const WidgetReducer = (state = DEFAULT_STATE, action) => {
@@ -77,8 +79,15 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             const filtersWithOptions = updateFilterOptions(summit, events, filters, allOptions);
 
             // mark title filter as freeText so that we show it regardless it has no options
+
             if (filters.title) {
                 filtersWithOptions.title = {...filters.title, freeText: true};
+            }
+            if (filters.custom_order) {
+                filtersWithOptions.custom_order = {...filters.custom_order, freeText: true};
+            }
+            if (filters.abstract) {
+                filtersWithOptions.abstract = {...filters.abstract, freeText: true};
             }
 
             return {
@@ -106,6 +115,8 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
 
             // mark title filter as freeText so that we show it regardless it has no options
             filtersWithOptions.title = {...filters.title, freeText: true};
+            filtersWithOptions.custom_order = {...filters.custom_order, freeText: true};
+            filtersWithOptions.abstract = {...filters.abstract, freeText: true};
 
             return {
                 ...state,
@@ -138,7 +149,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
     });
 
     events.forEach(ev => {
-        if (filters.date && newOptions.date) {
+        if (filters.date && newOptions.date && ev.type?.allows_publishing_dates) {
             const dateObj = epochToMomentTimeZone(ev.start_date, summit.time_zone_id);
             const date = dateObj.format('YYYY-MM-DD');
 
@@ -270,15 +281,17 @@ const getAllOptions = (summit, events) => {
     const allOptions = cloneDeep(ALL_FILTERS);
 
     events.forEach(ev => {
-        const dateObj = epochToMomentTimeZone(ev.start_date, summit.time_zone_id);
-        const date = dateObj.format('YYYY-MM-DD');
+        if(ev.type?.allows_publishing_dates) {
+            const dateObj = epochToMomentTimeZone(ev.start_date, summit.time_zone_id);
+            const date = dateObj.format('YYYY-MM-DD');
 
-        if (!uniqueOptions.date.includes(date)) {
-            const day = dateObj.format('dddd');
-            const month = dateObj.format('MMMM D');
+            if (!uniqueOptions.date.includes(date)) {
+                const day = dateObj.format('dddd');
+                const month = dateObj.format('MMMM D');
 
-            uniqueOptions.date.push(date);
-            allOptions.date.push({name: [day, month], value: date, count: 0});
+                uniqueOptions.date.push(date);
+                allOptions.date.push({name: [day, month], value: date, count: 0});
+            }
         }
 
         if (ev.level && ev.level !== 'N/A' && !uniqueOptions.level.includes(ev.level)) {
