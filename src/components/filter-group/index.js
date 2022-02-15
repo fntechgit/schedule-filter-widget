@@ -32,7 +32,7 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
     };
 
     const onTextFilterChange = (value) => {
-        if (value !== values) changeFilter(type, value);
+        if (value !== values || value === '') changeFilter(type, value);
     }
 
     const shouldSort = (type) => {
@@ -92,7 +92,6 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
             }
             case FilterTypes.Abstract: {
                 return <FilterText value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange}  />
-
             }
             default:
                 return null;

@@ -1,20 +1,27 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 
 import styles from "./index.module.scss";
 
 const FilterText = ({ value = "", placeholder, onFilterChange, isNumeric = false }) => {
     const inputRef = useRef();
+    const [showClear, setShouldClear] = useState(false);
 
     const onSearch = term => {
         onFilterChange(term);
     };
 
-    const onKeyPress = (ev) => {
+    const onKeyUp = (ev) => {
+        let value = inputRef.current.value;
+        setShouldClear(value !== '');
         if (ev.charCode === 13) {
-            onSearch(inputRef.current.value);
+            onSearch(value);
         }
     };
 
+    const clearInput = () => {
+        inputRef.current.value = '';
+        onSearch('');
+    }
 
     useEffect(() => {
         inputRef.current.value = value;
@@ -29,10 +36,10 @@ const FilterText = ({ value = "", placeholder, onFilterChange, isNumeric = false
                     type={isNumeric? 'number':'text' }
                     placeholder={placeholder}
                     data-testid="autocomplete-input"
-                    onKeyPress={onKeyPress}
+                    onKeyUp={onKeyUp}
                 />
                 <i className={`fa fa-search ${styles.focus}`} onClick={() => onSearch(inputRef.current.value)} />
-                {!!value && <i className={`fa fa-times ${styles.focus}`} onClick={() => onSearch('')} />}
+                { showClear  && <i className={`fa fa-times ${styles.focus}`} onClick={clearInput} />}
             </div>
         </div>
     );
