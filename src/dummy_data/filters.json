@@ -51,12 +51,12 @@
   },
   "custom_order": {
     "label": "Poster #",
-    "values": [],
+    "values": "",
     "enabled": true
   },
   "abstract": {
     "label": "Abstract",
-    "values": [],
+    "values": "",
     "enabled": true
   }
 }

@@ -68,7 +68,7 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
                 );
             }
             case FilterTypes.Speakers: {
-                return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder="Search Speakers" />
+                return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder={`Search ${label}`} />
             }
             case FilterTypes.Tags: {
                 return options.map(

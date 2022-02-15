@@ -21,7 +21,6 @@ const FilterText = ({ value = "", placeholder, onFilterChange, isNumeric = false
         onSearch(value);
     }, [value]);
 
-
     return (
         <div className={styles.wrapper}>
             <div className={styles.searchInput}>
