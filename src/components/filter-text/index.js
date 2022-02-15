@@ -13,7 +13,7 @@ const FilterText = ({ value = "", placeholder, onFilterChange, isNumeric = false
     const onKeyUp = (ev) => {
         let value = inputRef.current.value;
         setShouldClear(value !== '');
-        if (ev.charCode === 13) {
+        if (ev.keyCode === 13) {
             onSearch(value);
         }
     };
