@@ -29,7 +29,7 @@ export class FilterTypes {
     }
 
     static get Tags(){
-        return 'tag';
+        return 'tags';
     }
 
     static get Company(){
