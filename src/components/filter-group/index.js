@@ -102,10 +102,13 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
 
     return (
         <div className={styles.wrapper} data-testid="filter-group-wrapper">
-            <div className={styles.title} onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
+            <button 
+                className={styles.title} 
+                aria-expanded={isOpen}
+                onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
                 <span>{label}</span>
                 <i className={`fa ${isOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} />
-            </div>
+            </button>
             <animated.div style={{ overflow: 'hidden', ...toggleAnimation }} data-testid="filter-group-options">
                 <div ref={ref}>
                     {renderGroup()}
