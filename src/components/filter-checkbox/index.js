@@ -12,11 +12,12 @@ const FilterCheckbox = ({ option, applyColors, selected, showCount, onFilterChan
 
     return (
         <div className={styles.checkboxWrapper} onClick={() => onFilterChange(option, !selected)} data-testid="checkbox-wrapper">
-            <div className={wrapperClass} style={wrapperStyles} data-testid="checkbox">
-                {selected && <i className="fa fa-check" style={checkStyles}  data-testid="checkmark" />}
-            </div>
-            <span className={styles.title}>{nameTag}</span>
-            {showCount && <span className={styles.quantity}>({option.count})</span>}
+            <label>
+                <span data-testid="checkbox"></span>
+                <input type="Checkbox" checked={selected} style={checkStyles} />
+                <span className={styles.title}>{nameTag}</span>
+                {showCount && <span className={styles.quantity}>({option.count})</span>}
+            </label>
         </div>
     )
 };

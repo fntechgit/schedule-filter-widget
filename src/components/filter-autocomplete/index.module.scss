@@ -2,6 +2,18 @@
   background-color: #f6f6f6;
   padding: 16px;
   
+  .searchButton{
+    border: 0;
+    background-color: #0000;
+    font-size: 18px;
+    padding: 10px 15px 5px 10px;
+    font-size: 18px;
+    cursor: pointer;
+      &.focus {
+        color: var(--color_text_dark);
+      }
+  }
+
   .searchInput {
     display: flex;
     align-content: center;
