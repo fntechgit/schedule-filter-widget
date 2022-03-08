@@ -48,7 +48,7 @@ class Filters extends React.Component {
 
         return Object.entries(filtersWithOptions).map(([type, filter]) => {
             return (
-                <FilterGroup key={type} filter={filter} type={type} colorSource={settings.colorSource} changeFilter={this.triggerFilterChange} />
+                <FilterGroup key={type} filter={filter} type={type} colorSource={settings.colorSource} expandedFilters={settings.expandedByDefault} changeFilter={this.triggerFilterChange} />
             );
         });
     };

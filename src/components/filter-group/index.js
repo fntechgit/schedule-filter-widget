@@ -11,9 +11,9 @@ import FilterText from '../filter-text';
 import styles from "./index.module.scss";
 import { FilterTypes } from '../../constants';
 
-export default ({ filter: { label, options, values, freeText, enabled }, colorSource, type, changeFilter }) => {
+export default ({ filter: { label, options, values, freeText, enabled }, colorSource, type, changeFilter, expandedFilters }) => {
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(expandedFilters === undefined ? true : expandedFilters);
     const [ref, { height }] = useMeasure();
 
     const toggleAnimation = useSpring({
@@ -88,10 +88,10 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
                 return <FilterText value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange} />
             }
             case FilterTypes.CustomOrder: {
-                return <FilterText isNumeric={true} value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange}  />
+                return <FilterText isNumeric={true} value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange} />
             }
             case FilterTypes.Abstract: {
-                return <FilterText value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange}  />
+                return <FilterText value={values} placeholder={`Search ${label}`} onFilterChange={onTextFilterChange} />
             }
             default:
                 return null;
@@ -102,8 +102,8 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
 
     return (
         <div className={styles.wrapper} data-testid="filter-group-wrapper">
-            <button 
-                className={styles.title} 
+            <button
+                className={styles.title}
                 aria-expanded={isOpen}
                 onClick={() => setIsOpen(!isOpen)} data-testid="filter-group-title">
                 <span>{label}</span>
