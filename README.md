@@ -26,6 +26,8 @@ React component for the schedule filter widget
      level: {label: "Level", values: ["Beginner", "Intermediate"], enabled: false}
    ]
    ```
+
+   **expandedByDefault**    = boolean to set the filters expanded/collapsed on load
    
    **triggerAction**    = method that will take an ACTION and a payload as params and will return a promise.
    Example: `{action: 'UPDATE_FILTER', payload: {type, values}}`
