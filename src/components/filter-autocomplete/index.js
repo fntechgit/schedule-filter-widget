@@ -17,6 +17,7 @@ const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterCha
         }
     }, [debounceSearchTerm]);
 
+
     const search = () => {
         const filtered = options.filter(op => {
             const isMatch = !debounceSearchTerm || op.value.includes(debounceSearchTerm.toLowerCase());
@@ -49,22 +50,14 @@ const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterCha
                     onBlur={() => {setTimeout(() => {setSearching(false);}, 200);}}
                     placeholder={placeholder}
                     data-testid="autocomplete-input"
-                    role="combobox"
-                    aria-expanded={searching}
-                    aria-controls="combo-listbox"
                 />
-                <button 
-                    aria-label={placeholder} 
-                    aria-expanded={searching}
-                    aria-controls="combo-listbox"
-                    className={`fa fa-search ${styles.focus} ${styles.searchButton}`} 
-                    onClick={() => setSearching(true)} />
+                <i className={`fa fa-search ${styles.focus}`} onClick={() => setSearching(true)} />
             </div>
             {searching &&
-                <div id="combo-listbox" role="listbox" className={styles.dropdown} data-testid="autocomplete-dropdown">
+                <div className={styles.dropdown} data-testid="autocomplete-dropdown">
                     {filtered.map(item => {
                         return (
-                            <div role="option" key={item.id} className={styles.item} onClick={() => select(item.id)}>
+                            <div key={item.id} className={styles.item} onClick={() => select(item.id)}>
                                 {item.pic && <img className={styles.picture} src={item.pic} />}
                                 <span className={styles.name}>{item.name}</span>
                             </div>
