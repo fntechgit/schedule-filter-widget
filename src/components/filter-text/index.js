@@ -35,6 +35,7 @@ const FilterText = ({ value = "", placeholder, onFilterChange, isNumeric = false
                     ref={inputRef}
                     type={isNumeric? 'number':'text' }
                     placeholder={placeholder}
+                    aria-label={placeholder}
                     data-testid="autocomplete-input"
                     onKeyUp={onKeyUp}
                 />

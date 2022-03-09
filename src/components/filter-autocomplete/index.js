@@ -49,6 +49,7 @@ const FilterAutocomplete = ({ options, values, placeholder="Search", onFilterCha
                     onFocus={() => {setSearching(true);}}
                     onBlur={() => {setTimeout(() => {setSearching(false);}, 200);}}
                     placeholder={placeholder}
+                    aria-label={placeholder}
                     data-testid="autocomplete-input"
                 />
                 <i className={`fa fa-search ${styles.focus}`} onClick={() => setSearching(true)} />
