@@ -66,6 +66,7 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
             return { ...state, widgetLoading };
         }
         case LOAD_INITIAL_VARS: {
+
             const {summit, events, allEvents, filters, triggerAction, marketingSettings, colorSource, ...rest} = payload;
 
             Object.keys(marketingSettings).forEach(setting => {
@@ -110,13 +111,15 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
         }
         case UPDATE_FILTERS: {
             const {events, filters} = payload;
-
             const filtersWithOptions = updateFilterOptions(state.summit, events, filters, state.allOptions);
 
             // mark title filter as freeText so that we show it regardless it has no options
-            filtersWithOptions.title = {...filters.title, freeText: true};
-            filtersWithOptions.custom_order = {...filters.custom_order, freeText: true};
-            filtersWithOptions.abstract = {...filters.abstract, freeText: true};
+            if(filters.title)
+                filtersWithOptions.title = {...filters.title, freeText: true};
+            if(filters.custom_order)
+                filtersWithOptions.custom_order = {...filters.custom_order, freeText: true};
+            if(filters.abstract)
+                filtersWithOptions.abstract = {...filters.abstract, freeText: true};
 
             return {
                 ...state,
@@ -133,23 +136,27 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
 };
 
 const updateFilterOptions = (summit, events, filters, allOptions) => {
+
     const newOptions = cloneDeep(ALL_FILTERS);
-    const filterKeys = Object.keys(filters);
+    // create a deep copy of the original filter param
+    const newFilters = cloneDeep(filters);
+    const filterKeys = Object.keys(newFilters);
+
 
     filterKeys.forEach(k => {
-        filters[k].options = [];
+        newFilters[k].options = [];
 
         // if the filter has values, ie is active, we show all options regardless of the events shown
-        if (filters[k].values.length > 0) {
+        if (newFilters[k].values.length > 0) {
             // we populate the options
-            filters[k].options = allOptions[k];
+            newFilters[k].options = allOptions[k];
             // we skip the filter
             delete(newOptions[k]);
         }
     });
 
     events.forEach(ev => {
-        if (filters.date && newOptions.date && ev.type?.allows_publishing_dates) {
+        if (newFilters.date && newOptions.date && ev.type?.allows_publishing_dates) {
             const dateObj = epochToMomentTimeZone(ev.start_date, summit.time_zone_id);
             const date = dateObj.format('YYYY-MM-DD');
 
@@ -158,58 +165,58 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                 const month = dateObj.format('MMMM D');
 
                 newOptions.date.push(date);
-                filters.date.options.push({name: [day, month], value: date, count: 0});
+                newFilters.date.options.push({name: [day, month], value: date, count: 0});
             }
         }
 
-        if (filters.level && newOptions.level && ev.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
+        if (newFilters.level && newOptions.level && ev.level && ev.level !== 'N/A' && !newOptions.level.includes(ev.level)) {
             newOptions.level.push(ev.level);
-            filters.level.options.push({name: ev.level, value: ev.level.toLowerCase(), count: 0});
+            newFilters.level.options.push({name: ev.level, value: ev.level.toLowerCase(), count: 0});
         }
 
-        if (filters.track && newOptions.track && ev.track && !newOptions.track.includes(ev.track.id)) {
+        if (newFilters.track && newOptions.track && ev.track && !newOptions.track.includes(ev.track.id)) {
             newOptions.track.push(ev.track.id);
-            filters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
+            newFilters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
         }
 
-        if (filters.event_types && newOptions.event_types && ev.type && !newOptions.event_types.includes(ev.type.id)) {
+        if (newFilters.event_types && newOptions.event_types && ev.type && !newOptions.event_types.includes(ev.type.id)) {
             newOptions.event_types.push(ev.type.id);
-            filters.event_types.options.push({name: ev.type.name, value: ev.type.id, count: 0, color: ev.type.color});
+            newFilters.event_types.options.push({name: ev.type.name, value: ev.type.id, count: 0, color: ev.type.color});
         }
 
-        if (filters.venues && newOptions.venues && ev.location && !newOptions.venues.includes(ev.location.id)) {
+        if (newFilters.venues && newOptions.venues && ev.location && !newOptions.venues.includes(ev.location.id)) {
             newOptions.venues.push(ev.location.id);
-            filters.venues.options.push({name: ev.location.name, value: ev.location.id, count: 0});
+            newFilters.venues.options.push({name: ev.location.name, value: ev.location.id, count: 0});
         }
 
-        if (filters.track_groups && newOptions.track_groups && ev.track) {
+        if (newFilters.track_groups && newOptions.track_groups && ev.track) {
             ev.track.track_groups.forEach(tg => {
                 if (!newOptions.track_groups.includes(tg)) {
                     newOptions.track_groups.push(tg);
                     const trackg = summit.track_groups.find(t => t.id === tg);
-                    filters.track_groups.options.push({name: trackg.name, value: trackg.id, count: 0, color: trackg.color});
+                    newFilters.track_groups.options.push({name: trackg.name, value: trackg.id, count: 0, color: trackg.color});
                 }
             });
         }
 
-        if (filters.tags && newOptions.tags && ev.tags?.length > 0) {
+        if (newFilters.tags && newOptions.tags && ev.tags?.length > 0) {
             ev.tags.forEach(t => {
                 if (!newOptions.tags.includes(t.id)) {
                     newOptions.tags.push(t.id);
-                    filters.tags.options.push({name: t.tag, value: t.id, count: 1});
+                    newFilters.tags.options.push({name: t.tag, value: t.id, count: 1});
                 } else {
-                    filters.tags.options.find(tt => tt.value === t.id).count++;
+                    newFilters.tags.options.find(tt => tt.value === t.id).count++;
                 }
             });
         }
 
-        if (filters.speakers && newOptions.speakers) {
+        if (newFilters.speakers && newOptions.speakers) {
             if (ev.speakers?.length > 0) {
                 ev.speakers.forEach(s => {
                     if (!newOptions.speakers.includes(s.id)) {
                         newOptions.speakers.push(s.id);
                         const name = `${s.first_name} ${s.last_name}`;
-                        filters.speakers.options.push({
+                        newFilters.speakers.options.push({
                             name: name,
                             value: name.toLowerCase(),
                             id: s.id,
@@ -223,7 +230,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             if (ev.moderator && !newOptions.speakers.includes(ev.moderator.id)) {
                 newOptions.speakers.push(ev.moderator.id);
                 const name = `${ev.moderator.first_name} ${ev.moderator.last_name}`;
-                filters.speakers.options.push({
+                newFilters.speakers.options.push({
                     name: name,
                     value: name.toLowerCase(),
                     id: ev.moderator.id,
@@ -233,13 +240,13 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             }
         }
 
-        if (filters.company && newOptions.company) {
+        if (newFilters.company && newOptions.company) {
             if (ev.sponsors?.length > 0) {
                 ev.sponsors.forEach(s => {
                     const lowerCaseName = s.name?.toLowerCase();
                     if (!newOptions.company.includes(lowerCaseName)) {
                         newOptions.company.push(lowerCaseName);
-                        filters.company.options.push({name: s.name, value: lowerCaseName, id: lowerCaseName, count: 0});
+                        newFilters.company.options.push({name: s.name, value: lowerCaseName, id: lowerCaseName, count: 0});
                     }
                 })
             }
@@ -249,7 +256,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
                     const lowerCaseCompany = s.company?.toLowerCase();
                     if (s.company && !newOptions.company.includes(lowerCaseCompany)) {
                         newOptions.company.push(lowerCaseCompany);
-                        filters.company.options.push({
+                        newFilters.company.options.push({
                             name: s.company,
                             value: lowerCaseCompany,
                             id: lowerCaseCompany,
@@ -262,7 +269,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
             const lowerCaseModCompany = ev.moderator?.company?.toLowerCase();
             if (ev.moderator?.company && !newOptions.company.includes(lowerCaseModCompany)) {
                 newOptions.company.push(lowerCaseModCompany);
-                filters.company.options.push({
+                newFilters.company.options.push({
                     name: ev.moderator.company,
                     value: lowerCaseModCompany,
                     id: lowerCaseModCompany,
@@ -273,7 +280,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
 
     });
 
-    return filters;
+    return newFilters;
 };
 
 const getAllOptions = (summit, events) => {

@@ -19,22 +19,25 @@ import FilterGroup from './filter-group';
 
 import styles from "../styles/general.module.scss";
 import 'openstack-uicore-foundation/lib/css/components.css';
-
+import {isEqual} from 'lodash';
 
 class Filters extends React.Component {
 
     componentDidMount() {
+
         const { loadSettings, updateFilters, ...rest } = this.props;
         loadSettings(rest);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {events: prevEvents} = prevProps;
+        const {events : prevEvents, filters : prevFilters} = prevProps;
         const {events, filters, updateFilters} = this.props;
         const prevEventsIds = prevEvents.map(e => e.id);
         const eventsIds = events.map(e => e.id);
-
-        if (prevEventsIds.length !== eventsIds.length || !prevEventsIds.every((v,i) => v === eventsIds[i])) {
+        const filtersAreEqual = isEqual(prevFilters,filters);
+        if (prevEventsIds.length !== eventsIds.length ||
+            !prevEventsIds.every((v,i) => v === eventsIds[i]) ||
+            !filtersAreEqual) {
             updateFilters(events, filters);
         }
     }
