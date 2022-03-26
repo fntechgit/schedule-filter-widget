@@ -1,11 +1,9 @@
-const path                      = require('path');
-//const TerserJSPlugin            = require('terser-webpack-plugin');
-//const OptimizeCSSAssetsPlugin   = require('optimize-css-assets-webpack-plugin');
-const merge                     = require('webpack-merge');
-const common                    = require('./webpack.common.js');
-const nodeExternals             = require('webpack-node-externals');
-const { CleanWebpackPlugin }    = require('clean-webpack-plugin');
-const MiniCssExtractPlugin      = require("mini-css-extract-plugin");
+const path = require('path');
+const {merge} = require('webpack-merge');
+const common = require('./webpack.common.js');
+const nodeExternals = require('webpack-node-externals');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = merge(common, {
     entry: './src/schedule-filter.js',
@@ -27,13 +25,13 @@ module.exports = merge(common, {
     mode: 'production',
     // devtool: 'source-map',
     optimization: {
-    //     minimizer: [
-    //         new TerserJSPlugin({sourceMap: true, parallel: true}),
-    //         new OptimizeCSSAssetsPlugin({})
-    //     ]
+        //     minimizer: [
+        //         new TerserJSPlugin({sourceMap: true, parallel: true}),
+        //         new OptimizeCSSAssetsPlugin({})
+        //     ]
         minimize: false
     },
     externals: [nodeExternals({
-        whitelist: ['react-transition-group']
+        allowlist: ['react-transition-group']
     })]
 });

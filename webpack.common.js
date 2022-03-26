@@ -1,7 +1,12 @@
 const MiniCssExtractPlugin      = require("mini-css-extract-plugin");
 
 module.exports = {
-    node: {fs: 'empty'},
+    resolve: {
+        fallback: {
+            "fs": false ,
+            "crypto": false,
+        }
+    },
     module: {
         rules: [
             {
@@ -36,11 +41,12 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
+                            esModule: true,
                             modules: {
                                 localIdentName: "[local]___[hash:base64:5]",
-                                hashPrefix: 'schedule-filter-widget',
+                                localIdentHashSalt: 'schedule-filter-widget',
+                                exportLocalsConvention: 'camelCase',
                             },
-                            localsConvention: 'camelCase',
                             sourceMap: false
                         }
                     },
