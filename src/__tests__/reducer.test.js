@@ -1,6 +1,6 @@
 import reducer from '../reducer'
 import * as types from '../actions'
-import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/actions';
+import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/utils/actions';
 
 import MockData from '../dummy_data/filters.json';
 import MockMarketingData from '../dummy_data/marketing-data.json';

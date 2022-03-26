@@ -13,12 +13,11 @@
 
 import React from 'react';
 import { connect } from "react-redux";
-import { AjaxLoader } from 'openstack-uicore-foundation/lib/components';
+import { AjaxLoader } from 'openstack-uicore-foundation/lib/components/ajaxloader';
 import { loadSettings, updateFilters } from "../actions";
 import FilterGroup from './filter-group';
 
 import styles from "../styles/general.module.scss";
-import 'openstack-uicore-foundation/lib/css/components.css';
 import {isEqual} from 'lodash';
 
 class Filters extends React.Component {

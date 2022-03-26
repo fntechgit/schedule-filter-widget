@@ -12,9 +12,9 @@
  **/
 
 import {cloneDeep} from 'lodash';
-import { epochToMomentTimeZone } from "openstack-uicore-foundation/lib/methods";
+import { epochToMomentTimeZone } from "openstack-uicore-foundation/lib/utils/methods";
 
-import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/actions';
+import { LOGOUT_USER } from 'openstack-uicore-foundation/lib/utils/actions';
 
 import {
     START_WIDGET_LOADING,
