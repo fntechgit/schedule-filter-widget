@@ -48,7 +48,8 @@ class Filters extends React.Component {
     getFilterList = () => {
         const { filtersWithOptions, settings } = this.props;
 
-        return Object.entries(filtersWithOptions).map(([type, filter]) => {
+        // take the order value from the second element of the array, rename it to a, b and use it to sort the array
+        return Object.entries(filtersWithOptions).sort(([, { order: a }], [, { order: b }]) => a - b).map(([type, filter]) => {
             return (
                 <FilterGroup key={type} filter={filter} type={type} colorSource={settings.colorSource} expandedFilters={settings.expandedByDefault} changeFilter={this.triggerFilterChange} />
             );
