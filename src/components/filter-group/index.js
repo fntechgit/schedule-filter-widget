@@ -51,12 +51,23 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
         switch (type) {
             case FilterTypes.Date:
             case FilterTypes.Level:
-            case FilterTypes.Track:
             case FilterTypes.Venues:
             case FilterTypes.TrackGroups:
             case FilterTypes.EventTypes: {
                 if (shouldSort(type)) options = sortOptions(options);
                 return options.map(
+                    (op, index) =>
+                        <FilterCheckbox
+                            key={`op-${type}-${index}`}
+                            option={op}
+                            selected={values?.find(v => v === op.value)}
+                            applyColors={type === colorSource}
+                            onFilterChange={onFilterChange}
+                        />
+                );
+            }
+            case FilterTypes.Track: {
+                return options.sort((a, b) => a.order - b.order).map(
                     (op, index) =>
                         <FilterCheckbox
                             key={`op-${type}-${index}`}
