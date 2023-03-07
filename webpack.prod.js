@@ -4,6 +4,8 @@ const common = require('./webpack.common.js');
 const nodeExternals = require('webpack-node-externals');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = merge(common, {
     entry: './src/schedule-filter.js',
@@ -23,13 +25,22 @@ module.exports = merge(common, {
         globalObject: 'this'
     },
     mode: 'production',
-    // devtool: 'source-map',
+    devtool: 'source-map',
     optimization: {
-        //     minimizer: [
-        //         new TerserJSPlugin({sourceMap: true, parallel: true}),
-        //         new OptimizeCSSAssetsPlugin({})
-        //     ]
-        minimize: false
+        minimize: true,
+        minimizer: [
+            new TerserJSPlugin({
+                parallel: true,
+                terserOptions: {
+                    compress: {inline: false},
+                    sourceMap: {
+                        file: '[name].map'
+                    },
+                    mangle: { reserved: ['Lock','SuperTokensLock','GET_TOKEN_SILENTLY_LOCK_KEY'] }
+                }
+            }),
+            new CssMinimizerPlugin(),
+        ],
     },
     externals: [nodeExternals({
         allowlist: ['react-transition-group']
