@@ -1,6 +1,6 @@
 {
   "name": "schedule-filter-widget",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Schedule Filter Widget",
   "main": "index.js",
   "scripts": {
