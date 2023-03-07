@@ -39,12 +39,16 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
         return !!(type === FilterTypes.Track || type === FilterTypes.Venues);
     };
 
-    const sortOptions = (options) => {
-        return options.sort((a, b) => {
-            const first = Array.isArray(a.name) ? a.name.join() : a.name;
-            const second = Array.isArray(b.name) ? b.name.join() : b.name;
-            return first.localeCompare(second);
-        });
+    const sortOptions = (options, type) => {
+        if (type === FilterTypes.Venues) {
+            return options.sort((a, b) => {
+                const first = Array.isArray(a.name) ? a.name.join() : a.name;
+                const second = Array.isArray(b.name) ? b.name.join() : b.name;
+                return first.localeCompare(second);
+            });
+        } else {
+            return options.sort((a, b) => a.order - b.order);
+        }
     }
 
     const renderGroup = () => {
@@ -55,7 +59,7 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
             case FilterTypes.Venues:
             case FilterTypes.TrackGroups:
             case FilterTypes.EventTypes: {
-                if (shouldSort(type)) options = sortOptions(options);
+                if (shouldSort(type)) options = sortOptions(options, type);
                 return options.map(
                     (op, index) =>
                         <FilterCheckbox

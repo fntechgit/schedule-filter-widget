@@ -176,7 +176,7 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
 
         if (newFilters.track && newOptions.track && ev.track && !newOptions.track.includes(ev.track.id)) {
             newOptions.track.push(ev.track.id);
-            newFilters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
+            newFilters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color, order: ev.track.order});
         }
 
         if (newFilters.event_types && newOptions.event_types && ev.type && !newOptions.event_types.includes(ev.type.id)) {
@@ -309,7 +309,7 @@ const getAllOptions = (summit, events) => {
 
         if (ev.track && !uniqueOptions.track.includes(ev.track.id)) {
             uniqueOptions.track.push(ev.track.id);
-            allOptions.track.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color});
+            allOptions.track.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color, order: ev.track.order});
         }
 
         if (ev.type && !uniqueOptions.event_types.includes(ev.type.id)) {
