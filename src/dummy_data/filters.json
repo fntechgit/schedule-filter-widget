@@ -2,61 +2,73 @@
   "date": {
     "label": "Date",
     "values": [],
+    "order": 2,
     "enabled": true
   },
   "level": {
     "label": "Level",
     "values": [],
+    "order": 4,
     "enabled": true
   },
   "track": {
     "label": "Track",
     "values": [6640],
+    "order": 3,
     "enabled": true
   },
   "track_groups": {
     "label": "Track Group",
     "values": [],
+    "order": 5,
     "enabled": true
   },
   "tags": {
     "label": "Tags",
     "values": [],
+    "order": 1,
     "enabled": true
   },
   "venues": {
     "label": "Venue",
     "values": [],
+    "order": 6,
     "enabled": true
   },
   "event_types": {
     "label": "Event Type",
     "values": [],
+    "order": 7,
     "enabled": true
   },
   "speakers": {
     "label": "Speaker",
     "values": [],
+    "order": 8,
     "enabled": true
   },
   "company": {
     "label": "Company",
     "values": [],
+    "order": 9,
     "enabled": true
   },
   "title": {
     "label": "Title",
     "values": "",
+    "order": 10,
     "enabled": true
   },
   "custom_order": {
     "label": "Poster #",
     "values": "",
+    "order": 11,
     "enabled": true
   },
   "abstract": {
     "label": "Abstract",
     "values": "",
+    "order": 12,
     "enabled": true
   }
 }
