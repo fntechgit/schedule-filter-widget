@@ -55,6 +55,11 @@ class Filters extends React.Component {
             );
         });
     };
+    
+    clearFilters = (ev) => {
+        ev.preventDefault();
+        this.props.triggerAction('CLEAR_FILTERS', {});
+    };
 
     render() {
         const { settings, widgetLoading, filtersWithOptions } = this.props;
@@ -68,6 +73,9 @@ class Filters extends React.Component {
                         <div className={`${styles.title} widget-title`} data-testid="schedule-filter-title">
                             {settings.title}
                         </div>
+                    </div>
+                    <div>
+                        <a href="" onClick={this.clearFilters}>clear all</a>
                     </div>
                     <div className={`${styles.innerWrapper}`} data-testid="schedule-filter-list">
                         {this.getFilterList()}
