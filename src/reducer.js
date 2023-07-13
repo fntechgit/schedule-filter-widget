@@ -176,7 +176,13 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
 
         if (newFilters.track && newOptions.track && ev.track && !newOptions.track.includes(ev.track.id)) {
             newOptions.track.push(ev.track.id);
-            newFilters.track.options.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color, order: ev.track.order});
+            newFilters.track.options.push(parseTrack(ev.track));
+            
+            if (ev.track.parent_id) {
+                newOptions.track.push(ev.track.parent_id);
+                const parent = summit.tracks.find(t => t.id === ev.track.parent_id);
+                newFilters.track.options.push(parseTrack(parent));
+            }
         }
 
         if (newFilters.event_types && newOptions.event_types && ev.type && !newOptions.event_types.includes(ev.type.id)) {
@@ -309,7 +315,16 @@ const getAllOptions = (summit, events) => {
 
         if (ev.track && !uniqueOptions.track.includes(ev.track.id)) {
             uniqueOptions.track.push(ev.track.id);
-            allOptions.track.push({name: ev.track.name, value: ev.track.id, count: 0, color: ev.track.color, order: ev.track.order});
+            allOptions.track.push(parseTrack(ev.track));
+            
+            // include parent in options
+            if (ev.track.parent_id && !uniqueOptions.track.includes(ev.track.parent_id) ) {
+                uniqueOptions.track.push(ev.track.parent_id);
+                const parent = summit.tracks.find(t => t.id === ev.track.parent_id);
+                if (parent) {
+                    allOptions.track.push(parseTrack(parent));
+                }
+            }
         }
 
         if (ev.type && !uniqueOptions.event_types.includes(ev.type.id)) {
@@ -387,5 +402,15 @@ const getAllOptions = (summit, events) => {
 
     return allOptions;
 };
+
+const parseTrack = (track) => ({
+    name: track.name,
+    value: track.id,
+    count: 0,
+    color: track.color,
+    order: track.order,
+    parent_id: track.parent_id,
+    childs: track.subtracks.map(parseTrack)
+});
 
 export default WidgetReducer

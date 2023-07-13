@@ -11,7 +11,7 @@
  * limitations under the License.
  **/
 
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import ScheduleFilter from './schedule-filter';
 
@@ -24,19 +24,33 @@ import filters from './dummy_data/filters.json';
 const filterProps = {
     title: 'Filter by',
     summit: summit.summit,
-    events: events.filter(ev => ev.id !== 312),
+    events: events,
     allEvents: events,
     filters: filters,
     expandedByDefault: false,
     colorSource: 'track',
     marketingSettings: marketing.colors,
-    triggerAction: (action, {type, values}) => {console.log(`${action}: ${type} - ${values}`)},
 };
+
+
+
+const ComponentWrapper = () => {
+    const [filters, setFilters] = useState(filterProps.filters);
+    
+    const triggerAction = (action, {type, values}) => {
+        console.log(`${action}: ${type} - ${values}`);
+        setFilters({...filters, [type]: {...filters[type], values}});
+    }
+    
+    return (
+      <ScheduleFilter {...filterProps} filters={filters} triggerAction={triggerAction} />
+    )
+}
 
 
 ReactDOM.render(
     <div style={{ margin: '20px' }}>
-        <ScheduleFilter {...filterProps} />
+        <ComponentWrapper />
     </div>,
     document.querySelector('#root')
 );
