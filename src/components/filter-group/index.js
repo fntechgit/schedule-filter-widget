@@ -10,6 +10,7 @@ import FilterText from '../filter-text';
 
 import styles from "./index.module.scss";
 import { FilterTypes } from '../../constants';
+import TracksFilter from "../filter-tracks";
 
 export default ({ filter: { label, options, values, freeText, enabled }, colorSource, type, changeFilter, expandedFilters }) => {
 
@@ -27,7 +28,36 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
     });
 
     const onFilterChange = (option, value) => {
-        const newValues = value ? [...values, option.value] : values.filter(val => val !== option.value);
+        let newValues = [];
+        if (value) {
+            newValues = [...values, option.value];
+            // if option has childs we append all childs
+            if (option.childs?.length > 0) {
+                newValues = newValues.filter(val => !option.childs.map(op => op.value).includes(val));
+                newValues = [...newValues, ...option.childs.map(op => op.value)]
+            }
+    
+            // if selected option is a child, and all childs are selected, we also need to select parent
+            if (option.parent_id) {
+                const parent = options.find(op => op.value === option.parent_id);
+                if (parent.childs.every(ch => newValues.includes(ch.value))) {
+                    newValues.push(option.parent_id);
+                }
+            }
+        } else {
+            newValues = values.filter(val => val !== option.value);
+    
+            // if option has childs we remove all childs
+            if (option.childs?.length > 0) {
+                newValues = newValues.filter(val => !option.childs.map(op => op.value).includes(val))
+            }
+            
+            // if deselected option is a child, we also need to deselect parent
+            if (option.parent_id) {
+                newValues = newValues.filter(val => val !== option.parent_id);
+            }
+        }
+        
         changeFilter(type, newValues);
     };
 
@@ -55,7 +85,6 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
         switch (type) {
             case FilterTypes.Date:
             case FilterTypes.Level:
-            case FilterTypes.Track:
             case FilterTypes.Venues:
             case FilterTypes.TrackGroups:
             case FilterTypes.EventTypes: {
@@ -71,6 +100,18 @@ export default ({ filter: { label, options, values, freeText, enabled }, colorSo
                         />
                 );
             }
+            case FilterTypes.Track:{
+                return (
+                  <TracksFilter
+                    options={options}
+                    colorSource={colorSource}
+                    onFilterChange={onFilterChange}
+                    values={values}
+                  />
+                );
+                
+            }
+            
             case FilterTypes.Speakers: {
                 return <FilterAutocomplete options={options} values={values} onFilterChange={onFilterChange} placeholder={`Search ${label}`} />
             }

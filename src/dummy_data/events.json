@@ -73,11 +73,11 @@
   "feedback": [],
   "current_attendance": [],
   "track": {
-    "id": 6640,
+    "id": 6641,
     "order": 1,
     "created": 1593203987,
     "last_edited": 1593203987,
-    "name": "Main",
+    "name": "Main 2",
     "description": "<p>Main Category</p>",
     "code": "main",
     "slug": "main",
@@ -92,7 +92,9 @@
     "icon_url": null,
     "track_groups": [],
     "allowed_tags": [],
-    "extra_questions": []
+    "extra_questions": [],
+    "subtracks": [],
+    "parent_id": 0
   },
   "type": {
     "id": 148,
@@ -260,14 +262,14 @@
     "event_id": 206
   }],
   "track": {
-    "id": 6640,
+    "id": 6642,
     "order": 1,
     "created": 1593203987,
     "last_edited": 1593203987,
-    "name": "Main",
-    "description": "<p>Main Category</p>",
-    "code": "main",
-    "slug": "main",
+    "name": "Child 1",
+    "description": "<p>Child 1</p>",
+    "code": "ch1",
+    "slug": "ch1",
     "session_count": 0,
     "alternate_count": 0,
     "lightning_count": 0,
@@ -275,11 +277,13 @@
     "voting_visible": false,
     "chair_visible": false,
     "summit_id": 17,
-    "color": "#f0f0ee",
+    "color": "#f0f0ff",
     "icon_url": null,
     "track_groups": [],
     "allowed_tags": [],
-    "extra_questions": []
+    "extra_questions": [],
+    "subtracks": [],
+    "parent_id": 0
   },
   "type": {
     "id": 148,
@@ -510,14 +514,14 @@
   "feedback": [],
   "current_attendance": [],
   "track": {
-    "id": 6640,
-    "order": 1,
+    "id": 6643,
+    "order": 2,
     "created": 1593203987,
     "last_edited": 1593203987,
-    "name": "Main",
-    "description": "<p>Main Category</p>",
-    "code": "main",
-    "slug": "main",
+    "name": "Child 2",
+    "description": "<p>Child Category</p>",
+    "code": "child",
+    "slug": "child",
     "session_count": 0,
     "alternate_count": 0,
     "lightning_count": 0,
@@ -525,11 +529,13 @@
     "voting_visible": false,
     "chair_visible": false,
     "summit_id": 17,
-    "color": "#f0f0ee",
+    "color": "#f0f0ff",
     "icon_url": null,
     "track_groups": [],
     "allowed_tags": [],
-    "extra_questions": []
+    "extra_questions": [],
+    "subtracks": [],
+    "parent_id": 6640
   },
   "type": {
     "id": 148,
@@ -691,7 +697,9 @@
     "icon_url": null,
     "track_groups": [],
     "allowed_tags": [],
-    "extra_questions": []
+    "extra_questions": [],
+    "subtracks": [],
+    "parent_id": 0
   },
   "type": {
     "id": 148,
@@ -770,14 +778,14 @@
   "feedback": [],
   "current_attendance": [],
   "track": {
-    "id": 6640,
+    "id": 6642,
     "order": 1,
     "created": 1593203987,
     "last_edited": 1593203987,
-    "name": "Main",
-    "description": "<p>Main Category</p>",
-    "code": "main",
-    "slug": "main",
+    "name": "Child 1",
+    "description": "<p>Child Category</p>",
+    "code": "child",
+    "slug": "child",
     "session_count": 0,
     "alternate_count": 0,
     "lightning_count": 0,
@@ -785,11 +793,13 @@
     "voting_visible": false,
     "chair_visible": false,
     "summit_id": 17,
-    "color": "#f0f0ee",
+    "color": "#f0f0ff",
     "icon_url": null,
     "track_groups": [],
     "allowed_tags": [],
-    "extra_questions": []
+    "extra_questions": [],
+    "subtracks": [],
+    "parent_id": 6640
   },
   "type": {
     "id": 148,

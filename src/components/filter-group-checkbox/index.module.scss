@@ -1,0 +1,42 @@
+.wrapper {
+  .title {
+    display: flex;
+    justify-content: flex-start;
+    cursor: pointer;
+    margin-bottom: 10px;
+    span {
+      font-weight: 500;
+      font-size: 14px;
+      margin: 0 10px;
+    }
+    i {
+      font-size: 18px;
+    }
+  }
+
+  .checkbox {
+    height: 24px;
+    width: 24px;
+    min-height: 24px;
+    min-width: 24px;
+    border: 1px solid var(--color_text_light);
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-self: flex-start;
+    i {
+      font-size: 14px;
+      line-height: 23px;
+      color: var(--color_text_dark);
+    }
+    &.checked {
+      border: 1px solid var(--color_text_dark);
+    }
+  }
+
+  .childrenWrapper {
+    padding-left: 30px;
+  }
+
+}
