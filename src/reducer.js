@@ -405,7 +405,7 @@ const getAllOptions = (summit, events) => {
 
 const parseTrack = (track) => ({
     name: track.name,
-    value: track.id,map
+    value: track.id,
     count: 0,
     color: track.color,
     order: track.order,
