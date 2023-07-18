@@ -63,7 +63,7 @@ const FilterGroupCheckbox = ({option, applyColors, values, onFilterChange }) => 
             </div>
             <animated.div style={{ overflow: 'hidden', ...toggleAnimation }} data-testid="filter-group-options">
                 <div ref={ref} className={styles.childrenWrapper}>
-                    {option.childs.map(
+                    {option.childs?.map(
                       (op, index) =>
                         <FilterCheckbox
                           key={`op-${op.id}-${index}`}

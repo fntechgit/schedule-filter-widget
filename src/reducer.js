@@ -405,12 +405,12 @@ const getAllOptions = (summit, events) => {
 
 const parseTrack = (track) => ({
     name: track.name,
-    value: track.id,
+    value: track.id,map
     count: 0,
     color: track.color,
     order: track.order,
     parent_id: track.parent_id,
-    childs: track.subtracks.map(parseTrack)
+    childs: track.subtracks?.map(parseTrack) || []
 });
 
 export default WidgetReducer
