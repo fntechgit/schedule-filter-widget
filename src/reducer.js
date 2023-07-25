@@ -177,11 +177,14 @@ const updateFilterOptions = (summit, events, filters, allOptions) => {
         if (newFilters.track && newOptions.track && ev.track && !newOptions.track.includes(ev.track.id)) {
             newOptions.track.push(ev.track.id);
             newFilters.track.options.push(parseTrack(ev.track));
-            
-            if (ev.track.parent_id) {
+
+            // include parent in options
+            if (ev.track.parent_id && !newOptions.track.includes(ev.track.parent_id)) {
                 newOptions.track.push(ev.track.parent_id);
                 const parent = summit.tracks.find(t => t.id === ev.track.parent_id);
-                newFilters.track.options.push(parseTrack(parent));
+                if (parent) {
+                    newFilters.track.options.push(parseTrack(parent));
+                }
             }
         }
 
@@ -318,7 +321,7 @@ const getAllOptions = (summit, events) => {
             allOptions.track.push(parseTrack(ev.track));
             
             // include parent in options
-            if (ev.track.parent_id && !uniqueOptions.track.includes(ev.track.parent_id) ) {
+            if (ev.track.parent_id && !uniqueOptions.track.includes(ev.track.parent_id)) {
                 uniqueOptions.track.push(ev.track.parent_id);
                 const parent = summit.tracks.find(t => t.id === ev.track.parent_id);
                 if (parent) {
