@@ -1,13 +1,14 @@
 .wrapper {
-  background-color: #f6f6f6;
+  background-color: inherit;
   padding: 16px;
   
   .searchInput {
     display: flex;
     align-content: center;
     justify-content: space-between;
-    background-color: #ffffff;
-    border: 1px solid var(--color_gray_light);
+    color: var(--color_input_text_color);
+    background-color: var(--color_input_background_color);
+    border: 1px solid var(--color_input_border_color);
     border-radius: 6px;
     height: 39px;
     input {
@@ -39,8 +40,9 @@
 
   .dropdown {
     margin-top: 6px;
-    background-color: #ffffff;
-    border: 1px solid var(--color_text_light);
+    color: var(--color_input_text_color);
+    background-color: var(--color_input_background_color);
+    border: 1px solid var(--color_input_border_color);
     border-radius: 4px;
     max-height: 132px;
     overflow: auto;
@@ -67,7 +69,8 @@
       }
 
       &:hover {
-        background-color: #f5f5f5;
+        color: var(--color_text_light);
+        background-color: var(--color_gray_darker);
       }
     }
     .noResult {
@@ -96,7 +99,8 @@
       display: inline-flex;
       align-items: center;
       cursor: pointer;
-      background-color: #ffffff;
+      background-color: var(--color_gray_darker);
+      color: var(--color_text_light);
       .picture {
         border-radius: 50%;
         height: 24px;

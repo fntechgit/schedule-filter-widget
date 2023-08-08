@@ -69,13 +69,6 @@ const WidgetReducer = (state = DEFAULT_STATE, action) => {
 
             const {summit, events, allEvents, filters, triggerAction, marketingSettings, colorSource, ...rest} = payload;
 
-            Object.keys(marketingSettings).forEach(setting => {
-                if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting}`)) {
-                    document.documentElement.style.setProperty(`--${setting}`, marketingSettings[setting]);
-                    document.documentElement.style.setProperty(`--${setting}50`, `${marketingSettings[setting]}50`);
-                }
-            });
-
             const allOptions = getAllOptions(summit, allEvents);
             const filtersWithOptions = updateFilterOptions(summit, events, filters, allOptions);
 
