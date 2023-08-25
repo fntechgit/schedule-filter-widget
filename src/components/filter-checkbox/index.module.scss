@@ -20,6 +20,10 @@
     margin-left: 10px;
     font-size: 14px;
     display: inline;
+    color: var(--color_text_dark);
+    strong {
+      color:inherit;
+    }
   }
 
   .quantity {
